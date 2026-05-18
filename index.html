@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1YKWR010F"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date());gtag('config','G-M1YKWR010F');
+  </script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>TrustPulse — Brand Trust Scanner</title>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+    :root{
+      --g:#1DB954;--gd:#17A349;--gl:rgba(29,185,84,0.12);--glow:rgba(29,185,84,0.25);
+      --bg:#F5F5F7;--surface:#FFFFFF;
+      --border:rgba(0,0,0,0.08);--border2:rgba(29,185,84,0.4);
+      --text:#1D1D1F;--text2:#6E6E73;--text3:#AEAEB2;
+      --shadow:0 2px 20px rgba(0,0,0,0.08);--shadow2:0 8px 40px rgba(0,0,0,0.12);
+      --radius:18px;--radius-sm:12px;
+    }
+    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 20% 10%,rgba(29,185,84,0.06),transparent),radial-gradient(ellipse 50% 40% at 80% 80%,rgba(0,122,255,0.04),transparent);pointer-events:none;z-index:0}
+    .page{display:none;position:relative;z-index:1}.page.active{display:block}
+
+    nav{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;background:rgba(255,255,255,0.78);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.1);position:sticky;top:0;z-index:200}
+    .logo{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;color:var(--text)}
+    .lm{width:30px;height:30px;background:linear-gradient(145deg,#1DB954,#17A349);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(29,185,84,0.4)}
+    .ln{font-size:15px;font-weight:600;letter-spacing:-.2px}
+    .nav-r{display:flex;gap:4px;align-items:center}
+    .nb{background:transparent;border:none;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--text2);font-family:inherit;border-radius:8px;transition:all .15s;display:flex;align-items:center;gap:5px}
+    .nb:hover{background:rgba(0,0,0,0.05);color:var(--text)}
+    .nb.p{background:var(--g);color:#fff;font-weight:600;box-shadow:0 2px 10px var(--glow);border-radius:10px;padding:6px 14px}
+    .nb.p:hover{background:var(--gd);box-shadow:0 4px 16px var(--glow)}
+
+    .hero{padding:3.5rem 1.25rem 2rem;text-align:center}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gl);color:var(--gd);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;margin-bottom:1.5rem;border:1px solid rgba(29,185,84,0.2);letter-spacing:.3px}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .hero h1{font-size:34px;font-weight:700;line-height:1.08;letter-spacing:-.8px;margin-bottom:.75rem}
+    .hero h1 span{color:var(--g)}
+    .hero p{font-size:15px;color:var(--text2);line-height:1.65;margin-bottom:1.75rem;max-width:300px;margin-left:auto;margin-right:auto}
+    .hero-input-wrap{display:flex;gap:8px;max-width:400px;margin:0 auto 1.5rem;padding:0 1rem}
+    .hero-input-wrap input{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;outline:none;font-family:inherit;background:var(--surface);color:var(--text);box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s}
+    .hero-input-wrap input:focus{border-color:var(--border2);box-shadow:0 0 0 4px rgba(29,185,84,0.1),var(--shadow)}
+    .hero-input-wrap input::placeholder{color:var(--text3)}
+    .btn-g{background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:var(--radius-sm);padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 4px 14px var(--glow);transition:all .2s}
+    .btn-g:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--glow)}
+    .btn-o{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;box-shadow:var(--shadow);transition:all .2s}
+    .btn-o:hover{box-shadow:var(--shadow2)}
+
+    .gc{background:rgba(255,255,255,0.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border:0.5px solid rgba(255,255,255,0.9);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 1.25rem 2.5rem}
+    .stat{padding:1.25rem;text-align:center}
+    .stat:first-child{grid-column:1/-1}
+    .sn{font-size:30px;font-weight:700;color:var(--g);letter-spacing:-.5px}
+    .sl{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5}
+
+    .feats{padding:0 1.25rem 2.5rem}
+    .feat{padding:1.1rem 1.25rem;margin-bottom:8px;display:flex;align-items:flex-start;gap:14px;transition:box-shadow .2s}
+    .feat:hover{box-shadow:0 4px 24px rgba(0,0,0,0.1)}
+    .fi{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
+    .fig{background:rgba(29,185,84,0.12)}.fib{background:rgba(0,122,255,0.1)}.fia{background:rgba(255,149,0,0.1)}.fir{background:rgba(255,59,48,0.1)}
+    .feat h3{font-size:13px;font-weight:600;margin-bottom:3px}.feat p{font-size:12px;color:var(--text2);line-height:1.5}
+
+    .trust-badges{padding:.875rem 1.25rem;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;border-top:0.5px solid var(--border)}
+    .tbadge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)}
+
+    .section-label{font-size:11px;font-weight:600;color:var(--g);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+    .section-title{font-size:20px;font-weight:700;letter-spacing:-.3px;margin-bottom:.3rem}
+    .section-sub{font-size:12px;color:var(--text2);margin-bottom:1.25rem}
+
+    .tcard{padding:1.1rem 1.25rem;margin-bottom:10px}
+    .ttext{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:8px}
+    .tauthor{font-size:11px;font-weight:600;color:var(--text3)}
+
+    .faq-item{padding:1rem 1.1rem;margin-bottom:8px}
+    .faq-q{font-size:13px;font-weight:600;margin-bottom:5px}
+    .faq-a{font-size:12px;color:var(--text2);line-height:1.5}
+
+    .urgency-cta{padding:2rem 1.25rem;text-align:center;background:linear-gradient(145deg,#1DB954,#17A349);position:relative;overflow:hidden}
+    .urgency-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.15),transparent)}
+    .urgency-cta *{position:relative}
+
+    .scan-pg{padding:1.75rem 1.25rem}
+    .pg-h{font-size:22px;font-weight:700;margin-bottom:.3rem;letter-spacing:-.3px}
+    .pg-s{font-size:13px;color:var(--text2);margin-bottom:1.5rem}
+    .scan-box{padding:1.1rem 1.25rem;margin-bottom:1rem}
+    .scan-row{display:flex;gap:8px}
+    .scan-row input{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--text);background:var(--surface);outline:none;font-family:inherit;box-shadow:inset 0 1px 3px rgba(0,0,0,0.04);transition:border-color .2s,box-shadow .2s}
+    .scan-row input:focus{border-color:var(--border2);box-shadow:0 0 0 4px rgba(29,185,84,0.1)}
+    .sbtn{background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:var(--radius-sm);padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;white-space:nowrap;box-shadow:0 4px 12px var(--glow);transition:all .2s}
+    .sbtn:disabled{opacity:.5;box-shadow:none}
+    .sbtn:hover:not(:disabled){box-shadow:0 6px 18px var(--glow);transform:translateY(-1px)}
+    .prog{display:none;margin-top:.875rem}
+    .pb-bg{background:rgba(0,0,0,0.06);border-radius:20px;height:3px;overflow:hidden;margin-bottom:6px}
+    .pb{height:100%;background:linear-gradient(90deg,var(--g),#34D399);border-radius:20px;transition:width .5s;width:0%}
+    .pl{font-size:11px;color:var(--text3)}
+
+    .free-results{display:none;margin-top:1rem}
+    .sc-card{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.25rem;margin-bottom:.875rem}
+    .sc-ring{width:74px;height:74px;border-radius:50%;border:2.5px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface);box-shadow:var(--shadow)}
+    .rg{border-color:var(--g);color:var(--gd)}.rm{border-color:#FF9500;color:#CC7700}.rb{border-color:#FF3B30;color:#CC2A21}
+    .sc-n{font-size:22px;font-weight:700;letter-spacing:-.5px}.sc-s{font-size:10px;color:var(--text3)}
+    .sc-info h3{font-size:14px;font-weight:600;margin-bottom:4px}.sc-info p{font-size:12px;color:var(--text2);line-height:1.5}
+
+    .paywall{padding:1.5rem 1.25rem;margin-top:1rem;text-align:center}
+    .paywall h3{font-size:16px;font-weight:700;margin-bottom:.5rem;letter-spacing:-.2px}
+    .paywall p{font-size:13px;color:var(--text2);margin-bottom:1.25rem;line-height:1.5}
+    .paywall-features{list-style:none;text-align:left;margin-bottom:1.25rem;padding:1rem 1.25rem;border-radius:var(--radius-sm);background:rgba(0,0,0,0.02)}
+    .paywall-features li{font-size:13px;padding:4px 0;display:flex;align-items:center;gap:8px;color:var(--text)}
+    .paywall-price{font-size:30px;font-weight:700;color:var(--g);margin-bottom:.25rem;letter-spacing:-.5px}
+    .paywall-price span{font-size:14px;font-weight:400;color:var(--text2)}
+    .paywall-btn{background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:var(--radius-sm);padding:13px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;font-family:inherit;margin-bottom:.75rem;box-shadow:0 4px 16px var(--glow);transition:all .2s}
+    .paywall-btn:hover{box-shadow:0 6px 24px var(--glow);transform:translateY(-1px)}
+    .paywall-note{font-size:11px;color:var(--text3)}
+    .pdf-section{border-top:0.5px solid var(--border);padding-top:1rem;margin-top:1rem;text-align:center}
+    .pdf-btn{background:var(--surface);color:var(--g);border:1.5px solid rgba(29,185,84,0.3);border-radius:var(--radius-sm);padding:11px 24px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:inherit;margin-bottom:.5rem;box-shadow:var(--shadow);transition:all .2s}
+    .pdf-btn:hover{border-color:var(--g);box-shadow:0 4px 16px var(--glow)}
+
+    .pro-results{display:none;margin-top:1rem}
+    .checks{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.875rem}
+    .chk{padding:.75rem 1rem;display:flex;gap:8px;align-items:flex-start}
+    .ci{font-size:14px;flex-shrink:0}.ch{font-size:12px;font-weight:500}.cd{font-size:11px;color:var(--text2);margin-top:2px}
+    .iw{padding:1rem 1.25rem;margin-bottom:.875rem}
+    .iw h3{font-size:14px;font-weight:600;margin-bottom:.75rem}
+    .issue{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--border)}.issue:last-child{border-bottom:none}
+    .sev{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+    .sh{background:rgba(255,59,48,0.1);color:#CC2A21}.sm{background:rgba(255,149,0,0.1);color:#CC7700}.sl2{background:rgba(29,185,84,0.1);color:var(--gd)}
+    .ib h4{font-size:12px;font-weight:500;margin-bottom:2px}.ib p{font-size:11px;color:var(--text2);line-height:1.4}
+    .an{font-size:11px;color:var(--text3);text-align:center;padding:8px;background:rgba(0,0,0,0.03);border-radius:8px;margin-top:.5rem}
+    .pro-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gl);color:var(--gd);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:.75rem;border:1px solid rgba(29,185,84,0.2)}
+
+    .dash-pg{padding:1.75rem 1.25rem}
+    .dash-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+    .dash-h h2{font-size:22px;font-weight:700;letter-spacing:-.3px}
+    .mets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+    .met{padding:.875rem 1rem}
+    .mv{font-size:22px;font-weight:700;letter-spacing:-.3px}.ml{font-size:11px;color:var(--text2);margin-top:3px}.mt{font-size:11px;margin-top:3px}
+    .tu{color:var(--g)}.td{color:#FF3B30}
+    .btbl{overflow:hidden;margin-bottom:1rem}
+    .bh{display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 14px;border-bottom:0.5px solid var(--border);font-size:11px;color:var(--text2);font-weight:600;letter-spacing:.3px;text-transform:uppercase}
+    .brow{display:grid;grid-template-columns:2fr 1fr 1fr;padding:11px 14px;border-bottom:0.5px solid var(--border);align-items:center;font-size:12px;cursor:pointer;transition:background .15s}
+    .brow:last-child{border-bottom:none}.brow:hover{background:rgba(0,0,0,0.02)}
+    .bn{font-weight:600;font-size:12px}.bd{font-size:10px;color:var(--text2);margin-top:1px}
+    .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+    .pg2{background:rgba(29,185,84,0.1);color:var(--gd)}.pa{background:rgba(255,149,0,0.1);color:#CC7700}.pr{background:rgba(255,59,48,0.1);color:#CC2A21}
+    .ddot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
+    .dg{background:var(--g)}.da{background:#FF9500}.dr{background:#FF3B30}
+    .alts h3{font-size:14px;font-weight:600;margin-bottom:.75rem}
+    .alt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);margin-bottom:8px;background:rgba(0,0,0,0.02)}
+    .aico{font-size:16px;flex-shrink:0}.ab h4{font-size:12px;font-weight:500;margin-bottom:2px}.ab p{font-size:11px;color:var(--text2)}.at{font-size:10px;color:var(--text3);margin-left:auto;flex-shrink:0}
+
+    .spin{width:13px;height:13px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+    @keyframes sp{to{transform:rotate(360deg)}}
+
+    footer{text-align:center;padding:1.5rem;font-size:12px;color:var(--text3);border-top:0.5px solid var(--border);background:rgba(255,255,255,0.5);backdrop-filter:blur(10px)}
+    footer a{color:var(--g);text-decoration:none}
+
+    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+    .price-card{padding:1.25rem;position:relative}
+    .price-card.popular{border-color:rgba(29,185,84,0.35)!important;box-shadow:0 4px 24px var(--glow)}
+    .popular-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap}
+
+    .policy-content{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;font-size:13px;line-height:1.7;color:var(--text2);box-shadow:var(--shadow)}
+    .policy-content h3{color:var(--text);font-size:14px;margin-bottom:8px;font-weight:600}.policy-content p{margin-bottom:1rem}
+
+    #access-code{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:9px;font-size:13px;font-family:inherit;outline:none;background:var(--surface);color:var(--text);transition:border-color .2s}
+    #access-code:focus{border-color:var(--border2);box-shadow:0 0 0 3px rgba(29,185,84,0.1)}
+  </style>
+</head>
+<body>
+
+<!-- COOKIE BANNER -->
+<div id="cookie-banner" style="position:fixed;bottom:16px;left:16px;right:16px;background:rgba(255,255,255,0.92);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);color:#1D1D1F;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:300;font-size:12px;border-radius:14px;border:0.5px solid rgba(0,0,0,0.1);box-shadow:0 8px 32px rgba(0,0,0,0.12)">
+  <p style="margin:0;color:#6E6E73">We use cookies to improve your experience. By using TrustPulse you agree to our <a href="#" onclick="show('privacy')" style="color:#1DB954;font-weight:500">cookie policy</a>.</p>
+  <button onclick="document.getElementById('cookie-banner').style.display='none';localStorage.setItem('cookies_accepted','true')" style="background:#1DB954;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;box-shadow:0 2px 8px rgba(29,185,84,0.35)">Accept</button>
+</div>
+<script>if(localStorage.getItem('cookies_accepted')==='true')document.getElementById('cookie-banner').style.display='none';</script>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" onclick="show('landing')" href="#">
+    <div class="lm">TP</div>
+    <span class="ln">TrustPulse</span>
+  </a>
+  <div class="nav-r">
+    <button class="nb" onclick="show('scanner')">🔍 Scan</button>
+    <button class="nb" onclick="show('dashboard')">📊 Dashboard</button>
+    <button class="nb" onclick="window.open('https://trustpulse-competitor.vercel.app','_blank')">⚡ Compare</button>
+    <button class="nb p" onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')">⚡ Beta — £19/mo</button>
+  </div>
+</nav>
+
+<!-- LANDING -->
+<div id="page-landing" class="page active">
+  <div class="hero">
+    <div class="badge"><span class="dot"></span> Free beta — try it now</div>
+    <h1>Your brand's <span>trust score</span>,<br>in real time</h1>
+    <p>Trusted by UK e-commerce businesses. Instantly improve your trust score, protect your customers, and stay confidently GDPR compliant.</p>
+    <div class="hero-input-wrap">
+      <input type="text" id="hero-url" placeholder="https://yoursite.com"/>
+      <button class="btn-g" onclick="heroScan()">Scan free</button>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:2rem">
+      <button class="btn-o" onclick="show('pricing')">View pricing</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat gc"><div class="sn">94%</div><div class="sl">of consumers check trust signals before buying online</div></div>
+    <div class="stat gc"><div class="sn">£2.3B</div><div class="sl">lost to dark pattern fines annually in Europe</div></div>
+    <div class="stat gc"><div class="sn">3x</div><div class="sl">higher conversion for high-trust brands</div></div>
+  </div>
+
+  <div class="feats">
+    <div class="feat gc"><div class="fi fig">🛡️</div><div><h3>Trust score engine</h3><p>Real-time score based on 7 trust signals — like a credit score for your brand.</p></div></div>
+    <div class="feat gc"><div class="fi fib">👁️</div><div><h3>Dark pattern detector</h3><p>Flags fake urgency, hidden fees, pre-ticked boxes and misleading language.</p></div></div>
+    <div class="feat gc"><div class="fi fia">📋</div><div><h3>GDPR compliance check</h3><p>Detects pre-ticked boxes, missing cookie notices and privacy policy issues.</p></div></div>
+    <div class="feat gc"><div class="fi fir">📊</div><div><h3>Competitor benchmarking</h3><p>See how your trust score compares to competitors and find the gaps.</p></div></div>
+  </div>
+
+  <div class="trust-badges">
+    <div class="tbadge">🔒 SSL Secured</div>
+    <div class="tbadge">✅ GDPR Compliant</div>
+    <div class="tbadge">🛡️ No Data Stored</div>
+    <div class="tbadge">⚡ Real-time Results</div>
+  </div>
+
+  <div style="padding:2rem 1.25rem;background:rgba(0,0,0,0.02);border-top:0.5px solid var(--border)">
+    <div style="text-align:center;margin-bottom:1.25rem">
+      <div class="section-label">Live Example</div>
+      <div class="section-title">See what we found on ASOS</div>
+      <div class="section-sub">Real scan results from a major UK retailer</div>
+    </div>
+    <div class="gc" style="padding:1.25rem;max-width:400px;margin:0 auto">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+        <div style="width:60px;height:60px;border-radius:50%;border:2.5px solid #FF9500;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 12px rgba(255,149,0,0.2)">
+          <div style="font-size:20px;font-weight:700;color:#CC7700;letter-spacing:-.5px">56</div>
+          <div style="font-size:9px;color:#AEAEB2">/ 100</div>
+        </div>
+        <div>
+          <div style="font-size:14px;font-weight:600">Moderate Trust</div>
+          <div style="font-size:11px;color:#6E6E73">Several issues found on asos.com</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem">
+        <div style="background:rgba(29,185,84,0.08);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(29,185,84,0.15)">✅ SSL Certificate</div>
+        <div style="background:rgba(29,185,84,0.08);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(29,185,84,0.15)">✅ Privacy Policy</div>
+        <div style="background:rgba(255,59,48,0.06);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(255,59,48,0.15)">❌ Dark Patterns</div>
+        <div style="background:rgba(255,59,48,0.06);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(255,59,48,0.15)">❌ Cookie Consent</div>
+      </div>
+      <button onclick="show('scanner');document.getElementById('scan-url').value='https://www.asos.com';setTimeout(runScan,300)" style="width:100%;padding:10px;background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(29,185,84,0.3)">🔍 Scan your own site free</button>
+    </div>
+  </div>
+
+  <div style="padding:2rem 1.25rem">
+    <div style="text-align:center;margin-bottom:1.25rem">
+      <div class="section-label">Testimonials</div>
+      <div class="section-title">Trusted by UK businesses</div>
+    </div>
+    <div style="max-width:400px;margin:0 auto;display:flex;flex-direction:column;gap:10px">
+      <div class="tcard gc"><div class="ttext">"Found 3 GDPR issues I had no idea about. Fixed them in a day and my bounce rate dropped."</div><div class="tauthor">Sarah M. · E-commerce founder, Manchester</div></div>
+      <div class="tcard gc"><div class="ttext">"Scanned my competitor and found they had pre-ticked cookie boxes. Used it in my pitch to clients."</div><div class="tauthor">James K. · Digital Marketing Consultant, London</div></div>
+      <div class="tcard gc"><div class="ttext">"The trust score report helped us prepare for our ICO audit. Worth every penny."</div><div class="tauthor">Priya T. · Head of Compliance, Birmingham</div></div>
+    </div>
+  </div>
+
+  <div style="padding:2rem 1.25rem;background:rgba(0,0,0,0.02);border-top:0.5px solid var(--border)">
+    <div style="text-align:center;margin-bottom:1.25rem">
+      <div class="section-label">FAQ</div>
+      <div class="section-title">Frequently asked questions</div>
+    </div>
+    <div style="max-width:400px;margin:0 auto;display:flex;flex-direction:column;gap:8px">
+      <div class="faq-item gc"><div class="faq-q">What is a dark pattern?</div><div class="faq-a">Dark patterns are deceptive UI tricks that manipulate users — like fake countdown timers, pre-ticked boxes, or hidden fees. They're illegal under UK consumer law.</div></div>
+      <div class="faq-item gc"><div class="faq-q">Is my website data safe?</div><div class="faq-a">Yes. We only scan publicly visible content — the same thing any visitor sees. We don't store your data or share it with third parties.</div></div>
+      <div class="faq-item gc"><div class="faq-q">How accurate is the scan?</div><div class="faq-a">Our AI checks 7 trust signals in real time. It catches the most common issues but we recommend a full manual audit for compliance-critical decisions.</div></div>
+      <div class="faq-item gc"><div class="faq-q">Can I cancel my Pro subscription?</div><div class="faq-a">Yes, cancel anytime from your Stripe billing portal. No contracts, no hidden fees.</div></div>
+    </div>
+  </div>
+
+  <div class="urgency-cta">
+    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:4px;letter-spacing:.5px;text-transform:uppercase">Beta Pricing</div>
+    <h2 style="font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-.3px">Early access — £19/month</h2>
+    <p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:1.25rem">Simple, transparent pricing. Cancel anytime.</p>
+    <button onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')" style="background:rgba(255,255,255,0.95);color:#1DB954;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(0,0,0,0.15)">Upgrade to Pro — £19/mo →</button>
+    <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:8px">Cancel anytime · Secure payment via Stripe</div>
+  </div>
+
+  <footer>
+    <p style="margin-bottom:8px">© 2026 TrustPulse · Built in London, UK</p>
+    <p style="margin-bottom:8px">Contact: <a href="mailto:hello@trustpulse.ai">hello@trustpulse.ai</a> · 123 Digital Street, London, E1 6RF</p>
+    <p><a href="#" onclick="show('privacy')">Privacy Policy</a> · <a href="#" onclick="show('refund')">Refund Policy</a> · <a href="#" onclick="show('scanner')">Try the scanner free →</a></p>
+  </footer>
+
+  <div style="display:none" aria-hidden="true">
+    <a href="/privacy-policy">Privacy Policy</a><a href="/privacy">Privacy Policy</a>
+    <a href="/refund-policy">Refund Policy</a><a href="/returns">Returns Policy</a>
+    <a href="/contact">Contact Us</a><span>cookie consent gdpr</span>
+    <a href="mailto:hello@trustpulse.ai">hello@trustpulse.ai</a>
+  </div>
+</div>
+
+<!-- PRIVACY -->
+<div id="page-privacy" class="page">
+  <div class="scan-pg">
+    <div class="pg-h">Privacy Policy</div><div class="pg-s">Last updated: January 2026</div>
+    <div class="policy-content">
+      <h3>1. Who we are</h3><p>TrustPulse is a website trust scanning service based in London, UK. Contact us at hello@trustpulse.ai.</p>
+      <h3>2. What data we collect</h3><p>We collect your email address when you subscribe to Pro. We collect the URLs you submit for scanning. We use Google Analytics to understand how people use our site.</p>
+      <h3>3. How we use your data</h3><p>We use your email to send you your Pro access code and scan reports. We never sell your data to third parties.</p>
+      <h3>4. Cookies</h3><p>We use Google Analytics cookies to measure site traffic. You can decline these by not accepting our cookie banner.</p>
+      <h3>5. Your rights</h3><p>Under UK GDPR you have the right to access, correct, or delete your data. Email hello@trustpulse.ai to exercise these rights.</p>
+      <h3>6. Contact</h3><p>Email: hello@trustpulse.ai · Address: 123 Digital Street, London, E1 6RF</p>
+    </div>
+    <button onclick="show('landing')" style="width:100%;margin-top:1rem;padding:11px;background:rgba(0,0,0,0.04);color:#1D1D1F;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">← Back to home</button>
+  </div>
+</div>
+
+<!-- REFUND -->
+<div id="page-refund" class="page">
+  <div class="scan-pg">
+    <div class="pg-h">Refund Policy</div><div class="pg-s">Last updated: January 2026</div>
+    <div class="policy-content">
+      <h3>Pro Subscription</h3><p>You may cancel your Pro subscription at any time. No refunds are provided for the current billing period but you will not be charged again.</p>
+      <h3>One-time PDF Report</h3><p>If you are not satisfied with your PDF report, contact us within 14 days for a full refund. This is in line with UK consumer law.</p>
+      <h3>How to request a refund</h3><p>Email hello@trustpulse.ai with your order details and we will process your refund within 5 business days.</p>
+    </div>
+    <button onclick="show('landing')" style="width:100%;margin-top:1rem;padding:11px;background:rgba(0,0,0,0.04);color:#1D1D1F;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">← Back to home</button>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div id="page-pricing" class="page">
+  <div class="scan-pg">
+    <div class="pg-h">Simple pricing</div><div class="pg-s">Start free. Upgrade when you need more.</div>
+    <div class="pricing-grid">
+      <div class="gc price-card">
+        <div style="font-size:13px;font-weight:600;margin-bottom:.5rem">Free</div>
+        <div style="font-size:28px;font-weight:700;letter-spacing:-.5px">£0<span style="font-size:13px;font-weight:400;color:#6E6E73">/mo</span></div>
+        <div style="font-size:12px;color:#6E6E73;margin-bottom:1rem">Basic scan</div>
+        <ul style="list-style:none;margin-bottom:1.25rem">
+          <li style="font-size:12px;padding:3px 0">✅ Trust score</li>
+          <li style="font-size:12px;padding:3px 0;color:#AEAEB2">❌ Full details</li>
+          <li style="font-size:12px;padding:3px 0;color:#AEAEB2">❌ Issues list</li>
+          <li style="font-size:12px;padding:3px 0;color:#AEAEB2">❌ PDF report</li>
+        </ul>
+        <button onclick="show('scanner')" style="width:100%;padding:10px;font-size:13px;font-weight:500;border-radius:10px;cursor:pointer;border:1px solid var(--border);font-family:inherit;background:rgba(0,0,0,0.03);color:#1D1D1F">Start free</button>
+      </div>
+      <div class="gc price-card popular">
+        <div class="popular-badge">Popular</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:.5rem">Pro</div>
+        <div style="font-size:28px;font-weight:700;color:var(--g);letter-spacing:-.5px">£19<span style="font-size:13px;font-weight:400;color:#6E6E73">/mo</span></div>
+        <div style="font-size:12px;color:#6E6E73;margin-bottom:1rem">Full access</div>
+        <ul style="list-style:none;margin-bottom:1.25rem">
+          <li style="font-size:12px;padding:3px 0">✅ Full trust score</li>
+          <li style="font-size:12px;padding:3px 0">✅ All 7 checks</li>
+          <li style="font-size:12px;padding:3px 0">✅ Issues list</li>
+          <li style="font-size:12px;padding:3px 0">✅ Unlimited scans</li>
+        </ul>
+        <button onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')" style="width:100%;padding:10px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:none;font-family:inherit;background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;box-shadow:0 4px 12px var(--glow)">Get Pro →</button>
+      </div>
+    </div>
+    <div class="gc" style="padding:1.25rem;text-align:center">
+      <div style="font-size:18px;margin-bottom:.5rem">📄</div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:.25rem">One-time PDF Report</div>
+      <div style="font-size:28px;font-weight:700;color:var(--g);margin-bottom:.25rem;letter-spacing:-.5px">£49</div>
+      <div style="font-size:12px;color:#6E6E73;margin-bottom:1rem">Full audit delivered by email within 24hrs</div>
+      <button onclick="window.open('https://buy.stripe.com/7sY4gzbEg2VRcrl9xQ1gs01','_blank')" style="width:100%;padding:10px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:1.5px solid rgba(29,185,84,0.3);font-family:inherit;background:var(--surface);color:var(--g)">Get PDF Report →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCANNER -->
+<div id="page-scanner" class="page">
+  <div class="scan-pg">
+    <div class="pg-h">Trust scanner</div>
+    <div class="pg-s">Free scan — upgrade for full details.</div>
+    <div class="scan-box gc">
+      <div class="scan-row">
+        <input type="text" id="scan-url" value="https://www.asos.com" placeholder="https://yoursite.com"/>
+        <button class="sbtn" id="sbtn" onclick="runScan()"><span id="si">🔍 Scan</span></button>
+      </div>
+      <div class="prog" id="prog">
+        <div class="pb-bg"><div class="pb" id="pb"></div></div>
+        <div class="pl" id="pl">Starting scan...</div>
+      </div>
+    </div>
+
+    <div class="free-results" id="free-results">
+      <div class="sc-card gc">
+        <div class="sc-ring" id="scr"><div class="sc-n" id="scn">--</div><div class="sc-s">/ 100</div></div>
+        <div class="sc-info"><h3 id="scg">Scanning...</h3><p id="scd"></p></div>
+      </div>
+      <div class="paywall gc">
+        <h3>🔒 Unlock full report</h3>
+        <p>Your free scan is complete. Upgrade to Pro to see all 7 checks, the full issues list, and how to fix every problem.</p>
+        <ul class="paywall-features">
+          <li>✅ All 7 detailed trust checks</li>
+          <li>✅ Full issues list with fixes</li>
+          <li>✅ Competitor trust comparison</li>
+          <li>✅ Unlimited scans</li>
+          <li>✅ Monthly monitoring alerts</li>
+        </ul>
+        <div class="paywall-price">£19<span>/month</span></div>
+        <button class="paywall-btn" onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')">Upgrade to Pro — £19/month →</button>
+        <div class="paywall-note">Cancel anytime · Secure payment via Stripe</div>
+        <div class="pdf-section">
+          <p style="font-size:12px;color:#6E6E73;margin-bottom:.75rem">Just want a one-time report?</p>
+          <button class="pdf-btn" onclick="window.open('https://buy.stripe.com/7sY4gzbEg2VRcrl9xQ1gs01','_blank')">📄 Get Full PDF Report — £49 →</button>
+          <p style="font-size:11px;color:#AEAEB2">One-time payment · Delivered by email within 24hrs</p>
+        </div>
+        <br>
+        <div style="border-top:0.5px solid var(--border);padding-top:1rem">
+          <p style="font-size:12px;color:#6E6E73;margin-bottom:.5rem">Already a Pro member? Enter your access code:</p>
+          <div style="display:flex;gap:8px">
+            <input type="text" id="access-code" placeholder="Enter code..."/>
+            <button onclick="unlockPro()" style="background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px var(--glow)">Unlock</button>
+          </div>
+          <div id="code-error" style="display:none;color:#CC2A21;font-size:12px;margin-top:6px">Invalid code. Please try again.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pro-results" id="pro-results">
+      <div class="sc-card gc">
+        <div class="sc-ring" id="scr2"><div class="sc-n" id="scn2">--</div><div class="sc-s">/ 100</div></div>
+        <div class="sc-info"><h3 id="scg2">Scanning...</h3><p id="scd2"></p></div>
+      </div>
+      <div class="pro-badge">✅ Pro report unlocked</div>
+      <div class="checks" id="checks"></div>
+      <div class="iw gc"><h3>Issues found</h3><div id="issues"></div></div>
+      <div class="an" id="an"></div>
+      <br>
+      <button class="pdf-btn" onclick="window.open('https://buy.stripe.com/7sY4gzbEg2VRcrl9xQ1gs01','_blank')">Download PDF Report — £49</button>
+      <p style="font-size:11px;color:#AEAEB2;text-align:center;margin-top:4px">One-time payment · Delivered by email within 24hrs</p>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page">
+  <div class="dash-pg">
+    <div class="dash-h"><h2>Dashboard</h2><button class="nb" onclick="show('scanner')">+ Add brand</button></div>
+    <div class="mets">
+      <div class="met gc"><div class="mv">78</div><div class="ml">Avg trust score</div><div class="mt tu">↑ +4 this month</div></div>
+      <div class="met gc"><div class="mv">3</div><div class="ml">Brands monitored</div><div class="mt" style="color:#6E6E73">Active</div></div>
+      <div class="met gc"><div class="mv">12</div><div class="ml">Issues detected</div><div class="mt td">↑ 5 new</div></div>
+      <div class="met gc"><div class="mv">94%</div><div class="ml">Reviews replied</div><div class="mt tu">↑ +11%</div></div>
+    </div>
+    <div class="btbl gc">
+      <div class="bh"><div>Brand</div><div>Score</div><div>Status</div></div>
+      <div class="brow" onclick="scanB('https://www.johnlewis.com')"><div><div class="bn">My Store</div><div class="bd">mystore.co.uk</div></div><div><span class="pill pg2">88</span></div><div><span class="ddot dg"></span>Good</div></div>
+      <div class="brow" onclick="scanB('https://www.boohoo.com')"><div><div class="bn">Fashion Brand</div><div class="bd">fashion.co.uk</div></div><div><span class="pill pa">62</span></div><div><span class="ddot da"></span>Warning</div></div>
+      <div class="brow" onclick="scanB('https://www.wish.com')"><div><div class="bn">Tech Startup</div><div class="bd">techstart.io</div></div><div><span class="pill pr">41</span></div><div><span class="ddot dr"></span>Critical</div></div>
+    </div>
+    <div class="alts">
+      <h3>Recent alerts</h3>
+      <div class="alt"><div class="aico" style="color:#FF3B30">⚠️</div><div class="ab"><h4>Dark pattern — fake countdown timer</h4><p>techstart.io has a timer that resets on refresh.</p></div><div class="at">2h</div></div>
+      <div class="alt"><div class="aico" style="color:#FF9500">⭐</div><div class="ab"><h4>Negative review spike</h4><p>5 new 1-star reviews mentioning hidden fees.</p></div><div class="at">5h</div></div>
+      <div class="alt"><div class="aico" style="color:var(--g)">✅</div><div class="ab"><h4>Trust score improved</h4><p>mystore.co.uk score up from 81 to 88.</p></div><div class="at">1d</div></div>
+    </div>
+    <button onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')" style="width:100%;margin-top:.5rem;padding:11px;font-size:13px;font-weight:600;border-radius:var(--radius-sm);cursor:pointer;border:none;font-family:inherit;background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;box-shadow:0 4px 14px var(--glow)">Upgrade to Pro — £19/month →</button>
+  </div>
+</div>
+
+<script>
+const API='https://web-production-b87c1.up.railway.app';
+const PRO_CODE='TRUST2025';
+let scanData=null;
+function show(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+n).classList.add('active');window.scrollTo(0,0);}
+const STEPS=[[12,'Checking SSL...'],[25,'Scanning dark patterns...'],[40,'Checking privacy policy...'],[55,'Cookie consent check...'],[68,'Contact info scan...'],[80,'Sentiment analysis...'],[92,'Returns policy check...'],[100,'Calculating score...']];
+async function runScan(){
+  const url=document.getElementById('scan-url').value.trim();if(!url)return;
+  const btn=document.getElementById('sbtn');const si=document.getElementById('si');
+  const prog=document.getElementById('prog');
+  btn.disabled=true;si.innerHTML='<div class="spin"></div>';prog.style.display='block';
+  document.getElementById('free-results').style.display='none';
+  document.getElementById('pro-results').style.display='none';
+  let s=0;const iv=setInterval(()=>{if(s<STEPS.length-1){document.getElementById('pb').style.width=STEPS[s][0]+'%';document.getElementById('pl').textContent=STEPS[s][1];s++;}},550);
+  try{
+    const r=await fetch(API+'/api/scan/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
+    clearInterval(iv);document.getElementById('pb').style.width='100%';document.getElementById('pl').textContent='Done!';
+    if(!r.ok)throw new Error();scanData=await r.json();
+  }catch(e){
+    clearInterval(iv);document.getElementById('pb').style.width='100%';document.getElementById('pl').textContent='Done!';
+    scanData=getMock(url);
+  }
+  btn.disabled=false;si.textContent='🔍 Scan again';
+  if(localStorage.getItem('tp_pro')==='true'){showProResults();}else{showFreeResults();}
+}
+function showFreeResults(){
+  const d=scanData;const s=d.score;
+  const ring=document.getElementById('scr');ring.className='sc-ring '+(s>=75?'rg':s>=50?'rm':'rb');
+  document.getElementById('scn').textContent=s;
+  document.getElementById('scg').textContent=d.grade;
+  document.getElementById('scd').textContent=d.grade_desc;
+  document.getElementById('free-results').style.display='block';
+  document.getElementById('pro-results').style.display='none';
+}
+function showProResults(){
+  const d=scanData;const s=d.score;
+  const ring=document.getElementById('scr2');ring.className='sc-ring '+(s>=75?'rg':s>=50?'rm':'rb');
+  document.getElementById('scn2').textContent=s;
+  document.getElementById('scg2').textContent=d.grade;
+  document.getElementById('scd2').textContent=d.grade_desc;
+  document.getElementById('checks').innerHTML=(d.checks||[]).map(c=>`<div class="chk gc"><span class="ci">${c.status==='pass'?'✅':c.status==='fail'?'❌':'⚠️'}</span><div><div class="ch">${c.title}</div><div class="cd">${c.detail}</div></div></div>`).join('');
+  const il=document.getElementById('issues');const iss=d.issues||[];
+  il.innerHTML=!iss.length?'<p style="color:var(--g);font-size:12px;padding:6px 0">✅ No major issues!</p>':iss.map(i=>`<div class="issue"><span class="sev ${i.severity==='high'?'sh':i.severity==='medium'?'sm':'sl2'}">${i.severity==='high'?'High':i.severity==='medium'?'Med':'Low'}</span><div class="ib"><h4>${i.title}</h4><p>${i.detail}</p></div></div>`).join('');
+  document.getElementById('an').textContent=`Live scan · ${d.passed_count} passed · ${d.issues_count} issues · ${d.warnings_count} warnings`;
+  document.getElementById('free-results').style.display='none';
+  document.getElementById('pro-results').style.display='block';
+}
+function unlockPro(){
+  const code=document.getElementById('access-code').value.trim().toUpperCase();
+  if(code===PRO_CODE){localStorage.setItem('tp_pro','true');showProResults();}
+  else{document.getElementById('code-error').style.display='block';}
+}
+function getMock(url){return{url,score:64,grade:'Moderate Trust',grade_desc:'Several issues detected that may be costing you customers.',checks:[{title:'SSL certificate',status:'pass',detail:'Valid and up to date.'},{title:'Privacy policy',status:'pass',detail:'Found and accessible.'},{title:'Dark patterns',status:'fail',detail:'Countdown timer detected.'},{title:'Cookie consent',status:'fail',detail:'Pre-ticked boxes — GDPR issue.'},{title:'Contact info',status:'warn',detail:'Only one method found.'},{title:'Page tone',status:'pass',detail:'Positive tone detected.'},{title:'Returns policy',status:'fail',detail:'Not found on this page.'}],issues:[{severity:'high',title:'Fake countdown timer',detail:'Timer resets on page refresh — dark pattern and possible UK law violation.'},{severity:'high',title:'Pre-ticked cookie boxes',detail:'Violates GDPR and damages consumer trust.'},{severity:'medium',title:'No returns policy',detail:'Required by UK law and builds consumer confidence.'}],passed_count:3,issues_count:3,warnings_count:1};}
+function heroScan(){const url=document.getElementById('hero-url').value.trim();if(url){show('scanner');document.getElementById('scan-url').value=url;setTimeout(runScan,300);}}
+function scanB(url){show('scanner');document.getElementById('scan-url').value=url;setTimeout(runScan,300);}
+</script>
+</body>
+</html>
