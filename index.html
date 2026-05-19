@@ -342,7 +342,7 @@ async function fetchScan(url) {
   try {
     const res = await fetch('https://web-production-4592c.up.railway.app/api/scan/', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('tp_token') || '') },
-      body: JSON.stringify({ url }), signal: AbortSignal.timeout(14000),
+      body: JSON.stringify({ url }),
     });
     if (!res.ok) throw new Error('API error');
     return await res.json();
