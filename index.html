@@ -960,6 +960,17 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
     document.head.appendChild(s);
   }, []);
 
+  // Render Google buttons after modal mounts
+  useAppEffect(() => {
+    const timer = setTimeout(() => {
+      ['google-btn-login', 'google-btn-signup'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.childElementCount === 0) initGoogle(id);
+      });
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [tab]);
+
   function handleClose() { setShowAuth(false); }
   function handleOverlayClick(e) { if (e.target === e.currentTarget) handleClose(); }
 
@@ -1128,7 +1139,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                     <span style={{ fontSize:11, color:'#8aab96' }}>or continue with</span>
                     <div style={{ flex:1, height:1, background:'rgba(61,181,110,0.15)' }} />
                   </div>
-                  <div id="google-btn-login" ref={el => { if (el && el.childElementCount === 0) initGoogle('google-btn-login'); }} style={{ display:'flex', justifyContent:'center' }} />
+                  <div id="google-btn-login" style={{ display:'flex', justifyContent:'center', minHeight:44 }} />
                   {gLoading && <div style={{ textAlign:'center', marginTop:8, fontSize:12, color:'#8aab96' }}>Signing in with Google…</div>}
                 </div>
             {tab === 'signup' && (
@@ -1163,7 +1174,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                     <span style={{ fontSize:11, color:'#8aab96' }}>or sign up with</span>
                     <div style={{ flex:1, height:1, background:'rgba(61,181,110,0.15)' }} />
                   </div>
-                  <div id="google-btn-signup" ref={el => { if (el && el.childElementCount === 0) initGoogle('google-btn-signup'); }} style={{ display:'flex', justifyContent:'center' }} />
+                  <div id="google-btn-signup" style={{ display:'flex', justifyContent:'center', minHeight:44 }} />
                   {gLoading && <div style={{ textAlign:'center', marginTop:8, fontSize:12, color:'#8aab96' }}>Signing up with Google…</div>}
                 </div>
 
@@ -1346,7 +1357,7 @@ function App() {
         </div>
       </nav>
 
-      <main style={{ flex:1 }} onClick={() => { if (!authUser) setShowAuth(true); }}>
+      <main style={{ flex:1 }}>
         {page==='landing'    && <LandingPage    onNavigate={navigate} onScan={handleScan} requireAuth={requireAuth} />}
         {page==='scanner'    && (
           <div>
