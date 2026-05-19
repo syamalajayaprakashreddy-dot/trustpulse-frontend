@@ -1305,7 +1305,7 @@ function App() {
         </div>
       </nav>
 
-      <main style={{ flex:1 }}>
+      <main style={{ flex:1 }} onClick={() => { if (!authUser) setShowAuth(true); }}>
         {page==='landing'    && <LandingPage    onNavigate={navigate} onScan={handleScan} requireAuth={requireAuth} />}
         {page==='scanner'    && (
           <div>
