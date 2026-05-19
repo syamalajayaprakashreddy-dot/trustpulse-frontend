@@ -939,8 +939,8 @@ function StickyCTA({ onNavigate, page }) {
 }
 
 // ─── Auth Modal ────────────────────────────────────────────────────────────────
-// ✅ FIX 1: Clean single modal with proper tab switching
-// ✅ FIX 3: X button disabled when not logged in (can't close without auth)
+const GOOGLE_CLIENT_ID = '960641490397-0ol6cra2prle8ufqhr65cgmem17lovhv.apps.googleusercontent.com';
+
 function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) {
   const [tab, setTab] = useAppState('login');
   const [email, setEmail] = useAppState('');
@@ -948,11 +948,44 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
   const [name, setName] = useAppState('');
   const [error, setError] = useAppState('');
   const [loading, setLoading] = useAppState(false);
-  const isLoggedIn = !!authUser;
+  const [gLoading, setGLoading] = useAppState(false);
 
-  // ✅ X always works — user can dismiss freely
+  // Load Google Identity Services script
+  useAppEffect(() => {
+    if (document.getElementById('google-gsi')) return;
+    const s = document.createElement('script');
+    s.id = 'google-gsi';
+    s.src = 'https://accounts.google.com/gsi/client';
+    s.async = true;
+    document.head.appendChild(s);
+  }, []);
+
   function handleClose() { setShowAuth(false); }
   function handleOverlayClick(e) { if (e.target === e.currentTarget) handleClose(); }
+
+  async function handleGoogleResponse(response) {
+    setGLoading(true); setError('');
+    try {
+      const r = await fetch('https://web-production-4592c.up.railway.app/api/auth/google/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential: response.credential }),
+      });
+      const d = await r.json();
+      if (r.ok) {
+        localStorage.setItem('tp_token', d.access);
+        localStorage.setItem('tp_user', JSON.stringify(d.user));
+        setAuthUser(d.user); setShowAuth(false);
+        if (onSuccess) onSuccess(d.user);
+      } else { setError(d.error || 'Google sign-in failed'); }
+    } catch { setError('Connection error. Try again.'); }
+    setGLoading(false);
+  }
+
+  function initGoogle(divId) {
+    if (!window.google) { setTimeout(() => initGoogle(divId), 500); return; }
+    window.google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleResponse });
+    window.google.accounts.id.renderButton(document.getElementById(divId), { theme: 'outline', size: 'large', width: 348, text: 'continue_with' });
+  }
 
   async function handleLogin() {
     if (!email || !password) { setError('Please enter email and password'); return; }
@@ -1088,10 +1121,16 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                   <span style={{ fontSize:12, color:'#8aab96' }}>No account? </span>
                   <button onClick={() => { setTab('signup'); setError(''); }} style={{ background:'none', border:'none', color:'#5DCEA4', fontSize:12, cursor:'pointer', fontFamily:'inherit' }}>Create one free →</button>
                 </div>
-              </div>
-            )}
-
-            {/* Create Account form */}
+                {/* Google button */}
+                <div style={{ margin:'16px 0 4px' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14 }}>
+                    <div style={{ flex:1, height:1, background:'rgba(61,181,110,0.15)' }} />
+                    <span style={{ fontSize:11, color:'#8aab96' }}>or continue with</span>
+                    <div style={{ flex:1, height:1, background:'rgba(61,181,110,0.15)' }} />
+                  </div>
+                  <div id="google-btn-login" ref={el => { if (el && el.childElementCount === 0) initGoogle('google-btn-login'); }} style={{ display:'flex', justifyContent:'center' }} />
+                  {gLoading && <div style={{ textAlign:'center', marginTop:8, fontSize:12, color:'#8aab96' }}>Signing in with Google…</div>}
+                </div>
             {tab === 'signup' && (
               <div>
                 <div style={{ marginBottom: 14 }}>
@@ -1117,14 +1156,16 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                   <span style={{ fontSize:12, color:'#8aab96' }}>Already have an account? </span>
                   <button onClick={() => { setTab('login'); setError(''); }} style={{ background:'none', border:'none', color:'#5DCEA4', fontSize:12, cursor:'pointer', fontFamily:'inherit' }}>Sign in →</button>
                 </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
+                {/* Google button */}
+                <div style={{ margin:'16px 0 4px' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14 }}>
+                    <div style={{ flex:1, height:1, background:'rgba(61,181,110,0.15)' }} />
+                    <span style={{ fontSize:11, color:'#8aab96' }}>or sign up with</span>
+                    <div style={{ flex:1, height:1, background:'rgba(61,181,110,0.15)' }} />
+                  </div>
+                  <div id="google-btn-signup" ref={el => { if (el && el.childElementCount === 0) initGoogle('google-btn-signup'); }} style={{ display:'flex', justifyContent:'center' }} />
+                  {gLoading && <div style={{ textAlign:'center', marginTop:8, fontSize:12, color:'#8aab96' }}>Signing up with Google…</div>}
+                </div>
 
 // ─── Scan History Panel ────────────────────────────────────────────────────────
 // ✅ FIX 4: Scan history per user — reads from /api/scans/ endpoint
