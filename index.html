@@ -1142,6 +1142,9 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                   <div id="google-btn-login" style={{ display:'flex', justifyContent:'center', minHeight:44 }} />
                   {gLoading && <div style={{ textAlign:'center', marginTop:8, fontSize:12, color:'#8aab96' }}>Signing in with Google…</div>}
                 </div>
+              </div>
+            )}
+
             {tab === 'signup' && (
               <div>
                 <div style={{ marginBottom: 14 }}>
