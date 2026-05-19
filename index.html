@@ -473,9 +473,13 @@ Object.assign(window, { ScoreRing, Badge, CheckCard, IssueItem, ScanProgress, Sp
   <!-- ══════════════════════════════════════════════════════════════ PAGES ═══ -->
   <script type="text/babel">
 const { useState: useState2, useEffect: useEffect2 } = React;
-function LandingPage({ onNavigate, onScan }) {
+function LandingPage({ onNavigate, onScan, requireAuth }) {
   const [url, setUrl] = useState2('');
-  function handleScan() { if (!url.trim()) return; onScan(url.trim()); onNavigate('scanner'); }
+  function handleScan() {
+    if (!url.trim()) return;
+    if (!requireAuth()) return;
+    onScan(url.trim()); onNavigate('scanner');
+  }
   const features = [
     { icon:'🛡', grad:'linear-gradient(135deg,#C8EDDA,#A4DEC0)', title:'Trust score engine', desc:'Real-time score across 7 signals — like a credit score for your brand.' },
     { icon:'👁', grad:'linear-gradient(135deg,#D4E4FF,#B3CCFF)', title:'Dark pattern detector', desc:'Flags fake urgency, hidden fees, pre-ticked boxes and misleading copy.' },
@@ -937,7 +941,7 @@ function StickyCTA({ onNavigate, page }) {
 // ─── Auth Modal ────────────────────────────────────────────────────────────────
 // ✅ FIX 1: Clean single modal with proper tab switching
 // ✅ FIX 3: X button disabled when not logged in (can't close without auth)
-function AuthModal({ authUser, setAuthUser, setShowAuth, navigate }) {
+function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) {
   const [tab, setTab] = useAppState('login');
   const [email, setEmail] = useAppState('');
   const [password, setPassword] = useAppState('');
@@ -946,10 +950,9 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate }) {
   const [loading, setLoading] = useAppState(false);
   const isLoggedIn = !!authUser;
 
-  function handleOverlayClick(e) {
-    // ✅ FIX 3: only close overlay click when logged in
-    if (e.target === e.currentTarget && isLoggedIn) setShowAuth(false);
-  }
+  // ✅ X always works — user can dismiss freely
+  function handleClose() { setShowAuth(false); }
+  function handleOverlayClick(e) { if (e.target === e.currentTarget) handleClose(); }
 
   async function handleLogin() {
     if (!email || !password) { setError('Please enter email and password'); return; }
@@ -964,7 +967,9 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate }) {
         const u = { email, name: email.split('@')[0] };
         localStorage.setItem('tp_token', d.access);
         localStorage.setItem('tp_user', JSON.stringify(u));
-        setAuthUser(u); setShowAuth(false); navigate('landing');
+        setAuthUser(u);
+        setShowAuth(false);
+        if (onSuccess) onSuccess(u); // ✅ show welcome toast, stay on same page
       } else { setError(d.detail || 'Incorrect email or password'); }
     } catch { setError('Connection error. Try again.'); }
     setLoading(false);
@@ -984,7 +989,9 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate }) {
         const u = { email, name };
         localStorage.setItem('tp_token', d.access);
         localStorage.setItem('tp_user', JSON.stringify(u));
-        setAuthUser(u); setShowAuth(false); navigate('landing');
+        setAuthUser(u);
+        setShowAuth(false);
+        if (onSuccess) onSuccess(u); // ✅ show welcome toast, stay on same page
       } else { setError(d.error || d.detail || 'Registration failed. Try again.'); }
     } catch { setError('Connection error. Try again.'); }
     setLoading(false);
@@ -1017,16 +1024,16 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate }) {
         animation: 'fadeUp 0.25s ease-out',
       }} onClick={e => e.stopPropagation()}>
 
-        {/* X button — greyed out and non-functional when not logged in */}
-        <button onClick={() => isLoggedIn && setShowAuth(false)} style={{
+        {/* X button — always works */}
+        <button onClick={handleClose} style={{
           position: 'absolute', top: 14, right: 14,
-          background: isLoggedIn ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.02)',
+          background: 'rgba(255,255,255,0.07)',
           border: '1px solid rgba(61,181,110,0.15)', borderRadius: 8,
           width: 30, height: 30,
-          color: isLoggedIn ? '#8aab96' : 'rgba(138,171,150,0.25)',
-          cursor: isLoggedIn ? 'pointer' : 'default',
+          color: '#8aab96',
+          cursor: 'pointer',
           fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }} title={isLoggedIn ? 'Close' : 'Sign in to continue'}>✕</button>
+        }}>✕</button>
 
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
@@ -1193,11 +1200,24 @@ function App() {
   const [authUser, setAuthUser] = useAppState(() => {
     try { return JSON.parse(localStorage.getItem('tp_user') || 'null'); } catch { return null; }
   });
-  // ✅ Show auth modal on first visit if not logged in
-  const [showAuth, setShowAuth] = useAppState(() => !localStorage.getItem('tp_user'));
+  // Auth modal — only shown when user clicks something
+  const [showAuth, setShowAuth] = useAppState(false);
+  const [toast, setToast] = useAppState(null); // { msg, type }
   const [tweaksOpen, setTweaksOpen] = useAppState(false);
   const [exitShown, setExitShown] = useAppState(false);
   const [showExit, setShowExit] = useAppState(false);
+
+  // Show toast for 3 seconds
+  function showToast(msg, type = 'success') {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  }
+
+  // Gate: if not logged in, show auth modal and return false
+  function requireAuth() {
+    if (!authUser) { setShowAuth(true); return false; }
+    return true;
+  }
 
   useAppEffect(() => { applyTheme(tweaks.theme); }, [tweaks.theme]);
   useAppEffect(() => { applyDensity(tweaks.density); }, [tweaks.density]);
@@ -1223,7 +1243,11 @@ function App() {
     setTweakState(next);
     window.parent.postMessage({ type: '__edit_mode_set_keys', edits: next }, '*');
   }
-  function navigate(target) { setPage(target); window.scrollTo({ top:0, behavior:'smooth' }); }
+  // navigate: landing is always free, everything else requires auth
+  function navigate(target) {
+    if (target !== 'landing' && !authUser) { setShowAuth(true); return; }
+    setPage(target); window.scrollTo({ top:0, behavior:'smooth' });
+  }
   async function saveScan(url) {
     const token = localStorage.getItem('tp_token');
     if (!token) return;
@@ -1236,9 +1260,10 @@ function App() {
     } catch { /* silent */ }
   }
   function handleScan(url) {
+    if (!requireAuth()) return;
     setScanUrl(url);
     setPage('scanner');
-    saveScan(url); // ✅ FIX 4: save to history
+    saveScan(url);
   }
   function unlockPro() { setIsPro(true); localStorage.setItem('tp_pro','true'); }
 
@@ -1281,7 +1306,7 @@ function App() {
       </nav>
 
       <main style={{ flex:1 }}>
-        {page==='landing'    && <LandingPage    onNavigate={navigate} onScan={handleScan} />}
+        {page==='landing'    && <LandingPage    onNavigate={navigate} onScan={handleScan} requireAuth={requireAuth} />}
         {page==='scanner'    && (
           <div>
             <ScannerPage initialUrl={scanUrl} isPro={isPro||tweaks.showPro} onUnlockPro={unlockPro} />
@@ -1313,6 +1338,20 @@ function App() {
         </div>
       )}
 
+      {/* ✅ Toast notification */}
+      {toast && (
+        <div style={{
+          position: 'fixed', top: 20, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 99999, animation: 'fadeUp 0.3s ease-out',
+          background: toast.type === 'success' ? '#1D9E75' : '#E24B4A',
+          color: 'white', padding: '12px 24px', borderRadius: 12,
+          fontSize: 14, fontWeight: 600, boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+          display: 'flex', alignItems: 'center', gap: 8, whiteSpace: 'nowrap',
+        }}>
+          {toast.type === 'success' ? '✓' : '✕'} {toast.msg}
+        </div>
+      )}
+
       {/* ✅ Single clean auth modal */}
       {showAuth && (
         <AuthModal
@@ -1320,6 +1359,9 @@ function App() {
           setAuthUser={setAuthUser}
           setShowAuth={setShowAuth}
           navigate={navigate}
+          onSuccess={(user) => {
+            showToast(`Welcome, ${user.name || user.email.split('@')[0]}! 👋`);
+          }}
         />
       )}
 
