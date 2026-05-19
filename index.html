@@ -341,7 +341,7 @@ function getMockResult(url) {
 async function fetchScan(url) {
   try {
     const res = await fetch('https://web-production-4592c.up.railway.app/api/scan/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '') },
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('tp_token') || '') },
       body: JSON.stringify({ url }), signal: AbortSignal.timeout(14000),
     });
     if (!res.ok) throw new Error('API error');
@@ -1012,7 +1012,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
     setLoading(true); setError('');
     try {
       const r = await fetch('https://web-production-4592c.up.railway.app/api/auth/login/', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '') },
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('tp_token') || '') },
         body: JSON.stringify({ username: email, password }),
       });
       const d = await r.json();
@@ -1034,7 +1034,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
     setLoading(true); setError('');
     try {
       const r = await fetch('https://web-production-4592c.up.railway.app/api/auth/register/', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '') },
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('tp_token') || '') },
         body: JSON.stringify({ email, password, name }),
       });
       const d = await r.json();
@@ -1060,7 +1060,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
   async function handleGoogleLogin(credential) {
     try {
       const r = await fetch('https://web-production-4592c.up.railway.app/api/auth/google/', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('token') || '') },
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('tp_token') || '') },
         body: JSON.stringify({ credential }),
       });
       const d = await r.json();
