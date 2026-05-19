@@ -1,527 +1,1349 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M1YKWR010F"></script>
-  <script>
-    window.dataLayer=window.dataLayer||[];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js',new Date());gtag('config','G-M1YKWR010F');
-  </script>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TrustPulse — Brand Trust Scanner</title>
-  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
-    :root{
-      --g:#1DB954;--gd:#17A349;--gl:rgba(29,185,84,0.12);--glow:rgba(29,185,84,0.25);
-      --bg:#F5F5F7;--surface:#FFFFFF;
-      --border:rgba(0,0,0,0.08);--border2:rgba(29,185,84,0.4);
-      --text:#1D1D1F;--text2:#6E6E73;--text3:#AEAEB2;
-      --shadow:0 2px 20px rgba(0,0,0,0.08);--shadow2:0 8px 40px rgba(0,0,0,0.12);
-      --radius:18px;--radius-sm:12px;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #1D9E75;
+      --green-dark: #0F6E56;
+      --green-bg: #E6F5EF;
+      --green-mid: rgba(29,158,117,0.18);
+      --bg: #F8F7F5;
+      --card: #FFFFFF;
+      --surface: #F0EEE9;
+      --surface2: #E8E6E0;
+      --border: rgba(24,24,26,0.07);
+      --border-md: rgba(24,24,26,0.13);
+      --text: #18181A;
+      --text-2: #5A5A60;
+      --text-3: #9B9BA0;
+      --warn: #EF9F27;
+      --warn-bg: #FEF3E2;
+      --warn-text: #7A4A00;
+      --red: #E24B4A;
+      --red-bg: #FEE8E8;
+      --red-text: #9A2B2A;
+      --r: 12px;
+      --r-sm: 8px;
+      --r-lg: 16px;
+      --r-xl: 20px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow: 0 2px 10px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 6px 24px rgba(0,0,0,0.11), 0 2px 6px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.07);
+      --green-glow: rgba(29,158,117,0.35);
+      --green-bright: #5DCEA4;
+      --hero-bg: #091a10;
     }
-    body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
-    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 50% at 20% 10%,rgba(29,185,84,0.06),transparent),radial-gradient(ellipse 50% 40% at 80% 80%,rgba(0,122,255,0.04),transparent);pointer-events:none;z-index:0}
-    .page{display:none;position:relative;z-index:1}.page.active{display:block}
-
-    nav{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;background:rgba(255,255,255,0.78);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:0.5px solid rgba(0,0,0,0.1);position:sticky;top:0;z-index:200}
-    .logo{display:flex;align-items:center;gap:9px;cursor:pointer;text-decoration:none;color:var(--text)}
-    .lm{width:30px;height:30px;background:linear-gradient(145deg,#1DB954,#17A349);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(29,185,84,0.4)}
-    .ln{font-size:15px;font-weight:600;letter-spacing:-.2px}
-    .nav-r{display:flex;gap:4px;align-items:center}
-    .nb{background:transparent;border:none;padding:6px 12px;font-size:13px;cursor:pointer;color:var(--text2);font-family:inherit;border-radius:8px;transition:all .15s;display:flex;align-items:center;gap:5px}
-    .nb:hover{background:rgba(0,0,0,0.05);color:var(--text)}
-    .nb.p{background:var(--g);color:#fff;font-weight:600;box-shadow:0 2px 10px var(--glow);border-radius:10px;padding:6px 14px}
-    .nb.p:hover{background:var(--gd);box-shadow:0 4px 16px var(--glow)}
-
-    .hero{padding:3.5rem 1.25rem 2rem;text-align:center}
-    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gl);color:var(--gd);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;margin-bottom:1.5rem;border:1px solid rgba(29,185,84,0.2);letter-spacing:.3px}
-    .dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s infinite}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-    .hero h1{font-size:34px;font-weight:700;line-height:1.08;letter-spacing:-.8px;margin-bottom:.75rem}
-    .hero h1 span{color:var(--g)}
-    .hero p{font-size:15px;color:var(--text2);line-height:1.65;margin-bottom:1.75rem;max-width:300px;margin-left:auto;margin-right:auto}
-    .hero-input-wrap{display:flex;gap:8px;max-width:400px;margin:0 auto 1.5rem;padding:0 1rem}
-    .hero-input-wrap input{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;outline:none;font-family:inherit;background:var(--surface);color:var(--text);box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s}
-    .hero-input-wrap input:focus{border-color:var(--border2);box-shadow:0 0 0 4px rgba(29,185,84,0.1),var(--shadow)}
-    .hero-input-wrap input::placeholder{color:var(--text3)}
-    .btn-g{background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:var(--radius-sm);padding:11px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;box-shadow:0 4px 14px var(--glow);transition:all .2s}
-    .btn-g:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--glow)}
-    .btn-o{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;box-shadow:var(--shadow);transition:all .2s}
-    .btn-o:hover{box-shadow:var(--shadow2)}
-
-    .gc{background:rgba(255,255,255,0.72);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border:0.5px solid rgba(255,255,255,0.9);border-radius:var(--radius);box-shadow:var(--shadow)}
-
-    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 1.25rem 2.5rem}
-    .stat{padding:1.25rem;text-align:center}
-    .stat:first-child{grid-column:1/-1}
-    .sn{font-size:30px;font-weight:700;color:var(--g);letter-spacing:-.5px}
-    .sl{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5}
-
-    .feats{padding:0 1.25rem 2.5rem}
-    .feat{padding:1.1rem 1.25rem;margin-bottom:8px;display:flex;align-items:flex-start;gap:14px;transition:box-shadow .2s}
-    .feat:hover{box-shadow:0 4px 24px rgba(0,0,0,0.1)}
-    .fi{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:17px}
-    .fig{background:rgba(29,185,84,0.12)}.fib{background:rgba(0,122,255,0.1)}.fia{background:rgba(255,149,0,0.1)}.fir{background:rgba(255,59,48,0.1)}
-    .feat h3{font-size:13px;font-weight:600;margin-bottom:3px}.feat p{font-size:12px;color:var(--text2);line-height:1.5}
-
-    .trust-badges{padding:.875rem 1.25rem;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;border-top:0.5px solid var(--border)}
-    .tbadge{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3)}
-
-    .section-label{font-size:11px;font-weight:600;color:var(--g);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
-    .section-title{font-size:20px;font-weight:700;letter-spacing:-.3px;margin-bottom:.3rem}
-    .section-sub{font-size:12px;color:var(--text2);margin-bottom:1.25rem}
-
-    .tcard{padding:1.1rem 1.25rem;margin-bottom:10px}
-    .ttext{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:8px}
-    .tauthor{font-size:11px;font-weight:600;color:var(--text3)}
-
-    .faq-item{padding:1rem 1.1rem;margin-bottom:8px}
-    .faq-q{font-size:13px;font-weight:600;margin-bottom:5px}
-    .faq-a{font-size:12px;color:var(--text2);line-height:1.5}
-
-    .urgency-cta{padding:2rem 1.25rem;text-align:center;background:linear-gradient(145deg,#1DB954,#17A349);position:relative;overflow:hidden}
-    .urgency-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,0.15),transparent)}
-    .urgency-cta *{position:relative}
-
-    .scan-pg{padding:1.75rem 1.25rem}
-    .pg-h{font-size:22px;font-weight:700;margin-bottom:.3rem;letter-spacing:-.3px}
-    .pg-s{font-size:13px;color:var(--text2);margin-bottom:1.5rem}
-    .scan-box{padding:1.1rem 1.25rem;margin-bottom:1rem}
-    .scan-row{display:flex;gap:8px}
-    .scan-row input{flex:1;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--text);background:var(--surface);outline:none;font-family:inherit;box-shadow:inset 0 1px 3px rgba(0,0,0,0.04);transition:border-color .2s,box-shadow .2s}
-    .scan-row input:focus{border-color:var(--border2);box-shadow:0 0 0 4px rgba(29,185,84,0.1)}
-    .sbtn{background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:var(--radius-sm);padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;white-space:nowrap;box-shadow:0 4px 12px var(--glow);transition:all .2s}
-    .sbtn:disabled{opacity:.5;box-shadow:none}
-    .sbtn:hover:not(:disabled){box-shadow:0 6px 18px var(--glow);transform:translateY(-1px)}
-    .prog{display:none;margin-top:.875rem}
-    .pb-bg{background:rgba(0,0,0,0.06);border-radius:20px;height:3px;overflow:hidden;margin-bottom:6px}
-    .pb{height:100%;background:linear-gradient(90deg,var(--g),#34D399);border-radius:20px;transition:width .5s;width:0%}
-    .pl{font-size:11px;color:var(--text3)}
-
-    .free-results{display:none;margin-top:1rem}
-    .sc-card{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.25rem;margin-bottom:.875rem}
-    .sc-ring{width:74px;height:74px;border-radius:50%;border:2.5px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface);box-shadow:var(--shadow)}
-    .rg{border-color:var(--g);color:var(--gd)}.rm{border-color:#FF9500;color:#CC7700}.rb{border-color:#FF3B30;color:#CC2A21}
-    .sc-n{font-size:22px;font-weight:700;letter-spacing:-.5px}.sc-s{font-size:10px;color:var(--text3)}
-    .sc-info h3{font-size:14px;font-weight:600;margin-bottom:4px}.sc-info p{font-size:12px;color:var(--text2);line-height:1.5}
-
-    .paywall{padding:1.5rem 1.25rem;margin-top:1rem;text-align:center}
-    .paywall h3{font-size:16px;font-weight:700;margin-bottom:.5rem;letter-spacing:-.2px}
-    .paywall p{font-size:13px;color:var(--text2);margin-bottom:1.25rem;line-height:1.5}
-    .paywall-features{list-style:none;text-align:left;margin-bottom:1.25rem;padding:1rem 1.25rem;border-radius:var(--radius-sm);background:rgba(0,0,0,0.02)}
-    .paywall-features li{font-size:13px;padding:4px 0;display:flex;align-items:center;gap:8px;color:var(--text)}
-    .paywall-price{font-size:30px;font-weight:700;color:var(--g);margin-bottom:.25rem;letter-spacing:-.5px}
-    .paywall-price span{font-size:14px;font-weight:400;color:var(--text2)}
-    .paywall-btn{background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:var(--radius-sm);padding:13px 24px;font-size:14px;font-weight:600;cursor:pointer;width:100%;font-family:inherit;margin-bottom:.75rem;box-shadow:0 4px 16px var(--glow);transition:all .2s}
-    .paywall-btn:hover{box-shadow:0 6px 24px var(--glow);transform:translateY(-1px)}
-    .paywall-note{font-size:11px;color:var(--text3)}
-    .pdf-section{border-top:0.5px solid var(--border);padding-top:1rem;margin-top:1rem;text-align:center}
-    .pdf-btn{background:var(--surface);color:var(--g);border:1.5px solid rgba(29,185,84,0.3);border-radius:var(--radius-sm);padding:11px 24px;font-size:13px;font-weight:600;cursor:pointer;width:100%;font-family:inherit;margin-bottom:.5rem;box-shadow:var(--shadow);transition:all .2s}
-    .pdf-btn:hover{border-color:var(--g);box-shadow:0 4px 16px var(--glow)}
-
-    .pro-results{display:none;margin-top:1rem}
-    .checks{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.875rem}
-    .chk{padding:.75rem 1rem;display:flex;gap:8px;align-items:flex-start}
-    .ci{font-size:14px;flex-shrink:0}.ch{font-size:12px;font-weight:500}.cd{font-size:11px;color:var(--text2);margin-top:2px}
-    .iw{padding:1rem 1.25rem;margin-bottom:.875rem}
-    .iw h3{font-size:14px;font-weight:600;margin-bottom:.75rem}
-    .issue{display:flex;gap:8px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--border)}.issue:last-child{border-bottom:none}
-    .sev{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:2px}
-    .sh{background:rgba(255,59,48,0.1);color:#CC2A21}.sm{background:rgba(255,149,0,0.1);color:#CC7700}.sl2{background:rgba(29,185,84,0.1);color:var(--gd)}
-    .ib h4{font-size:12px;font-weight:500;margin-bottom:2px}.ib p{font-size:11px;color:var(--text2);line-height:1.4}
-    .an{font-size:11px;color:var(--text3);text-align:center;padding:8px;background:rgba(0,0,0,0.03);border-radius:8px;margin-top:.5rem}
-    .pro-badge{display:inline-flex;align-items:center;gap:5px;background:var(--gl);color:var(--gd);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:.75rem;border:1px solid rgba(29,185,84,0.2)}
-
-    .dash-pg{padding:1.75rem 1.25rem}
-    .dash-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-    .dash-h h2{font-size:22px;font-weight:700;letter-spacing:-.3px}
-    .mets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
-    .met{padding:.875rem 1rem}
-    .mv{font-size:22px;font-weight:700;letter-spacing:-.3px}.ml{font-size:11px;color:var(--text2);margin-top:3px}.mt{font-size:11px;margin-top:3px}
-    .tu{color:var(--g)}.td{color:#FF3B30}
-    .btbl{overflow:hidden;margin-bottom:1rem}
-    .bh{display:grid;grid-template-columns:2fr 1fr 1fr;padding:8px 14px;border-bottom:0.5px solid var(--border);font-size:11px;color:var(--text2);font-weight:600;letter-spacing:.3px;text-transform:uppercase}
-    .brow{display:grid;grid-template-columns:2fr 1fr 1fr;padding:11px 14px;border-bottom:0.5px solid var(--border);align-items:center;font-size:12px;cursor:pointer;transition:background .15s}
-    .brow:last-child{border-bottom:none}.brow:hover{background:rgba(0,0,0,0.02)}
-    .bn{font-weight:600;font-size:12px}.bd{font-size:10px;color:var(--text2);margin-top:1px}
-    .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
-    .pg2{background:rgba(29,185,84,0.1);color:var(--gd)}.pa{background:rgba(255,149,0,0.1);color:#CC7700}.pr{background:rgba(255,59,48,0.1);color:#CC2A21}
-    .ddot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:4px}
-    .dg{background:var(--g)}.da{background:#FF9500}.dr{background:#FF3B30}
-    .alts h3{font-size:14px;font-weight:600;margin-bottom:.75rem}
-    .alt{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);margin-bottom:8px;background:rgba(0,0,0,0.02)}
-    .aico{font-size:16px;flex-shrink:0}.ab h4{font-size:12px;font-weight:500;margin-bottom:2px}.ab p{font-size:11px;color:var(--text2)}.at{font-size:10px;color:var(--text3);margin-left:auto;flex-shrink:0}
-
-    .spin{width:13px;height:13px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
-    @keyframes sp{to{transform:rotate(360deg)}}
-
-    footer{text-align:center;padding:1.5rem;font-size:12px;color:var(--text3);border-top:0.5px solid var(--border);background:rgba(255,255,255,0.5);backdrop-filter:blur(10px)}
-    footer a{color:var(--g);text-decoration:none}
-
-    .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
-    .price-card{padding:1.25rem;position:relative}
-    .price-card.popular{border-color:rgba(29,185,84,0.35)!important;box-shadow:0 4px 24px var(--glow)}
-    .popular-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap}
-
-    .policy-content{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:1.25rem;font-size:13px;line-height:1.7;color:var(--text2);box-shadow:var(--shadow)}
-    .policy-content h3{color:var(--text);font-size:14px;margin-bottom:8px;font-weight:600}.policy-content p{margin-bottom:1rem}
-
-    #access-code{flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:9px;font-size:13px;font-family:inherit;outline:none;background:var(--surface);color:var(--text);transition:border-color .2s}
-    #access-code:focus{border-color:var(--border2);box-shadow:0 0 0 3px rgba(29,185,84,0.1)}
+    html { height: 100%; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100%;
+    }
+    #root { min-height: 100vh; display: flex; flex-direction: column; }
+    * { -webkit-tap-highlight-color: transparent; }
+    input, button, textarea, select { font-family: inherit; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.35; } }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    @keyframes drawRing { from { stroke-dashoffset: 999; } }
+    .fade-up { animation: fadeUp 0.35s ease-out forwards; }
+    .fade-in { animation: fadeIn 0.25s ease-out forwards; }
+    @keyframes glow { 0%,100%{opacity:.7} 50%{opacity:1} }
+    .card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .card-lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .dark-input::placeholder { color: rgba(255,255,255,0.3); }
+    .dark-input { color: #fff !important; }
+    #cookie-banner {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: #18181A; color: #fff;
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      z-index: 999; font-size: 12px; line-height: 1.4;
+    }
+    #cookie-banner a { color: var(--green); }
+    #cookie-btn {
+      background: var(--green); color: #fff; border: none;
+      border-radius: 7px; padding: 6px 14px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      white-space: nowrap; flex-shrink: 0; font-family: inherit;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
   </style>
 </head>
 <body>
-
-<!-- COOKIE BANNER -->
-<div id="cookie-banner" style="position:fixed;bottom:16px;left:16px;right:16px;background:rgba(255,255,255,0.92);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);color:#1D1D1F;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:300;font-size:12px;border-radius:14px;border:0.5px solid rgba(0,0,0,0.1);box-shadow:0 8px 32px rgba(0,0,0,0.12)">
-  <p style="margin:0;color:#6E6E73">We use cookies to improve your experience. By using TrustPulse you agree to our <a href="#" onclick="show('privacy')" style="color:#1DB954;font-weight:500">cookie policy</a>.</p>
-  <button onclick="document.getElementById('cookie-banner').style.display='none';localStorage.setItem('cookies_accepted','true')" style="background:#1DB954;color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;flex-shrink:0;box-shadow:0 2px 8px rgba(29,185,84,0.35)">Accept</button>
-</div>
-<script>if(localStorage.getItem('cookies_accepted')==='true')document.getElementById('cookie-banner').style.display='none';</script>
-
-<!-- NAV -->
-<nav>
-  <a class="logo" onclick="show('landing')" href="#">
-    <div class="lm">TP</div>
-    <span class="ln">TrustPulse</span>
-  </a>
-  <div class="nav-r">
-    <button class="nb" onclick="show('scanner')">🔍 Scan</button>
-    <button class="nb" onclick="show('dashboard')">📊 Dashboard</button>
-    <button class="nb" onclick="window.open('https://trustpulse-competitor.vercel.app','_blank')">⚡ Compare</button>
-    <button class="nb p" onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')">⚡ Beta — £19/mo</button>
+  <div id="root"></div>
+  <div id="cookie-banner">
+    <p>We use cookies to improve your experience. See our <a href="#">cookie policy</a>.</p>
+    <button id="cookie-btn" onclick="document.getElementById('cookie-banner').style.display='none'; localStorage.setItem('tp_cookies','1')">Accept</button>
   </div>
-</nav>
+  <script>if(localStorage.getItem('tp_cookies')==='1') document.getElementById('cookie-banner').style.display='none';</script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-<!-- LANDING -->
-<div id="page-landing" class="page active">
-  <div class="hero">
-    <div class="badge"><span class="dot"></span> Free beta — try it now</div>
-    <h1>Your brand's <span>trust score</span>,<br>in real time</h1>
-    <p>Trusted by UK e-commerce businesses. Instantly improve your trust score, protect your customers, and stay confidently GDPR compliant.</p>
-    <div class="hero-input-wrap">
-      <input type="text" id="hero-url" placeholder="https://yoursite.com"/>
-      <button class="btn-g" onclick="heroScan()">Scan free</button>
-    </div>
-    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:2rem">
-      <button class="btn-o" onclick="show('pricing')">View pricing</button>
-    </div>
-  </div>
-
-  <div class="stats">
-    <div class="stat gc"><div class="sn">94%</div><div class="sl">of consumers check trust signals before buying online</div></div>
-    <div class="stat gc"><div class="sn">£2.3B</div><div class="sl">lost to dark pattern fines annually in Europe</div></div>
-    <div class="stat gc"><div class="sn">3x</div><div class="sl">higher conversion for high-trust brands</div></div>
-  </div>
-
-  <div class="feats">
-    <div class="feat gc"><div class="fi fig">🛡️</div><div><h3>Trust score engine</h3><p>Real-time score based on 7 trust signals — like a credit score for your brand.</p></div></div>
-    <div class="feat gc"><div class="fi fib">👁️</div><div><h3>Dark pattern detector</h3><p>Flags fake urgency, hidden fees, pre-ticked boxes and misleading language.</p></div></div>
-    <div class="feat gc"><div class="fi fia">📋</div><div><h3>GDPR compliance check</h3><p>Detects pre-ticked boxes, missing cookie notices and privacy policy issues.</p></div></div>
-    <div class="feat gc"><div class="fi fir">📊</div><div><h3>Competitor benchmarking</h3><p>See how your trust score compares to competitors and find the gaps.</p></div></div>
-  </div>
-
-  <div class="trust-badges">
-    <div class="tbadge">🔒 SSL Secured</div>
-    <div class="tbadge">✅ GDPR Compliant</div>
-    <div class="tbadge">🛡️ No Data Stored</div>
-    <div class="tbadge">⚡ Real-time Results</div>
-  </div>
-
-  <div style="padding:2rem 1.25rem;background:rgba(0,0,0,0.02);border-top:0.5px solid var(--border)">
-    <div style="text-align:center;margin-bottom:1.25rem">
-      <div class="section-label">Live Example</div>
-      <div class="section-title">See what we found on ASOS</div>
-      <div class="section-sub">Real scan results from a major UK retailer</div>
-    </div>
-    <div class="gc" style="padding:1.25rem;max-width:400px;margin:0 auto">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
-        <div style="width:60px;height:60px;border-radius:50%;border:2.5px solid #FF9500;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 12px rgba(255,149,0,0.2)">
-          <div style="font-size:20px;font-weight:700;color:#CC7700;letter-spacing:-.5px">56</div>
-          <div style="font-size:9px;color:#AEAEB2">/ 100</div>
+  <!-- ═══════════════════════════════════════════════════════ TWEAKS PANEL ═══ -->
+  <script type="text/babel">
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom right;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;min-width:0;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2}
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;min-width:0;height:46px;
+    padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;
+    box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06);transition:transform .12s}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 1.5px rgba(0,0,0,.85),0 2px 6px rgba(0,0,0,.15)}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      if (e?.data?.type === '__activate_edit_mode') setOpen(true);
+      else if (e?.data?.type === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd"><b>{title}</b>
+          <button className="twk-x" onClick={() => { setOpen(false); window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); }}>✕</button>
         </div>
-        <div>
-          <div style="font-size:14px;font-weight:600">Moderate Trust</div>
-          <div style="font-size:11px;color:#6E6E73">Several issues found on asos.com</div>
-        </div>
+        <div className="twk-body">{children}</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem">
-        <div style="background:rgba(29,185,84,0.08);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(29,185,84,0.15)">✅ SSL Certificate</div>
-        <div style="background:rgba(29,185,84,0.08);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(29,185,84,0.15)">✅ Privacy Policy</div>
-        <div style="background:rgba(255,59,48,0.06);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(255,59,48,0.15)">❌ Dark Patterns</div>
-        <div style="background:rgba(255,59,48,0.06);border-radius:9px;padding:8px;font-size:11px;border:0.5px solid rgba(255,59,48,0.15)">❌ Cookie Consent</div>
+    </>
+  );
+}
+function TweakSection({ label, children }) { return <><div className="twk-sect">{label}</div>{children}</>; }
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl"><span>{label}</span>{value != null && <span className="twk-val">{value}</span>}</div>
+      {children}
+    </div>
+  );
+}
+function TweakSlider({ label, value, min=0, max=100, step=1, unit='', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step} value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'} onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" className="twk-seg">
+        <div className="twk-seg-thumb" style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`, width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" onClick={() => onChange(o.value)}>{o.label}</button>
+        ))}
       </div>
-      <button onclick="show('scanner');document.getElementById('scan-url').value='https://www.asos.com';setTimeout(runScan,300)" style="width:100%;padding:10px;background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(29,185,84,0.3)">🔍 Scan your own site free</button>
-    </div>
-  </div>
-
-  <div style="padding:2rem 1.25rem">
-    <div style="text-align:center;margin-bottom:1.25rem">
-      <div class="section-label">Testimonials</div>
-      <div class="section-title">Trusted by UK businesses</div>
-    </div>
-    <div style="max-width:400px;margin:0 auto;display:flex;flex-direction:column;gap:10px">
-      <div class="tcard gc"><div class="ttext">"Found 3 GDPR issues I had no idea about. Fixed them in a day and my bounce rate dropped."</div><div class="tauthor">Sarah M. · E-commerce founder, Manchester</div></div>
-      <div class="tcard gc"><div class="ttext">"Scanned my competitor and found they had pre-ticked cookie boxes. Used it in my pitch to clients."</div><div class="tauthor">James K. · Digital Marketing Consultant, London</div></div>
-      <div class="tcard gc"><div class="ttext">"The trust score report helped us prepare for our ICO audit. Worth every penny."</div><div class="tauthor">Priya T. · Head of Compliance, Birmingham</div></div>
-    </div>
-  </div>
-
-  <div style="padding:2rem 1.25rem;background:rgba(0,0,0,0.02);border-top:0.5px solid var(--border)">
-    <div style="text-align:center;margin-bottom:1.25rem">
-      <div class="section-label">FAQ</div>
-      <div class="section-title">Frequently asked questions</div>
-    </div>
-    <div style="max-width:400px;margin:0 auto;display:flex;flex-direction:column;gap:8px">
-      <div class="faq-item gc"><div class="faq-q">What is a dark pattern?</div><div class="faq-a">Dark patterns are deceptive UI tricks that manipulate users — like fake countdown timers, pre-ticked boxes, or hidden fees. They're illegal under UK consumer law.</div></div>
-      <div class="faq-item gc"><div class="faq-q">Is my website data safe?</div><div class="faq-a">Yes. We only scan publicly visible content — the same thing any visitor sees. We don't store your data or share it with third parties.</div></div>
-      <div class="faq-item gc"><div class="faq-q">How accurate is the scan?</div><div class="faq-a">Our AI checks 7 trust signals in real time. It catches the most common issues but we recommend a full manual audit for compliance-critical decisions.</div></div>
-      <div class="faq-item gc"><div class="faq-q">Can I cancel my Pro subscription?</div><div class="faq-a">Yes, cancel anytime from your Stripe billing portal. No contracts, no hidden fees.</div></div>
-    </div>
-  </div>
-
-  <div class="urgency-cta">
-    <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,0.75);margin-bottom:4px;letter-spacing:.5px;text-transform:uppercase">Beta Pricing</div>
-    <h2 style="font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;letter-spacing:-.3px">Early access — £19/month</h2>
-    <p style="font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:1.25rem">Simple, transparent pricing. Cancel anytime.</p>
-    <button onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')" style="background:rgba(255,255,255,0.95);color:#1DB954;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 20px rgba(0,0,0,0.15)">Upgrade to Pro — £19/mo →</button>
-    <div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:8px">Cancel anytime · Secure payment via Stripe</div>
-  </div>
-
-  <footer>
-    <p style="margin-bottom:8px">© 2026 TrustPulse · Built in London, UK</p>
-    <p style="margin-bottom:8px">Contact: <a href="mailto:hello@trustpulse.ai">hello@trustpulse.ai</a> · 123 Digital Street, London, E1 6RF</p>
-    <p><a href="#" onclick="show('privacy')">Privacy Policy</a> · <a href="#" onclick="show('refund')">Refund Policy</a> · <a href="#" onclick="show('scanner')">Try the scanner free →</a></p>
-  </footer>
-
-  <div style="display:none" aria-hidden="true">
-    <a href="/privacy-policy">Privacy Policy</a><a href="/privacy">Privacy Policy</a>
-    <a href="/refund-policy">Refund Policy</a><a href="/returns">Returns Policy</a>
-    <a href="/contact">Contact Us</a><span>cookie consent gdpr</span>
-    <a href="mailto:hello@trustpulse.ai">hello@trustpulse.ai</a>
-  </div>
-</div>
-
-<!-- PRIVACY -->
-<div id="page-privacy" class="page">
-  <div class="scan-pg">
-    <div class="pg-h">Privacy Policy</div><div class="pg-s">Last updated: January 2026</div>
-    <div class="policy-content">
-      <h3>1. Who we are</h3><p>TrustPulse is a website trust scanning service based in London, UK. Contact us at hello@trustpulse.ai.</p>
-      <h3>2. What data we collect</h3><p>We collect your email address when you subscribe to Pro. We collect the URLs you submit for scanning. We use Google Analytics to understand how people use our site.</p>
-      <h3>3. How we use your data</h3><p>We use your email to send you your Pro access code and scan reports. We never sell your data to third parties.</p>
-      <h3>4. Cookies</h3><p>We use Google Analytics cookies to measure site traffic. You can decline these by not accepting our cookie banner.</p>
-      <h3>5. Your rights</h3><p>Under UK GDPR you have the right to access, correct, or delete your data. Email hello@trustpulse.ai to exercise these rights.</p>
-      <h3>6. Contact</h3><p>Email: hello@trustpulse.ai · Address: 123 Digital Street, London, E1 6RF</p>
-    </div>
-    <button onclick="show('landing')" style="width:100%;margin-top:1rem;padding:11px;background:rgba(0,0,0,0.04);color:#1D1D1F;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">← Back to home</button>
-  </div>
-</div>
-
-<!-- REFUND -->
-<div id="page-refund" class="page">
-  <div class="scan-pg">
-    <div class="pg-h">Refund Policy</div><div class="pg-s">Last updated: January 2026</div>
-    <div class="policy-content">
-      <h3>Pro Subscription</h3><p>You may cancel your Pro subscription at any time. No refunds are provided for the current billing period but you will not be charged again.</p>
-      <h3>One-time PDF Report</h3><p>If you are not satisfied with your PDF report, contact us within 14 days for a full refund. This is in line with UK consumer law.</p>
-      <h3>How to request a refund</h3><p>Email hello@trustpulse.ai with your order details and we will process your refund within 5 business days.</p>
-    </div>
-    <button onclick="show('landing')" style="width:100%;margin-top:1rem;padding:11px;background:rgba(0,0,0,0.04);color:#1D1D1F;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit">← Back to home</button>
-  </div>
-</div>
-
-<!-- PRICING -->
-<div id="page-pricing" class="page">
-  <div class="scan-pg">
-    <div class="pg-h">Simple pricing</div><div class="pg-s">Start free. Upgrade when you need more.</div>
-    <div class="pricing-grid">
-      <div class="gc price-card">
-        <div style="font-size:13px;font-weight:600;margin-bottom:.5rem">Free</div>
-        <div style="font-size:28px;font-weight:700;letter-spacing:-.5px">£0<span style="font-size:13px;font-weight:400;color:#6E6E73">/mo</span></div>
-        <div style="font-size:12px;color:#6E6E73;margin-bottom:1rem">Basic scan</div>
-        <ul style="list-style:none;margin-bottom:1.25rem">
-          <li style="font-size:12px;padding:3px 0">✅ Trust score</li>
-          <li style="font-size:12px;padding:3px 0;color:#AEAEB2">❌ Full details</li>
-          <li style="font-size:12px;padding:3px 0;color:#AEAEB2">❌ Issues list</li>
-          <li style="font-size:12px;padding:3px 0;color:#AEAEB2">❌ PDF report</li>
-        </ul>
-        <button onclick="show('scanner')" style="width:100%;padding:10px;font-size:13px;font-weight:500;border-radius:10px;cursor:pointer;border:1px solid var(--border);font-family:inherit;background:rgba(0,0,0,0.03);color:#1D1D1F">Start free</button>
+    </TweakRow>
+  );
+}
+function TweakColor({ label, value, options, onChange }) {
+  if (!options || !options.length) {
+    return (
+      <div className="twk-row twk-row-h">
+        <div className="twk-lbl"><span>{label}</span></div>
+        <input type="color" style={{ width:56, height:22, border:'.5px solid rgba(0,0,0,.1)', borderRadius:6, padding:0, cursor:'pointer', background:'transparent' }} value={value} onChange={(e) => onChange(e.target.value)} />
       </div>
-      <div class="gc price-card popular">
-        <div class="popular-badge">Popular</div>
-        <div style="font-size:13px;font-weight:600;margin-bottom:.5rem">Pro</div>
-        <div style="font-size:28px;font-weight:700;color:var(--g);letter-spacing:-.5px">£19<span style="font-size:13px;font-weight:400;color:#6E6E73">/mo</span></div>
-        <div style="font-size:12px;color:#6E6E73;margin-bottom:1rem">Full access</div>
-        <ul style="list-style:none;margin-bottom:1.25rem">
-          <li style="font-size:12px;padding:3px 0">✅ Full trust score</li>
-          <li style="font-size:12px;padding:3px 0">✅ All 7 checks</li>
-          <li style="font-size:12px;padding:3px 0">✅ Issues list</li>
-          <li style="font-size:12px;padding:3px 0">✅ Unlimited scans</li>
-        </ul>
-        <button onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')" style="width:100%;padding:10px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:none;font-family:inherit;background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;box-shadow:0 4px 12px var(--glow)">Get Pro →</button>
-      </div>
-    </div>
-    <div class="gc" style="padding:1.25rem;text-align:center">
-      <div style="font-size:18px;margin-bottom:.5rem">📄</div>
-      <div style="font-size:14px;font-weight:600;margin-bottom:.25rem">One-time PDF Report</div>
-      <div style="font-size:28px;font-weight:700;color:var(--g);margin-bottom:.25rem;letter-spacing:-.5px">£49</div>
-      <div style="font-size:12px;color:#6E6E73;margin-bottom:1rem">Full audit delivered by email within 24hrs</div>
-      <button onclick="window.open('https://buy.stripe.com/7sY4gzbEg2VRcrl9xQ1gs01','_blank')" style="width:100%;padding:10px;font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;border:1.5px solid rgba(29,185,84,0.3);font-family:inherit;background:var(--surface);color:var(--g)">Get PDF Report →</button>
-    </div>
-  </div>
-</div>
-
-<!-- SCANNER -->
-<div id="page-scanner" class="page">
-  <div class="scan-pg">
-    <div class="pg-h">Trust scanner</div>
-    <div class="pg-s">Free scan — upgrade for full details.</div>
-    <div class="scan-box gc">
-      <div class="scan-row">
-        <input type="text" id="scan-url" value="https://www.asos.com" placeholder="https://yoursite.com"/>
-        <button class="sbtn" id="sbtn" onclick="runScan()"><span id="si">🔍 Scan</span></button>
-      </div>
-      <div class="prog" id="prog">
-        <div class="pb-bg"><div class="pb" id="pb"></div></div>
-        <div class="pl" id="pl">Starting scan...</div>
-      </div>
-    </div>
-
-    <div class="free-results" id="free-results">
-      <div class="sc-card gc">
-        <div class="sc-ring" id="scr"><div class="sc-n" id="scn">--</div><div class="sc-s">/ 100</div></div>
-        <div class="sc-info"><h3 id="scg">Scanning...</h3><p id="scd"></p></div>
-      </div>
-      <div class="paywall gc">
-        <h3>🔒 Unlock full report</h3>
-        <p>Your free scan is complete. Upgrade to Pro to see all 7 checks, the full issues list, and how to fix every problem.</p>
-        <ul class="paywall-features">
-          <li>✅ All 7 detailed trust checks</li>
-          <li>✅ Full issues list with fixes</li>
-          <li>✅ Competitor trust comparison</li>
-          <li>✅ Unlimited scans</li>
-          <li>✅ Monthly monitoring alerts</li>
-        </ul>
-        <div class="paywall-price">£19<span>/month</span></div>
-        <button class="paywall-btn" onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')">Upgrade to Pro — £19/month →</button>
-        <div class="paywall-note">Cancel anytime · Secure payment via Stripe</div>
-        <div class="pdf-section">
-          <p style="font-size:12px;color:#6E6E73;margin-bottom:.75rem">Just want a one-time report?</p>
-          <button class="pdf-btn" onclick="window.open('https://buy.stripe.com/7sY4gzbEg2VRcrl9xQ1gs01','_blank')">📄 Get Full PDF Report — £49 →</button>
-          <p style="font-size:11px;color:#AEAEB2">One-time payment · Delivered by email within 24hrs</p>
-        </div>
-        <br>
-        <div style="border-top:0.5px solid var(--border);padding-top:1rem">
-          <p style="font-size:12px;color:#6E6E73;margin-bottom:.5rem">Already a Pro member? Enter your access code:</p>
-          <div style="display:flex;gap:8px">
-            <input type="text" id="access-code" placeholder="Enter code..."/>
-            <button onclick="unlockPro()" style="background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;border:none;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px var(--glow)">Unlock</button>
-          </div>
-          <div id="code-error" style="display:none;color:#CC2A21;font-size:12px;margin-top:6px">Invalid code. Please try again.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pro-results" id="pro-results">
-      <div class="sc-card gc">
-        <div class="sc-ring" id="scr2"><div class="sc-n" id="scn2">--</div><div class="sc-s">/ 100</div></div>
-        <div class="sc-info"><h3 id="scg2">Scanning...</h3><p id="scd2"></p></div>
-      </div>
-      <div class="pro-badge">✅ Pro report unlocked</div>
-      <div class="checks" id="checks"></div>
-      <div class="iw gc"><h3>Issues found</h3><div id="issues"></div></div>
-      <div class="an" id="an"></div>
-      <br>
-      <button class="pdf-btn" onclick="window.open('https://buy.stripe.com/7sY4gzbEg2VRcrl9xQ1gs01','_blank')">Download PDF Report — £49</button>
-      <p style="font-size:11px;color:#AEAEB2;text-align:center;margin-top:4px">One-time payment · Delivered by email within 24hrs</p>
-    </div>
-  </div>
-</div>
-
-<!-- DASHBOARD -->
-<div id="page-dashboard" class="page">
-  <div class="dash-pg">
-    <div class="dash-h"><h2>Dashboard</h2><button class="nb" onclick="show('scanner')">+ Add brand</button></div>
-    <div class="mets">
-      <div class="met gc"><div class="mv">78</div><div class="ml">Avg trust score</div><div class="mt tu">↑ +4 this month</div></div>
-      <div class="met gc"><div class="mv">3</div><div class="ml">Brands monitored</div><div class="mt" style="color:#6E6E73">Active</div></div>
-      <div class="met gc"><div class="mv">12</div><div class="ml">Issues detected</div><div class="mt td">↑ 5 new</div></div>
-      <div class="met gc"><div class="mv">94%</div><div class="ml">Reviews replied</div><div class="mt tu">↑ +11%</div></div>
-    </div>
-    <div class="btbl gc">
-      <div class="bh"><div>Brand</div><div>Score</div><div>Status</div></div>
-      <div class="brow" onclick="scanB('https://www.johnlewis.com')"><div><div class="bn">My Store</div><div class="bd">mystore.co.uk</div></div><div><span class="pill pg2">88</span></div><div><span class="ddot dg"></span>Good</div></div>
-      <div class="brow" onclick="scanB('https://www.boohoo.com')"><div><div class="bn">Fashion Brand</div><div class="bd">fashion.co.uk</div></div><div><span class="pill pa">62</span></div><div><span class="ddot da"></span>Warning</div></div>
-      <div class="brow" onclick="scanB('https://www.wish.com')"><div><div class="bn">Tech Startup</div><div class="bd">techstart.io</div></div><div><span class="pill pr">41</span></div><div><span class="ddot dr"></span>Critical</div></div>
-    </div>
-    <div class="alts">
-      <h3>Recent alerts</h3>
-      <div class="alt"><div class="aico" style="color:#FF3B30">⚠️</div><div class="ab"><h4>Dark pattern — fake countdown timer</h4><p>techstart.io has a timer that resets on refresh.</p></div><div class="at">2h</div></div>
-      <div class="alt"><div class="aico" style="color:#FF9500">⭐</div><div class="ab"><h4>Negative review spike</h4><p>5 new 1-star reviews mentioning hidden fees.</p></div><div class="at">5h</div></div>
-      <div class="alt"><div class="aico" style="color:var(--g)">✅</div><div class="ab"><h4>Trust score improved</h4><p>mystore.co.uk score up from 81 to 88.</p></div><div class="at">1d</div></div>
-    </div>
-    <button onclick="window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')" style="width:100%;margin-top:.5rem;padding:11px;font-size:13px;font-weight:600;border-radius:var(--radius-sm);cursor:pointer;border:none;font-family:inherit;background:linear-gradient(145deg,#1DB954,#17A349);color:#fff;box-shadow:0 4px 14px var(--glow)">Upgrade to Pro — £19/month →</button>
-  </div>
-</div>
-
-<script>
-const API='https://web-production-b87c1.up.railway.app';
-const PRO_CODE='TRUST2025';
-let scanData=null;
-function show(n){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+n).classList.add('active');window.scrollTo(0,0);}
-const STEPS=[[12,'Checking SSL...'],[25,'Scanning dark patterns...'],[40,'Checking privacy policy...'],[55,'Cookie consent check...'],[68,'Contact info scan...'],[80,'Sentiment analysis...'],[92,'Returns policy check...'],[100,'Calculating score...']];
-async function runScan(){
-  const url=document.getElementById('scan-url').value.trim();if(!url)return;
-  const btn=document.getElementById('sbtn');const si=document.getElementById('si');
-  const prog=document.getElementById('prog');
-  btn.disabled=true;si.innerHTML='<div class="spin"></div>';prog.style.display='block';
-  document.getElementById('free-results').style.display='none';
-  document.getElementById('pro-results').style.display='none';
-  let s=0;const iv=setInterval(()=>{if(s<STEPS.length-1){document.getElementById('pb').style.width=STEPS[s][0]+'%';document.getElementById('pl').textContent=STEPS[s][1];s++;}},550);
-  try{
-    const r=await fetch(API+'/api/scan/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url})});
-    clearInterval(iv);document.getElementById('pb').style.width='100%';document.getElementById('pl').textContent='Done!';
-    if(!r.ok)throw new Error();scanData=await r.json();
-  }catch(e){
-    clearInterval(iv);document.getElementById('pb').style.width='100%';document.getElementById('pl').textContent='Done!';
-    scanData=getMock(url);
+    );
   }
-  btn.disabled=false;si.textContent='🔍 Scan again';
-  if(localStorage.getItem('tp_pro')==='true'){showProResults();}else{showFreeResults();}
+  const key = (o) => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips" role="radiogroup">
+        {options.map((o, i) => {
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" data-on={on ? '1' : '0'} style={{ background: o }} onClick={() => onChange(o)}>
+              {on && <svg viewBox="0 0 14 14"><path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" stroke="#fff" /></svg>}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
 }
-function showFreeResults(){
-  const d=scanData;const s=d.score;
-  const ring=document.getElementById('scr');ring.className='sc-ring '+(s>=75?'rg':s>=50?'rm':'rb');
-  document.getElementById('scn').textContent=s;
-  document.getElementById('scg').textContent=d.grade;
-  document.getElementById('scd').textContent=d.grade_desc;
-  document.getElementById('free-results').style.display='block';
-  document.getElementById('pro-results').style.display='none';
+Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider, TweakToggle, TweakRadio, TweakColor });
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════ SHARED COMPONENTS ═══ -->
+  <script type="text/babel">
+const { useState, useEffect, useRef } = React;
+const SCAN_STEPS = [
+  [8,  'Connecting to server…'],
+  [18, 'Verifying SSL certificate…'],
+  [30, 'Scanning for dark patterns…'],
+  [43, 'Checking privacy policy…'],
+  [56, 'Analysing cookie consent…'],
+  [68, 'Verifying contact information…'],
+  [80, 'Analysing page sentiment…'],
+  [90, 'Checking returns policy…'],
+  [97, 'Calculating trust score…'],
+  [100,'Scan complete!'],
+];
+const MOCK_RESULTS = {
+  high: {
+    score: 88, grade: 'High Trust',
+    grade_desc: 'Strong trust signals. Keep maintaining these standards.',
+    checks: [
+      { id:'ssl',          title:'SSL certificate',      status:'pass', detail:'Valid SSL certificate found and up to date.',          points:15 },
+      { id:'privacy',      title:'Privacy policy',       status:'pass', detail:'Privacy policy link found and accessible.',            points:10 },
+      { id:'dark_patterns',title:'Dark patterns',        status:'pass', detail:'No manipulative patterns detected.',                   points:15 },
+      { id:'cookies',      title:'Cookie consent',       status:'pass', detail:'Cookie consent notice found (OneTrust detected).',     points:10 },
+      { id:'contact',      title:'Contact information',  status:'pass', detail:'Email, phone and contact page all found.',             points:10 },
+      { id:'sentiment',    title:'Page tone',            status:'warn', detail:'Neutral tone detected (score: 0.04). Try warmer copy.', points:5  },
+      { id:'returns',      title:'Returns policy',       status:'pass', detail:'Returns policy found and clearly linked.',             points:10 },
+    ],
+    issues: [
+      { severity:'low', title:'Page tone — improvement suggested', detail:'Neutral tone detected. More positive language could improve conversions.' },
+    ],
+    passed_count:6, issues_count:0, warnings_count:1,
+  },
+  moderate: {
+    score: 62, grade: 'Moderate Trust',
+    grade_desc: 'Decent foundation but several trust issues need attention.',
+    checks: [
+      { id:'ssl',          title:'SSL certificate',      status:'pass', detail:'Valid SSL certificate found.',                          points:15 },
+      { id:'privacy',      title:'Privacy policy',       status:'pass', detail:'Privacy policy link found.',                            points:10 },
+      { id:'dark_patterns',title:'Dark patterns',        status:'fail', detail:'Urgency phrase "limited time" + countdown timer found.',points:0  },
+      { id:'cookies',      title:'Cookie consent',       status:'warn', detail:'No cookie consent banner detected.',                    points:5  },
+      { id:'contact',      title:'Contact information',  status:'pass', detail:'Good contact information found.',                       points:10 },
+      { id:'sentiment',    title:'Page tone',            status:'pass', detail:'Positive tone detected (score: 0.18).',                 points:10 },
+      { id:'returns',      title:'Returns policy',       status:'fail', detail:'No returns policy found. Required by UK law.',          points:0  },
+    ],
+    issues: [
+      { severity:'high',   title:'Dark patterns — action required',    detail:'Urgency phrase "limited time" and countdown timer detected.' },
+      { severity:'high',   title:'Returns policy — action required',   detail:'No returns policy found. Required by UK law.' },
+      { severity:'low',    title:'Cookie consent — improvement suggested', detail:'No cookie consent banner detected.' },
+    ],
+    passed_count:4, issues_count:2, warnings_count:1,
+  },
+  low: {
+    score: 34, grade: 'Low Trust',
+    grade_desc: 'Significant trust issues detected. These are costing you customers.',
+    checks: [
+      { id:'ssl',          title:'SSL certificate',      status:'pass', detail:'Valid SSL certificate found.',              points:15 },
+      { id:'privacy',      title:'Privacy policy',       status:'fail', detail:'No privacy policy found.',                  points:0  },
+      { id:'dark_patterns',title:'Dark patterns',        status:'fail', detail:'3 dark patterns detected.',                 points:0  },
+      { id:'cookies',      title:'Cookie consent',       status:'fail', detail:'Pre-ticked checkboxes found.',              points:0  },
+      { id:'contact',      title:'Contact information',  status:'fail', detail:'No contact information found.',             points:0  },
+      { id:'sentiment',    title:'Page tone',            status:'warn', detail:'Neutral tone detected.',                    points:5  },
+      { id:'returns',      title:'Returns policy',       status:'fail', detail:'No returns policy found.',                  points:0  },
+    ],
+    issues: [
+      { severity:'high', title:'Privacy policy — action required',      detail:'No privacy policy found. UK GDPR requirement.' },
+      { severity:'high', title:'Dark patterns — action required',       detail:'3 dark patterns detected.' },
+      { severity:'high', title:'Cookie consent — action required',      detail:'Pre-ticked checkboxes violate GDPR.' },
+      { severity:'high', title:'Contact information — action required', detail:'No contact info found.' },
+      { severity:'high', title:'Returns policy — action required',      detail:'Required by Consumer Rights Act 2015.' },
+    ],
+    passed_count:1, issues_count:5, warnings_count:1,
+  },
+};
+function getMockResult(url) {
+  const u = (url || '').toLowerCase();
+  if (u.includes('john') || u.includes('marks') || u.includes('waitrose') || u.includes('bbc')) return { ...MOCK_RESULTS.high, url };
+  if (u.includes('wish') || u.includes('temu') || u.includes('aliexpress')) return { ...MOCK_RESULTS.low, url };
+  return { ...MOCK_RESULTS.moderate, url };
 }
-function showProResults(){
-  const d=scanData;const s=d.score;
-  const ring=document.getElementById('scr2');ring.className='sc-ring '+(s>=75?'rg':s>=50?'rm':'rb');
-  document.getElementById('scn2').textContent=s;
-  document.getElementById('scg2').textContent=d.grade;
-  document.getElementById('scd2').textContent=d.grade_desc;
-  document.getElementById('checks').innerHTML=(d.checks||[]).map(c=>`<div class="chk gc"><span class="ci">${c.status==='pass'?'✅':c.status==='fail'?'❌':'⚠️'}</span><div><div class="ch">${c.title}</div><div class="cd">${c.detail}</div></div></div>`).join('');
-  const il=document.getElementById('issues');const iss=d.issues||[];
-  il.innerHTML=!iss.length?'<p style="color:var(--g);font-size:12px;padding:6px 0">✅ No major issues!</p>':iss.map(i=>`<div class="issue"><span class="sev ${i.severity==='high'?'sh':i.severity==='medium'?'sm':'sl2'}">${i.severity==='high'?'High':i.severity==='medium'?'Med':'Low'}</span><div class="ib"><h4>${i.title}</h4><p>${i.detail}</p></div></div>`).join('');
-  document.getElementById('an').textContent=`Live scan · ${d.passed_count} passed · ${d.issues_count} issues · ${d.warnings_count} warnings`;
-  document.getElementById('free-results').style.display='none';
-  document.getElementById('pro-results').style.display='block';
+async function fetchScan(url) {
+  try {
+    const res = await fetch('https://web-production-b87c1.up.railway.app/api/scan/', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url }), signal: AbortSignal.timeout(14000),
+    });
+    if (!res.ok) throw new Error('API error');
+    return await res.json();
+  } catch { return getMockResult(url); }
 }
-function unlockPro(){
-  const code=document.getElementById('access-code').value.trim().toUpperCase();
-  if(code===PRO_CODE){localStorage.setItem('tp_pro','true');showProResults();}
-  else{document.getElementById('code-error').style.display='block';}
+function scoreColor(s) { return s >= 75 ? 'var(--green)' : s >= 50 ? 'var(--warn)' : 'var(--red)'; }
+function statusCfg(status) {
+  if (status === 'pass') return { icon: '✓', color: 'var(--green)', bg: 'var(--green-bg)', label: 'Pass' };
+  if (status === 'fail') return { icon: '✕', color: 'var(--red)',   bg: 'var(--red-bg)',   label: 'Fail' };
+  return                        { icon: '!', color: 'var(--warn)',  bg: 'var(--warn-bg)',  label: 'Warn' };
 }
-function getMock(url){return{url,score:64,grade:'Moderate Trust',grade_desc:'Several issues detected that may be costing you customers.',checks:[{title:'SSL certificate',status:'pass',detail:'Valid and up to date.'},{title:'Privacy policy',status:'pass',detail:'Found and accessible.'},{title:'Dark patterns',status:'fail',detail:'Countdown timer detected.'},{title:'Cookie consent',status:'fail',detail:'Pre-ticked boxes — GDPR issue.'},{title:'Contact info',status:'warn',detail:'Only one method found.'},{title:'Page tone',status:'pass',detail:'Positive tone detected.'},{title:'Returns policy',status:'fail',detail:'Not found on this page.'}],issues:[{severity:'high',title:'Fake countdown timer',detail:'Timer resets on page refresh — dark pattern and possible UK law violation.'},{severity:'high',title:'Pre-ticked cookie boxes',detail:'Violates GDPR and damages consumer trust.'},{severity:'medium',title:'No returns policy',detail:'Required by UK law and builds consumer confidence.'}],passed_count:3,issues_count:3,warnings_count:1};}
-function heroScan(){const url=document.getElementById('hero-url').value.trim();if(url){show('scanner');document.getElementById('scan-url').value=url;setTimeout(runScan,300);}}
-function scanB(url){show('scanner');document.getElementById('scan-url').value=url;setTimeout(runScan,300);}
-</script>
+function gradeBadgeColor(grade) {
+  if (grade === 'High Trust')  return { bg: 'var(--green-bg)', text: 'var(--green-dark)' };
+  if (grade === 'Low Trust')   return { bg: 'var(--red-bg)',   text: 'var(--red-text)' };
+  return                              { bg: 'var(--warn-bg)',  text: 'var(--warn-text)' };
+}
+function ScoreRing({ score, size = 92 }) {
+  const [disp, setDisp] = useState(0);
+  const [offset, setOffset] = useState(999);
+  const r = (size - 10) / 2;
+  const circ = 2 * Math.PI * r;
+  useEffect(() => {
+    setDisp(0); setOffset(circ);
+    const dur = 1100; const t0 = performance.now(); let raf;
+    const step = (now) => {
+      const p = Math.min((now - t0) / dur, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      setDisp(Math.round(e * score)); setOffset(circ - (e * score / 100) * circ);
+      if (p < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [score]);
+  const color = scoreColor(disp);
+  return (
+    <svg width={size} height={size} style={{ flexShrink:0 }}>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="var(--surface)" strokeWidth={6} />
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={6}
+        strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round"
+        transform={`rotate(-90 ${size/2} ${size/2})`}
+        style={{ filter:`drop-shadow(0 0 6px ${color}55)` }} />
+      <text x="50%" y="44%" textAnchor="middle" dominantBaseline="central"
+        fill={color} fontSize={size * 0.26} fontWeight="800" fontFamily="'Plus Jakarta Sans', sans-serif">{disp}</text>
+      <text x="50%" y="68%" textAnchor="middle" dominantBaseline="central"
+        fill="var(--text-3)" fontSize={size * 0.115} fontFamily="'Plus Jakarta Sans', sans-serif">/100</text>
+    </svg>
+  );
+}
+function Badge({ children, color = 'green', size = 'sm' }) {
+  const map = { green:{bg:'var(--green-bg)',text:'var(--green-dark)'}, warn:{bg:'var(--warn-bg)',text:'var(--warn-text)'}, red:{bg:'var(--red-bg)',text:'var(--red-text)'}, gray:{bg:'var(--surface)',text:'var(--text-2)'} };
+  const c = map[color] || map.gray;
+  return <span style={{ display:'inline-flex', alignItems:'center', background:c.bg, color:c.text, fontSize: size==='xs'?10:11, fontWeight:700, padding: size==='xs'?'2px 6px':'3px 9px', borderRadius:20, whiteSpace:'nowrap', flexShrink:0 }}>{children}</span>;
+}
+function CheckCard({ check, delay = 0 }) {
+  const [visible, setVisible] = useState(delay === 0);
+  useEffect(() => { if (delay > 0) { const t = setTimeout(() => setVisible(true), delay); return () => clearTimeout(t); } }, [delay]);
+  if (!visible) return <div style={{ height:0 }} />;
+  const s = statusCfg(check.status);
+  return (
+    <div className="fade-up" style={{ background:'var(--card)', border:'1px solid var(--border)', borderLeft:`3px solid ${s.color}`, borderRadius:'var(--r)', padding:'11px 12px', display:'flex', gap:10, alignItems:'flex-start' }}>
+      <div style={{ width:22, height:22, borderRadius:6, flexShrink:0, background:s.bg, color:s.color, display:'flex', alignItems:'center', justifyContent:'center', fontSize:11, fontWeight:800 }}>{s.icon}</div>
+      <div style={{ flex:1, minWidth:0 }}>
+        <div style={{ fontSize:12, fontWeight:700, marginBottom:2 }}>{check.title}</div>
+        <div style={{ fontSize:11, color:'var(--text-2)', lineHeight:1.45 }}>{check.detail}</div>
+      </div>
+    </div>
+  );
+}
+function IssueItem({ issue, noBorder }) {
+  const sevColor = { high:'red', medium:'warn', low:'green' };
+  return (
+    <div style={{ display:'flex', gap:10, alignItems:'flex-start', padding:'10px 0', borderBottom: noBorder?'none':'1px solid var(--border)' }}>
+      <Badge color={sevColor[issue.severity]||'gray'} size="xs">{issue.severity==='high'?'High':issue.severity==='medium'?'Med':'Low'}</Badge>
+      <div>
+        <div style={{ fontSize:12, fontWeight:600, marginBottom:2 }}>{issue.title}</div>
+        <div style={{ fontSize:11, color:'var(--text-2)', lineHeight:1.4 }}>{issue.detail}</div>
+      </div>
+    </div>
+  );
+}
+function ScanProgress({ progress, label }) {
+  return (
+    <div style={{ marginTop:12 }}>
+      <div style={{ background:'var(--surface)', borderRadius:20, height:4, overflow:'hidden', marginBottom:7 }}>
+        <div style={{ height:'100%', background:'var(--green)', borderRadius:20, width:`${progress}%`, transition:'width 0.55s ease-out' }} />
+      </div>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <span style={{ fontSize:12, color:'var(--text-2)' }}>{label}</span>
+        <span style={{ fontSize:11, color:'var(--text-3)', fontWeight:700 }}>{progress}%</span>
+      </div>
+    </div>
+  );
+}
+function Spinner({ size = 14, color = '#fff' }) {
+  return <div style={{ width:size, height:size, border:`2px solid ${color}40`, borderTopColor:color, borderRadius:'50%', animation:'spin 0.7s linear infinite', flexShrink:0 }} />;
+}
+function Card({ children, style = {}, ...props }) {
+  return <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r)', ...style }} {...props}>{children}</div>;
+}
+function StatPill({ number, label }) {
+  return (
+    <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r)', padding:'14px 16px', textAlign:'center' }}>
+      <div style={{ fontSize:22, fontWeight:800, color:'var(--green)', letterSpacing:'-0.5px' }}>{number}</div>
+      <div style={{ fontSize:11, color:'var(--text-2)', marginTop:3, lineHeight:1.35 }}>{label}</div>
+    </div>
+  );
+}
+function Sparkline({ data, color = 'var(--green)', width = 100, height = 32 }) {
+  if (!data || data.length < 2) return null;
+  const max = Math.max(...data), min = Math.min(...data), range = max - min || 1;
+  const pts = data.map((v, i) => `${(i/(data.length-1))*width},${height-2-((v-min)/range)*(height-6)}`).join(' ');
+  const lx = width, ly = height-2-((data[data.length-1]-min)/range)*(height-6);
+  return (
+    <svg width={width} height={height} style={{ overflow:'visible', display:'block' }}>
+      <polyline points={pts} fill="none" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={lx} cy={ly} r={3} fill={color} />
+    </svg>
+  );
+}
+function CountdownTimer({ start = 23 * 60 + 47 }) {
+  const [t, setT] = useState(start);
+  useEffect(() => { const iv = setInterval(() => setT(s => Math.max(0, s - 1)), 1000); return () => clearInterval(iv); }, []);
+  const m = Math.floor(t / 60), s = t % 60;
+  return <span style={{ fontVariantNumeric:'tabular-nums', fontWeight:800 }}>{String(m).padStart(2,'0')}:{String(s).padStart(2,'0')}</span>;
+}
+Object.assign(window, { ScoreRing, Badge, CheckCard, IssueItem, ScanProgress, Spinner, Card, StatPill, Sparkline, CountdownTimer, SCAN_STEPS, MOCK_RESULTS, getMockResult, fetchScan, scoreColor, statusCfg, gradeBadgeColor });
+  </script>
+
+  <!-- ══════════════════════════════════════════════════════════════ PAGES ═══ -->
+  <script type="text/babel">
+const { useState: useState2, useEffect: useEffect2 } = React;
+function LandingPage({ onNavigate, onScan }) {
+  const [url, setUrl] = useState2('');
+  function handleScan() { if (!url.trim()) return; onScan(url.trim()); onNavigate('scanner'); }
+  const features = [
+    { icon:'🛡', grad:'linear-gradient(135deg,#C8EDDA,#A4DEC0)', title:'Trust score engine', desc:'Real-time score across 7 signals — like a credit score for your brand.' },
+    { icon:'👁', grad:'linear-gradient(135deg,#D4E4FF,#B3CCFF)', title:'Dark pattern detector', desc:'Flags fake urgency, hidden fees, pre-ticked boxes and misleading copy.' },
+    { icon:'📋', grad:'linear-gradient(135deg,#FDEACC,#FAD49A)', title:'GDPR compliance check', desc:'Surfaces privacy, cookie and consent issues before regulators do.' },
+    { icon:'📊', grad:'linear-gradient(135deg,#E4E2DC,#CCC8BE)', title:'Competitor benchmarking', desc:'See how your trust score stacks up against your closest rivals.' },
+  ];
+  const [openFaq, setOpenFaq] = useState2(null);
+  const faqs = [
+    { q:'What is a dark pattern?', a:'Dark patterns are deceptive UI tricks — fake countdown timers, pre-ticked boxes, hidden fees. They\'re illegal under UK consumer law.' },
+    { q:'Is my website data safe?', a:'We only scan publicly visible content — the same thing any visitor sees. We never store your data or share it with third parties.' },
+    { q:'How accurate is the scan?', a:'We check 7 trust signals in real time. Great for identifying the most common issues; we recommend a manual audit for compliance-critical decisions.' },
+    { q:'Can I cancel my Pro subscription?', a:'Yes, cancel any time from your Stripe billing portal. No contracts, no hidden fees.' },
+  ];
+  return (
+    <div>
+      {/* Hero */}
+      <div style={{ padding:'3.5rem 1.25rem 3rem', background:'linear-gradient(160deg, #071610 0%, #0D2A1C 55%, #091a12 100%)', position:'relative', overflow:'hidden', textAlign:'center' }}>
+        <div style={{ position:'absolute', top:-80, left:'50%', transform:'translateX(-50%)', width:500, height:300, background:'radial-gradient(ellipse, rgba(29,158,117,0.2) 0%, transparent 68%)', pointerEvents:'none' }} />
+        <div style={{ position:'relative', zIndex:1 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:7, background:'rgba(29,158,117,0.15)', color:'#5DCEA4', fontSize:11, fontWeight:700, padding:'5px 13px', borderRadius:20, marginBottom:'1.5rem', border:'1px solid rgba(29,158,117,0.28)' }}>
+            <span style={{ width:6, height:6, borderRadius:'50%', background:'#5DCEA4', display:'inline-block', animation:'pulse 2s infinite' }} /> Free beta — try it now
+          </div>
+          <h1 style={{ fontSize:34, fontWeight:800, lineHeight:1.08, letterSpacing:'-1px', marginBottom:'1rem', color:'#fff' }}>
+            Your brand's <span style={{ color:'#5DCEA4', textShadow:'0 0 28px rgba(93,206,164,0.45)' }}>trust score</span>,<br />in real time.
+          </h1>
+          <p style={{ fontSize:14, color:'rgba(255,255,255,0.52)', maxWidth:290, margin:'0 auto 2rem', lineHeight:1.65 }}>AI-powered scanner detecting dark patterns, compliance gaps and reputation risks before they cost you customers.</p>
+          <div style={{ display:'flex', gap:8, maxWidth:420, margin:'0 auto 0.875rem', padding:'0 0.5rem' }}>
+            <input type="text" value={url} onChange={e => setUrl(e.target.value)} onKeyDown={e => e.key==='Enter'&&handleScan()} placeholder="https://yoursite.com" className="dark-input"
+              style={{ flex:1, padding:'12px 15px', border:'1px solid rgba(255,255,255,0.09)', borderRadius:10, fontSize:13, background:'rgba(255,255,255,0.07)', backdropFilter:'blur(8px)', outline:'none' }}
+              onFocus={e=>e.target.style.borderColor='rgba(93,206,164,0.55)'} onBlur={e=>e.target.style.borderColor='rgba(255,255,255,0.09)'} />
+            <button onClick={handleScan} style={{ background:'linear-gradient(135deg, #1D9E75 0%, #26C48F 100%)', color:'#fff', border:'none', borderRadius:10, padding:'12px 20px', fontSize:13, fontWeight:700, cursor:'pointer', whiteSpace:'nowrap', boxShadow:'0 4px 18px rgba(29,158,117,0.5)' }}>Scan free →</button>
+          </div>
+          <button onClick={() => onNavigate('pricing')} style={{ background:'transparent', border:'none', color:'rgba(255,255,255,0.3)', fontSize:12, cursor:'pointer', padding:0 }}>View pricing</button>
+          {/* Preview card */}
+          <div style={{ maxWidth:380, margin:'2rem auto 0', background:'rgba(255,255,255,0.055)', backdropFilter:'blur(16px)', border:'1px solid rgba(255,255,255,0.09)', borderRadius:16, padding:'16px', textAlign:'left', boxShadow:'0 8px 32px rgba(0,0,0,0.3)' }}>
+            <div style={{ display:'flex', alignItems:'center', gap:14, marginBottom:12 }}>
+              <ScoreRing score={88} size={72} />
+              <div>
+                <div style={{ display:'inline-flex', padding:'2px 9px', borderRadius:20, fontSize:10, fontWeight:700, background:'rgba(93,206,164,0.2)', color:'#5DCEA4', marginBottom:5 }}>High Trust</div>
+                <div style={{ fontSize:14, fontWeight:700, color:'#fff', marginBottom:2 }}>johnlewis.com</div>
+                <div style={{ display:'flex', gap:5, marginTop:4 }}>
+                  <span style={{ fontSize:10, background:'rgba(93,206,164,0.15)', color:'#5DCEA4', padding:'2px 8px', borderRadius:20, fontWeight:600 }}>6 passed</span>
+                  <span style={{ fontSize:10, background:'rgba(239,159,39,0.15)', color:'#EFB827', padding:'2px 8px', borderRadius:20, fontWeight:600 }}>1 warning</span>
+                </div>
+              </div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:5 }}>
+              {[['SSL certificate','pass'],['Privacy policy','pass'],['Dark patterns','pass'],['Cookie consent','pass'],['Contact info','pass'],['Returns policy','warn']].map(([label,s])=>(
+                <div key={label} style={{ display:'flex', alignItems:'center', gap:6, fontSize:11, color:s==='pass'?'rgba(255,255,255,0.65)':'rgba(239,183,39,0.9)', padding:'5px 8px', background:s==='pass'?'rgba(255,255,255,0.04)':'rgba(239,159,39,0.07)', borderRadius:7, border:'1px solid rgba(255,255,255,0.05)' }}>
+                  <span style={{ color:s==='pass'?'#5DCEA4':'#EFB827', fontWeight:800, fontSize:10 }}>{s==='pass'?'✓':'!'}</span>{label}
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop:10, fontSize:10, color:'rgba(255,255,255,0.25)', textAlign:'center' }}>Sample scan result · yours loads in ~5 seconds</div>
+          </div>
+        </div>
+      </div>
+      {/* Stats */}
+      <div style={{ background:'linear-gradient(180deg,#091a12 0%,var(--bg) 100%)', padding:'2rem 1rem 1.75rem', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10 }}>
+        {[{n:'94%',l:'of shoppers check trust signals before buying'},{n:'£2.3B',l:'lost to dark pattern fines in Europe annually'},{n:'3×',l:'higher conversions for high-trust brands'}].map(({n,l})=>(
+          <div key={n} style={{ background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:14, padding:'16px 10px', textAlign:'center' }}>
+            <div style={{ fontSize:22, fontWeight:800, color:'#5DCEA4', letterSpacing:'-0.5px' }}>{n}</div>
+            <div style={{ fontSize:10, color:'rgba(255,255,255,0.42)', marginTop:5, lineHeight:1.45 }}>{l}</div>
+          </div>
+        ))}
+      </div>
+      {/* Features */}
+      <div style={{ padding:'1.75rem 1rem 1.5rem' }}>
+        <div style={{ fontSize:11, fontWeight:700, color:'var(--text-3)', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:12 }}>What we check</div>
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          {features.map(f=>(
+            <div key={f.title} style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r-lg)', padding:'14px 16px', display:'flex', alignItems:'flex-start', gap:13, boxShadow:'var(--shadow-sm)' }}>
+              <div style={{ width:42, height:42, borderRadius:12, flexShrink:0, background:f.grad, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>{f.icon}</div>
+              <div>
+                <div style={{ fontSize:13, fontWeight:700, marginBottom:3 }}>{f.title}</div>
+                <div style={{ fontSize:12, color:'var(--text-2)', lineHeight:1.5 }}>{f.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* FAQ */}
+      <div style={{ padding:'0 1rem 1.5rem' }}>
+        <div style={{ fontSize:11, fontWeight:700, color:'var(--text-3)', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:12 }}>Frequently asked</div>
+        <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+          {faqs.map((faq,i)=>(
+            <div key={i} style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r)', overflow:'hidden' }}>
+              <button onClick={()=>setOpenFaq(openFaq===i?null:i)} style={{ width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'13px 14px', background:'none', border:'none', cursor:'pointer', textAlign:'left' }}>
+                <span style={{ fontSize:13, fontWeight:600 }}>{faq.q}</span>
+                <span style={{ fontSize:16, color:'var(--text-3)', transform:openFaq===i?'rotate(45deg)':'none', transition:'transform 0.2s' }}>+</span>
+              </button>
+              {openFaq===i && <div className="fade-in" style={{ padding:'0 14px 13px', fontSize:12, color:'var(--text-2)', lineHeight:1.6 }}>{faq.a}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* CTA */}
+      <div style={{ padding:'2.5rem 1.25rem', background:'linear-gradient(140deg,#0D6648,#1D9E75,#0D6648)', textAlign:'center' }}>
+        <h2 style={{ fontSize:22, fontWeight:800, color:'#fff', marginBottom:6 }}>Lock in £19/month forever</h2>
+        <p style={{ fontSize:13, color:'rgba(255,255,255,0.8)', marginBottom:'1.5rem' }}>Price rises to £49/month after beta.</p>
+        <button onClick={()=>onNavigate('pricing')} style={{ background:'#fff', color:'var(--green)', border:'none', borderRadius:'var(--r-sm)', padding:'12px 24px', fontSize:14, fontWeight:800, cursor:'pointer' }}>Upgrade to Pro — £19/mo →</button>
+        <div style={{ fontSize:11, color:'rgba(255,255,255,0.55)', marginTop:10 }}>Cancel anytime · Secure via Stripe</div>
+      </div>
+      {/* Footer */}
+      <footer style={{ padding:'1.5rem 1rem', textAlign:'center', borderTop:'1px solid var(--border)', background:'var(--card)' }}>
+        <p style={{ fontSize:12, color:'var(--text-3)', marginBottom:6 }}>© 2026 TrustPulse · Built in London, UK</p>
+        <p style={{ fontSize:12, color:'var(--text-3)', marginBottom:8 }}><a href="mailto:hello@trustpulse.ai" style={{ color:'var(--green)' }}>hello@trustpulse.ai</a></p>
+        <div style={{ display:'flex', justifyContent:'center', gap:16, fontSize:12 }}>
+          <a href="#" style={{ color:'var(--green)' }}>Privacy Policy</a>
+          <a href="#" style={{ color:'var(--green)' }}>Refund Policy</a>
+          <button onClick={()=>onNavigate('scanner')} style={{ background:'none', border:'none', color:'var(--green)', fontSize:12, cursor:'pointer', textDecoration:'underline' }}>Try free →</button>
+        </div>
+      </footer>
+    </div>
+  );
+}
+function ScannerPage({ initialUrl, isPro, onUnlockPro }) {
+  const [url, setUrl] = useState2(initialUrl || '');
+  const [scanning, setScanning] = useState2(false);
+  const [progress, setProgress] = useState2(0);
+  const [stepLabel, setStepLabel] = useState2('');
+  const [result, setResult] = useState2(null);
+  const [accessCode, setAccessCode] = useState2('');
+  const [codeError, setCodeError] = useState2(false);
+  const [proUnlocked, setProUnlocked] = useState2(isPro);
+  useEffect2(() => { setProUnlocked(isPro); }, [isPro]);
+  useEffect2(() => { if (initialUrl) startScan(initialUrl); }, [initialUrl]);
+  async function startScan(scanUrl) {
+    const u = (scanUrl || url).trim(); if (!u) return;
+    setScanning(true); setResult(null); setProgress(0); setStepLabel('');
+    let step = 0;
+    const iv = setInterval(() => { if (step < SCAN_STEPS.length - 1) { setProgress(SCAN_STEPS[step][0]); setStepLabel(SCAN_STEPS[step][1]); step++; } }, 480);
+    const data = await fetchScan(u);
+    clearInterval(iv); setProgress(100); setStepLabel('Scan complete!');
+    setTimeout(() => { setResult(data); setScanning(false); }, 400);
+  }
+  function tryUnlock() {
+    if (accessCode.trim().toUpperCase() === 'TRUST2025') { setProUnlocked(true); onUnlockPro(); setCodeError(false); }
+    else setCodeError(true);
+  }
+  const gradeColor = result ? gradeBadgeColor(result.grade) : {};
+  return (
+    <div style={{ padding:'1.25rem 1rem', maxWidth:540, margin:'0 auto' }}>
+      <h1 style={{ fontSize:20, fontWeight:800, letterSpacing:'-0.4px', marginBottom:3 }}>Trust scanner</h1>
+      <p style={{ fontSize:13, color:'var(--text-2)', marginBottom:'1.25rem' }}>Free scan · upgrade to unlock full details.</p>
+      <Card style={{ padding:'1rem', marginBottom:'1rem' }}>
+        <div style={{ display:'flex', gap:8 }}>
+          <input type="text" value={url} onChange={e=>setUrl(e.target.value)} onKeyDown={e=>e.key==='Enter'&&startScan()} placeholder="https://yoursite.com"
+            style={{ flex:1, padding:'10px 13px', border:'1px solid var(--border-md)', borderRadius:'var(--r-sm)', fontSize:13, color:'var(--text)', background:'var(--card)', outline:'none', transition:'border-color 0.15s' }}
+            onFocus={e=>e.target.style.borderColor='var(--green)'} onBlur={e=>e.target.style.borderColor='var(--border-md)'} />
+          <button onClick={()=>startScan()} disabled={scanning}
+            style={{ background:'var(--green)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', padding:'10px 16px', fontSize:13, fontWeight:700, cursor:scanning?'not-allowed':'pointer', opacity:scanning?0.6:1, display:'flex', alignItems:'center', gap:7, flexShrink:0 }}>
+            {scanning ? <><Spinner /><span>Scanning</span></> : '🔍 Scan'}
+          </button>
+        </div>
+        {!scanning && !result && (
+          <div style={{ marginTop:10, display:'flex', gap:6, flexWrap:'wrap' }}>
+            <span style={{ fontSize:11, color:'var(--text-3)', alignSelf:'center' }}>Try:</span>
+            {[['https://www.johnlewis.com','John Lewis'],['https://www.boohoo.com','Boohoo'],['https://www.wish.com','Wish']].map(([u,l])=>(
+              <button key={l} onClick={()=>{setUrl(u);startScan(u);}} style={{ background:'var(--surface)', border:'none', borderRadius:6, padding:'4px 10px', fontSize:11, fontWeight:600, cursor:'pointer', color:'var(--text-2)' }}>{l}</button>
+            ))}
+          </div>
+        )}
+        {scanning && <ScanProgress progress={progress} label={stepLabel} />}
+      </Card>
+      {result && (
+        <div className="fade-up">
+          <div style={{ background:'linear-gradient(135deg,var(--card),#F4FBF8)', border:'1px solid var(--border)', borderRadius:'var(--r-lg)', padding:'1.25rem', display:'flex', alignItems:'center', gap:16, marginBottom:'1rem', boxShadow:'var(--shadow-md)' }}>
+            <ScoreRing score={result.score} size={92} />
+            <div style={{ flex:1, minWidth:0 }}>
+              <div style={{ display:'inline-flex', padding:'3px 10px', borderRadius:20, fontSize:11, fontWeight:700, marginBottom:8, background:gradeColor.bg, color:gradeColor.text }}>{result.grade}</div>
+              <p style={{ fontSize:12, color:'var(--text-2)', lineHeight:1.5 }}>{result.grade_desc}</p>
+              <div style={{ display:'flex', gap:12, marginTop:10 }}>
+                {[['var(--green)',result.passed_count,'Passed'],['var(--red)',result.issues_count,'Failed'],['var(--warn)',result.warnings_count,'Warnings']].map(([c,v,l])=>(
+                  <div key={l} style={{ textAlign:'center' }}>
+                    <div style={{ fontSize:18, fontWeight:800, color:c }}>{v}</div>
+                    <div style={{ fontSize:10, color:'var(--text-3)' }}>{l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          {proUnlocked ? (
+            <div>
+              <div style={{ display:'inline-flex', alignItems:'center', gap:6, background:'var(--green-bg)', color:'var(--green)', fontSize:11, fontWeight:700, padding:'3px 10px', borderRadius:20, border:'1px solid var(--green-mid)', marginBottom:'0.875rem' }}>✓ Pro report unlocked</div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:7, marginBottom:'1rem' }}>
+                {(result.checks||[]).map((c,i)=><CheckCard key={c.id} check={c} delay={i*60} />)}
+              </div>
+              <Card style={{ padding:'1rem', marginBottom:'1rem' }}>
+                <div style={{ fontSize:13, fontWeight:700, marginBottom:'0.75rem' }}>Issues found</div>
+                {result.issues&&result.issues.length>0 ? result.issues.map((issue,i)=><IssueItem key={i} issue={issue} noBorder={i===result.issues.length-1} />) : <p style={{ fontSize:12, color:'var(--green)', fontWeight:600 }}>✓ No major issues found!</p>}
+              </Card>
+            </div>
+          ) : (
+            <Card style={{ padding:'1.25rem', border:'1.5px solid var(--green)', borderRadius:'var(--r-lg)' }}>
+              <div style={{ background:'linear-gradient(135deg,#071610,#0D2A1C)', borderRadius:'var(--r-sm)', padding:'8px 12px', display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1rem' }}>
+                <span style={{ fontSize:11, color:'rgba(255,255,255,0.65)' }}>⏳ Beta price expires in</span>
+                <span style={{ fontSize:14, color:'#5DCEA4' }}><CountdownTimer /></span>
+              </div>
+              <div style={{ textAlign:'center', marginBottom:'1rem' }}>
+                <div style={{ fontSize:22, marginBottom:6 }}>🔒</div>
+                <h3 style={{ fontSize:16, fontWeight:800, marginBottom:6 }}>Unlock your full report</h3>
+                <p style={{ fontSize:13, color:'var(--text-2)', lineHeight:1.5 }}>Upgrade to Pro to see all 7 checks, the full issues list and how to fix every problem.</p>
+              </div>
+              <button onClick={()=>window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')} style={{ width:'100%', padding:'13px', background:'linear-gradient(135deg,#1D9E75,#26C48F)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', fontSize:14, fontWeight:800, cursor:'pointer', marginBottom:8, boxShadow:'0 4px 16px rgba(29,158,117,0.4)' }}>Upgrade to Pro — £19/month →</button>
+              <div style={{ borderTop:'1px solid var(--border)', paddingTop:'1rem', marginTop:8 }}>
+                <p style={{ fontSize:12, color:'var(--text-2)', marginBottom:8 }}>Already a Pro member? Enter your access code:</p>
+                <div style={{ display:'flex', gap:8 }}>
+                  <input type="text" value={accessCode} onChange={e=>{setAccessCode(e.target.value);setCodeError(false);}} onKeyDown={e=>e.key==='Enter'&&tryUnlock()} placeholder="Enter code…"
+                    style={{ flex:1, padding:'8px 12px', border:`1px solid ${codeError?'var(--red)':'var(--border-md)'}`, borderRadius:'var(--r-sm)', fontSize:13, outline:'none', background:'var(--card)' }} />
+                  <button onClick={tryUnlock} style={{ background:'var(--green)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', padding:'8px 14px', fontSize:13, fontWeight:700, cursor:'pointer' }}>Unlock</button>
+                </div>
+                {codeError && <p style={{ fontSize:12, color:'var(--red)', marginTop:6 }}>Invalid code. Please try again.</p>}
+              </div>
+            </Card>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+function DashboardPage({ onNavigate }) {
+  const brands = [
+    { name:'My Store', domain:'mystore.co.uk', score:88, trend:'+4', status:'good' },
+    { name:'Fashion Brand', domain:'fashion.co.uk', score:62, trend:'-2', status:'warn' },
+    { name:'Tech Startup', domain:'techstart.io', score:41, trend:'-7', status:'bad' },
+  ];
+  const alerts = [
+    { icon:'⚠️', title:'Dark pattern detected', desc:'techstart.io has a countdown timer that resets on refresh.', time:'2h' },
+    { icon:'⭐', title:'Negative review spike', desc:'5 new 1-star reviews mentioning hidden fees.', time:'5h' },
+    { icon:'✅', title:'Trust score improved', desc:'mystore.co.uk score up from 81 to 88.', time:'1d' },
+  ];
+  return (
+    <div style={{ padding:'1.25rem 1rem', maxWidth:540, margin:'0 auto' }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem' }}>
+        <h1 style={{ fontSize:20, fontWeight:800, letterSpacing:'-0.4px' }}>Dashboard</h1>
+        <button onClick={()=>onNavigate('scanner')} style={{ background:'var(--green)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', padding:'7px 13px', fontSize:12, fontWeight:700, cursor:'pointer' }}>+ Add brand</button>
+      </div>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:'1rem' }}>
+        {[{val:'78',label:'Avg trust score',trend:'↑ +4 this month',up:true,data:[68,71,70,74,73,76,78]},{val:'3',label:'Brands monitored',trend:'Active',up:null,data:[1,1,2,2,3,3,3]},{val:'12',label:'Issues detected',trend:'↓ 5 new',up:false,data:[4,6,5,8,10,9,12]},{val:'94%',label:'Reviews replied',trend:'↑ +11%',up:true,data:[78,80,82,85,88,91,94]}].map(m=>(
+          <div key={m.label} style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r)', padding:'0.875rem 1rem' }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:6 }}>
+              <div>
+                <div style={{ fontSize:22, fontWeight:800, letterSpacing:'-0.5px' }}>{m.val}</div>
+                <div style={{ fontSize:11, color:'var(--text-2)', marginTop:2 }}>{m.label}</div>
+                <div style={{ fontSize:11, marginTop:3, color:m.up===true?'var(--green)':m.up===false?'var(--red)':'var(--text-3)', fontWeight:600 }}>{m.trend}</div>
+              </div>
+              <Sparkline data={m.data} color={m.up===false?'var(--red)':m.up===null?'var(--text-3)':'var(--green)'} width={60} height={28} />
+            </div>
+          </div>
+        ))}
+      </div>
+      <Card style={{ marginBottom:'1rem', overflow:'hidden' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr', padding:'8px 14px', borderBottom:'1px solid var(--border)', background:'var(--surface)' }}>
+          {['Brand','Score','Status'].map(h=><div key={h} style={{ fontSize:11, color:'var(--text-3)', fontWeight:700 }}>{h}</div>)}
+        </div>
+        {brands.map((b,i)=>(
+          <div key={b.name} style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr', padding:'11px 14px', borderBottom:i<brands.length-1?'1px solid var(--border)':'none', alignItems:'center' }}>
+            <div><div style={{ fontSize:12, fontWeight:700 }}>{b.name}</div><div style={{ fontSize:10, color:'var(--text-3)', marginTop:1 }}>{b.domain}</div></div>
+            <span style={{ display:'inline-block', padding:'2px 8px', background:b.score>=75?'var(--green-bg)':b.score>=50?'var(--warn-bg)':'var(--red-bg)', color:b.score>=75?'var(--green-dark)':b.score>=50?'var(--warn-text)':'var(--red-text)', borderRadius:20, fontSize:11, fontWeight:700 }}>{b.score}</span>
+            <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+              <div style={{ width:6, height:6, borderRadius:'50%', background:b.status==='good'?'var(--green)':b.status==='warn'?'var(--warn)':'var(--red)', flexShrink:0 }} />
+              <span style={{ fontSize:11, color:'var(--text-2)' }}>{b.status==='good'?'Good':b.status==='warn'?'Warning':'Critical'}</span>
+            </div>
+          </div>
+        ))}
+      </Card>
+      <div style={{ marginBottom:'1rem' }}>
+        <div style={{ fontSize:13, fontWeight:700, marginBottom:10 }}>Recent alerts</div>
+        <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
+          {alerts.map((a,i)=>(
+            <div key={i} style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r)', padding:'11px 13px', display:'flex', alignItems:'flex-start', gap:10 }}>
+              <span style={{ fontSize:16, flexShrink:0 }}>{a.icon}</span>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:12, fontWeight:700, marginBottom:2 }}>{a.title}</div>
+                <div style={{ fontSize:11, color:'var(--text-2)' }}>{a.desc}</div>
+              </div>
+              <span style={{ fontSize:10, color:'var(--text-3)', flexShrink:0 }}>{a.time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <button onClick={()=>window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')} style={{ width:'100%', padding:'11px', background:'var(--green)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', fontSize:13, fontWeight:700, cursor:'pointer' }}>Upgrade to Pro — £19/month →</button>
+    </div>
+  );
+}
+function CompetitorPage() {
+  const sites = [
+    { domain:'yoursite.co.uk', score:74, isMain:true,  checks:{ssl:'pass',privacy:'pass',dark:'warn',cookies:'pass',contact:'pass',sentiment:'pass',returns:'fail'} },
+    { domain:'rival1.co.uk',   score:88, isMain:false, checks:{ssl:'pass',privacy:'pass',dark:'pass',cookies:'pass',contact:'pass',sentiment:'pass',returns:'pass'} },
+    { domain:'rival2.co.uk',   score:55, isMain:false, checks:{ssl:'pass',privacy:'warn',dark:'fail',cookies:'warn',contact:'pass',sentiment:'pass',returns:'fail'} },
+  ];
+  const checkLabels = {ssl:'SSL',privacy:'Privacy',dark:'Dark patterns',cookies:'Cookies',contact:'Contact',sentiment:'Tone',returns:'Returns'};
+  return (
+    <div style={{ padding:'1.25rem 1rem', maxWidth:600, margin:'0 auto' }}>
+      <h1 style={{ fontSize:20, fontWeight:800, letterSpacing:'-0.4px', marginBottom:3 }}>Competitor comparison</h1>
+      <p style={{ fontSize:13, color:'var(--text-2)', marginBottom:'1.25rem' }}>See how your trust score stacks up against your closest rivals.</p>
+      <Card style={{ padding:'1.25rem', marginBottom:'1rem' }}>
+        <div style={{ fontSize:10, fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:12 }}>Trust score comparison</div>
+        <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+          {sites.sort((a,b)=>b.score-a.score).map((s,rank)=>(
+            <div key={s.domain}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:5 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:7 }}>
+                  <span style={{ fontSize:11, color:'var(--text-3)', fontWeight:700, width:16 }}>#{rank+1}</span>
+                  <span style={{ fontSize:13, fontWeight:s.isMain?700:500, color:s.isMain?'var(--text)':'var(--text-2)' }}>{s.domain}</span>
+                  {s.isMain && <Badge color="green" size="xs">You</Badge>}
+                </div>
+                <span style={{ fontSize:13, fontWeight:800, color:scoreColor(s.score) }}>{s.score}</span>
+              </div>
+              <div style={{ background:'var(--surface)', borderRadius:20, height:6, overflow:'hidden' }}>
+                <div style={{ height:'100%', borderRadius:20, width:`${s.score}%`, background:s.isMain?'var(--green)':'var(--surface2)', transition:'width 1s ease-out' }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+      <Card style={{ padding:'1.25rem' }}>
+        <div style={{ fontSize:10, fontWeight:700, color:'var(--text-3)', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:12 }}>Insights</div>
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          {[{type:'warn',text:'You rank #2 out of 3 sites. 14 points behind the leader.'},{type:'pos',text:'Your score (74) is above the industry average (72).'},{type:'act',text:'Biggest gap: Returns policy. Fixing this alone could add 10 points.'}].map((ins,i)=>(
+            <div key={i} style={{ display:'flex', gap:8, padding:'10px 12px', background:ins.type==='pos'?'var(--green-bg)':ins.type==='warn'?'var(--warn-bg)':'var(--surface)', borderRadius:'var(--r-sm)' }}>
+              <span style={{ flexShrink:0 }}>{ins.type==='pos'?'✅':ins.type==='warn'?'⚠️':'💡'}</span>
+              <span style={{ fontSize:12, color:'var(--text)', lineHeight:1.5 }}>{ins.text}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  );
+}
+function PricingPage({ onNavigate }) {
+  return (
+    <div style={{ padding:'1.25rem 1rem', maxWidth:480, margin:'0 auto' }}>
+      <h1 style={{ fontSize:20, fontWeight:800, letterSpacing:'-0.4px', marginBottom:3 }}>Simple pricing</h1>
+      <p style={{ fontSize:13, color:'var(--text-2)', marginBottom:'1.25rem' }}>Start free. Upgrade when you need more.</p>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:'1rem' }}>
+        <div style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r-lg)', padding:'1.25rem' }}>
+          <div style={{ fontSize:13, fontWeight:700, marginBottom:6 }}>Free</div>
+          <div style={{ fontSize:28, fontWeight:800, letterSpacing:'-0.5px', marginBottom:2 }}>£0</div>
+          <div style={{ fontSize:12, color:'var(--text-3)', marginBottom:'1rem' }}>Basic scan</div>
+          {[['✓ Trust score','pass'],['✕ Full details','fail'],['✕ Issues list','fail'],['✕ PDF report','fail']].map(([t,s])=>(
+            <div key={t} style={{ fontSize:12, color:s==='pass'?'var(--text)':'var(--text-3)', marginBottom:4 }}>{t}</div>
+          ))}
+          <button onClick={()=>onNavigate('scanner')} style={{ width:'100%', padding:'10px', background:'var(--surface)', color:'var(--text)', border:'none', borderRadius:'var(--r-sm)', fontSize:12, fontWeight:700, cursor:'pointer', marginTop:12 }}>Start free</button>
+        </div>
+        <div style={{ background:'var(--card)', border:'2px solid var(--green)', borderRadius:'var(--r-lg)', padding:'1.25rem', position:'relative' }}>
+          <div style={{ position:'absolute', top:-12, left:'50%', transform:'translateX(-50%)', background:'var(--green)', color:'#fff', fontSize:10, fontWeight:700, padding:'3px 12px', borderRadius:20, whiteSpace:'nowrap' }}>Most popular</div>
+          <div style={{ fontSize:13, fontWeight:700, marginBottom:6 }}>Pro</div>
+          <div style={{ fontSize:28, fontWeight:800, color:'var(--green)', letterSpacing:'-0.5px', marginBottom:2 }}>£19</div>
+          <div style={{ fontSize:12, color:'var(--text-3)', marginBottom:'1rem' }}>/month</div>
+          {['✓ Full trust score','✓ All 7 checks','✓ Issues list','✓ Unlimited scans','✓ Alerts'].map(t=>(
+            <div key={t} style={{ fontSize:12, color:'var(--text)', fontWeight:500, marginBottom:4 }}>{t}</div>
+          ))}
+          <button onClick={()=>window.open('https://buy.stripe.com/aFa7sLaAc53Z1MH8tM1gs00','_blank')} style={{ width:'100%', padding:'10px', background:'var(--green)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', fontSize:12, fontWeight:700, cursor:'pointer', marginTop:12 }}>Get Pro →</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+function AboutPage({ onNavigate }) {
+  return (
+    <div style={{ maxWidth:520, margin:'0 auto', padding:'1.5rem 1rem' }}>
+      <div style={{ background:'linear-gradient(135deg,#071610,#0D2A1C)', borderRadius:'var(--r-xl)', padding:'2rem 1.5rem', textAlign:'center', marginBottom:'1.25rem' }}>
+        <div style={{ fontSize:36, marginBottom:12 }}>🛡</div>
+        <h1 style={{ fontSize:22, fontWeight:800, color:'#fff', letterSpacing:'-0.5px', marginBottom:8 }}>We believe trust is a competitive advantage.</h1>
+        <p style={{ fontSize:13, color:'rgba(255,255,255,0.55)', lineHeight:1.6 }}>TrustPulse was built by a team of UK digital marketers who kept seeing the same problem: brands losing customers to avoidable trust issues.</p>
+      </div>
+      <Card style={{ padding:'1.25rem', marginBottom:'1rem' }}>
+        <div style={{ fontSize:10, fontWeight:700, color:'var(--green)', textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:10 }}>Founder</div>
+        <div style={{ display:'flex', gap:12, alignItems:'flex-start' }}>
+          <div style={{ width:48, height:48, borderRadius:'50%', background:'linear-gradient(135deg,var(--green-bg),var(--green-mid))', color:'var(--green-dark)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, fontWeight:800, flexShrink:0 }}>S</div>
+          <div>
+            <div style={{ fontSize:13, fontWeight:700 }}>Syamala Jayaprakash Reddy</div>
+            <div style={{ fontSize:11, color:'var(--text-3)', marginBottom:6 }}>Founder · MBA Digital Marketing</div>
+            <p style={{ fontSize:12, color:'var(--text-2)', lineHeight:1.5 }}>AI & web developer with a background in SEO, Google Ads and Python. Building tools that give SMBs the trust infrastructure that enterprise brands take for granted.</p>
+          </div>
+        </div>
+      </Card>
+      <button onClick={()=>onNavigate('scanner')} style={{ width:'100%', padding:'12px', background:'linear-gradient(135deg,#1D9E75,#26C48F)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', fontSize:13, fontWeight:700, cursor:'pointer' }}>Scan your site free →</button>
+    </div>
+  );
+}
+function BlogPage({ onNavigate }) {
+  const posts = [
+    { tag:'GDPR Guide',    title:'The 5 most common GDPR violations on UK e-commerce sites', desc:'Pre-ticked boxes, missing privacy policies and dark patterns are costing brands millions.', mins:4, date:'12 May 2026' },
+    { tag:'Dark Patterns', title:'What are dark patterns — and are yours illegal?', desc:'From fake countdown timers to trick questions, we explain what UK law prohibits.', mins:6, date:'8 May 2026' },
+    { tag:'Trust Score',   title:'How to improve your trust score from 50 to 90 in a week', desc:'A practical step-by-step guide based on the 7 checks TrustPulse runs on every site.', mins:5, date:'2 May 2026' },
+  ];
+  const tagColors = {'GDPR Guide':'green','Dark Patterns':'red','Trust Score':'green'};
+  return (
+    <div style={{ maxWidth:540, margin:'0 auto', padding:'1.5rem 1rem' }}>
+      <h1 style={{ fontSize:20, fontWeight:800, letterSpacing:'-0.4px', marginBottom:3 }}>Resources</h1>
+      <p style={{ fontSize:13, color:'var(--text-2)', marginBottom:'1.25rem' }}>Guides, case studies and compliance news for UK brands.</p>
+      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+        {posts.map((p,i)=>(
+          <div key={i} style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r-lg)', padding:'14px 16px', cursor:'pointer', boxShadow:'var(--shadow-sm)' }}>
+            <div style={{ display:'flex', alignItems:'center', gap:7, marginBottom:7 }}>
+              <Badge color={tagColors[p.tag]||'gray'} size="xs">{p.tag}</Badge>
+              <span style={{ fontSize:10, color:'var(--text-3)' }}>{p.date} · {p.mins} min read</span>
+            </div>
+            <div style={{ fontSize:13, fontWeight:700, marginBottom:5 }}>{p.title}</div>
+            <div style={{ fontSize:12, color:'var(--text-2)', lineHeight:1.5 }}>{p.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+Object.assign(window, { LandingPage, ScannerPage, DashboardPage, CompetitorPage, PricingPage, AboutPage, BlogPage });
+  </script>
+
+  <!-- ════════════════════════════════════════════════════════════════ APP ═══ -->
+  <script type="text/babel">
+const { useState: useAppState, useEffect: useAppEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "green",
+  "demoScore": 62,
+  "showPro": false,
+  "density": "comfortable"
+}/*EDITMODE-END*/;
+
+const THEMES = {
+  green:  { green:'#1D9E75', dark:'#0F6E56', bg:'#E6F5EF', mid:'rgba(29,158,117,0.18)' },
+  indigo: { green:'#4F6EF7', dark:'#2D4ED8', bg:'#EEF2FF', mid:'rgba(79,110,247,0.18)' },
+  amber:  { green:'#D97706', dark:'#92400E', bg:'#FEF3C7', mid:'rgba(217,119,6,0.18)'  },
+};
+function applyTheme(name) {
+  const t = THEMES[name] || THEMES.green;
+  const r = document.documentElement;
+  r.style.setProperty('--green', t.green); r.style.setProperty('--green-dark', t.dark);
+  r.style.setProperty('--green-bg', t.bg); r.style.setProperty('--green-mid', t.mid);
+}
+function applyDensity(d) {
+  document.documentElement.style.setProperty('--r', {compact:'8px',comfortable:'12px',spacious:'16px'}[d]||'12px');
+}
+
+// ─── Sticky CTA ───────────────────────────────────────────────────────────────
+function StickyCTA({ onNavigate, page }) {
+  const [vis, setVis] = useAppState(false);
+  useAppEffect(() => {
+    const h = () => setVis(window.scrollY > 320);
+    window.addEventListener('scroll', h, { passive:true });
+    return () => window.removeEventListener('scroll', h);
+  }, []);
+  if (!vis || page !== 'landing') return null;
+  return (
+    <div style={{ position:'fixed', bottom:0, left:0, right:0, zIndex:90, background:'rgba(7,22,16,0.97)', backdropFilter:'blur(16px)', borderTop:'1px solid rgba(29,158,117,0.2)', padding:'10px 16px', display:'flex', alignItems:'center', justifyContent:'space-between', gap:12, boxShadow:'0 -4px 24px rgba(0,0,0,0.35)' }}>
+      <div>
+        <div style={{ fontSize:13, fontWeight:700, color:'#fff' }}>Get your trust score free</div>
+        <div style={{ fontSize:10, color:'rgba(255,255,255,0.4)' }}>5 seconds · No signup · No credit card</div>
+      </div>
+      <button onClick={() => onNavigate('scanner')} style={{ background:'linear-gradient(135deg,#1D9E75,#26C48F)', color:'#fff', border:'none', borderRadius:9, padding:'9px 16px', fontSize:12, fontWeight:700, cursor:'pointer', flexShrink:0 }}>Scan free →</button>
+    </div>
+  );
+}
+
+// ─── Auth Modal ────────────────────────────────────────────────────────────────
+// ✅ FIX 1: Clean single modal with proper tab switching
+// ✅ FIX 3: X button disabled when not logged in (can't close without auth)
+function AuthModal({ authUser, setAuthUser, setShowAuth, navigate }) {
+  const [tab, setTab] = useAppState('login');
+  const [email, setEmail] = useAppState('');
+  const [password, setPassword] = useAppState('');
+  const [name, setName] = useAppState('');
+  const [error, setError] = useAppState('');
+  const [loading, setLoading] = useAppState(false);
+  const isLoggedIn = !!authUser;
+
+  function handleOverlayClick(e) {
+    // ✅ FIX 3: only close overlay click when logged in
+    if (e.target === e.currentTarget && isLoggedIn) setShowAuth(false);
+  }
+
+  async function handleLogin() {
+    if (!email || !password) { setError('Please enter email and password'); return; }
+    setLoading(true); setError('');
+    try {
+      const r = await fetch('https://web-production-4592c.up.railway.app/api/auth/login/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: email, password }),
+      });
+      const d = await r.json();
+      if (r.ok) {
+        const u = { email, name: email.split('@')[0] };
+        localStorage.setItem('tp_token', d.access);
+        localStorage.setItem('tp_user', JSON.stringify(u));
+        setAuthUser(u); setShowAuth(false); navigate('landing');
+      } else { setError(d.detail || 'Incorrect email or password'); }
+    } catch { setError('Connection error. Try again.'); }
+    setLoading(false);
+  }
+
+  async function handleRegister() {
+    if (!name || !email || !password) { setError('Please fill in all fields'); return; }
+    if (password.length < 8) { setError('Password must be at least 8 characters'); return; }
+    setLoading(true); setError('');
+    try {
+      const r = await fetch('https://web-production-4592c.up.railway.app/api/auth/register/', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, name }),
+      });
+      const d = await r.json();
+      if (r.ok) {
+        const u = { email, name };
+        localStorage.setItem('tp_token', d.access);
+        localStorage.setItem('tp_user', JSON.stringify(u));
+        setAuthUser(u); setShowAuth(false); navigate('landing');
+      } else { setError(d.error || d.detail || 'Registration failed. Try again.'); }
+    } catch { setError('Connection error. Try again.'); }
+    setLoading(false);
+  }
+
+  function handleSignOut() {
+    localStorage.removeItem('tp_token');
+    localStorage.removeItem('tp_user');
+    setAuthUser(null);
+    setShowAuth(false);
+  }
+
+  const inputStyle = {
+    width: '100%', background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(61,181,110,0.25)', borderRadius: 10,
+    padding: '11px 14px', color: 'white', fontFamily: 'inherit',
+    fontSize: 14, outline: 'none', boxSizing: 'border-box',
+  };
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0,
+      background: 'rgba(5,15,10,0.92)', backdropFilter: 'blur(12px)',
+      zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
+    }} onClick={handleOverlayClick}>
+      <div style={{
+        background: '#0f2419', border: '1px solid rgba(61,181,110,0.2)',
+        borderRadius: 20, width: '100%', maxWidth: 420, padding: 36,
+        position: 'relative', boxShadow: '0 40px 80px rgba(0,0,0,0.6)',
+        animation: 'fadeUp 0.25s ease-out',
+      }} onClick={e => e.stopPropagation()}>
+
+        {/* X button — greyed out and non-functional when not logged in */}
+        <button onClick={() => isLoggedIn && setShowAuth(false)} style={{
+          position: 'absolute', top: 14, right: 14,
+          background: isLoggedIn ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.02)',
+          border: '1px solid rgba(61,181,110,0.15)', borderRadius: 8,
+          width: 30, height: 30,
+          color: isLoggedIn ? '#8aab96' : 'rgba(138,171,150,0.25)',
+          cursor: isLoggedIn ? 'pointer' : 'default',
+          fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }} title={isLoggedIn ? 'Close' : 'Sign in to continue'}>✕</button>
+
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
+          <div style={{ width: 36, height: 36, background: 'linear-gradient(135deg,#1D9E75,#22B88A)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800, fontSize: 14 }}>TP</div>
+          <span style={{ fontSize: 16, fontWeight: 700, color: 'white' }}>TrustPulse</span>
+        </div>
+
+        {isLoggedIn ? (
+          /* Logged-in view */
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ width: 60, height: 60, background: 'linear-gradient(135deg,#1D9E75,#22B88A)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 700, color: 'white', margin: '0 auto 14px', boxShadow: '0 6px 20px rgba(29,158,117,0.4)' }}>
+              {(authUser.name || authUser.email || 'U')[0].toUpperCase()}
+            </div>
+            <div style={{ fontSize: 18, fontWeight: 700, color: 'white', marginBottom: 4 }}>{authUser.name}</div>
+            <div style={{ fontSize: 13, color: '#8aab96', marginBottom: 28 }}>{authUser.email}</div>
+            <button onClick={handleSignOut} style={{ background: 'transparent', border: '1px solid rgba(61,181,110,0.25)', borderRadius: 10, color: '#8aab96', padding: '10px 28px', fontFamily: 'inherit', fontSize: 14, cursor: 'pointer' }}>Sign out</button>
+          </div>
+        ) : (
+          /* ✅ FIX 1 + 2: Proper tab UI */
+          <div>
+            {/* Tab switcher */}
+            <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: 4, marginBottom: 28, gap: 4 }}>
+              {[['login','Sign in'],['signup','Create account']].map(([id, label]) => (
+                <button key={id} onClick={() => { setTab(id); setError(''); }} style={{
+                  flex: 1, padding: '9px 8px', border: 'none', borderRadius: 9,
+                  background: tab === id ? '#1D9E75' : 'transparent',
+                  color: tab === id ? 'white' : '#8aab96',
+                  fontFamily: 'inherit', fontSize: 13, fontWeight: tab === id ? 600 : 500,
+                  cursor: 'pointer', transition: 'all 0.15s',
+                }}>{label}</button>
+              ))}
+            </div>
+
+            {/* Sign In form */}
+            {tab === 'login' && (
+              <div>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Email</label>
+                  <input type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} style={inputStyle}
+                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
+                </div>
+                <div style={{ marginBottom: 20 }}>
+                  <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Password</label>
+                  <input type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} style={inputStyle}
+                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
+                </div>
+                {error && <div style={{ color:'#f08080', fontSize:12, marginBottom:12, padding:'8px 12px', background:'rgba(240,128,128,0.08)', borderRadius:8 }}>{error}</div>}
+                <button onClick={handleLogin} style={{ width:'100%', background:'#3db56e', color:'white', border:'none', borderRadius:10, padding:'13px', fontFamily:'inherit', fontSize:14, fontWeight:600, cursor:loading?'not-allowed':'pointer', opacity:loading?0.7:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
+                  {loading && <Spinner size={14} />}{loading ? 'Signing in…' : 'Sign in →'}
+                </button>
+                <div style={{ textAlign:'center', marginTop:14 }}>
+                  <span style={{ fontSize:12, color:'#8aab96' }}>No account? </span>
+                  <button onClick={() => { setTab('signup'); setError(''); }} style={{ background:'none', border:'none', color:'#5DCEA4', fontSize:12, cursor:'pointer', fontFamily:'inherit' }}>Create one free →</button>
+                </div>
+              </div>
+            )}
+
+            {/* Create Account form */}
+            {tab === 'signup' && (
+              <div>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Full name</label>
+                  <input type="text" placeholder="Your name" value={name} onChange={e => setName(e.target.value)} style={inputStyle}
+                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
+                </div>
+                <div style={{ marginBottom: 14 }}>
+                  <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Email</label>
+                  <input type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} style={inputStyle}
+                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
+                </div>
+                <div style={{ marginBottom: 20 }}>
+                  <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Password</label>
+                  <input type="password" placeholder="Min. 8 characters" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleRegister()} style={inputStyle}
+                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
+                </div>
+                {error && <div style={{ color:'#f08080', fontSize:12, marginBottom:12, padding:'8px 12px', background:'rgba(240,128,128,0.08)', borderRadius:8 }}>{error}</div>}
+                <button onClick={handleRegister} style={{ width:'100%', background:'#3db56e', color:'white', border:'none', borderRadius:10, padding:'13px', fontFamily:'inherit', fontSize:14, fontWeight:600, cursor:loading?'not-allowed':'pointer', opacity:loading?0.7:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
+                  {loading && <Spinner size={14} />}{loading ? 'Creating account…' : 'Create account →'}
+                </button>
+                <div style={{ textAlign:'center', marginTop:14 }}>
+                  <span style={{ fontSize:12, color:'#8aab96' }}>Already have an account? </span>
+                  <button onClick={() => { setTab('login'); setError(''); }} style={{ background:'none', border:'none', color:'#5DCEA4', fontSize:12, cursor:'pointer', fontFamily:'inherit' }}>Sign in →</button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Scan History Panel ────────────────────────────────────────────────────────
+// ✅ FIX 4: Scan history per user — reads from /api/scans/ endpoint
+function ScanHistoryPanel({ authUser, onScan, onNavigate }) {
+  const [history, setHistory] = useAppState([]);
+  const [loading, setLoading] = useAppState(true);
+
+  useAppEffect(() => { if (authUser) loadHistory(); }, [authUser]);
+
+  async function loadHistory() {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('tp_token');
+      const r = await fetch('https://web-production-4592c.up.railway.app/api/scans/', {
+        headers: { 'Authorization': 'Bearer ' + token },
+      });
+      if (r.ok) {
+        const d = await r.json();
+        setHistory(Array.isArray(d) ? d : (d.results || []));
+      }
+    } catch { /* silent */ }
+    setLoading(false);
+  }
+
+  if (!authUser) return null;
+
+  return (
+    <Card style={{ marginBottom: '1rem' }}>
+      <div style={{ padding: '1rem 1rem 0.5rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div style={{ fontSize: 13, fontWeight: 700 }}>📋 Your scan history</div>
+        <button onClick={loadHistory} style={{ background:'none', border:'none', color:'var(--green)', fontSize:11, cursor:'pointer', fontWeight:600 }}>↻ Refresh</button>
+      </div>
+      <div style={{ padding: '0 1rem 1rem' }}>
+        {loading ? (
+          <div style={{ textAlign:'center', padding:'1rem 0', color:'var(--text-3)', fontSize:12, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}><Spinner size={12} color="var(--text-3)" /> Loading…</div>
+        ) : history.length === 0 ? (
+          <div style={{ textAlign:'center', padding:'0.75rem 0', color:'var(--text-3)', fontSize:12 }}>No scans yet. Run your first scan above!</div>
+        ) : (
+          <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+            {history.slice(0, 5).map((s, i) => (
+              <div key={i} onClick={() => { onScan(s.url || s.brand_url); onNavigate('scanner'); }} style={{
+                display:'flex', alignItems:'center', justifyContent:'space-between',
+                padding:'9px 12px', background:'var(--surface)', borderRadius:'var(--r-sm)',
+                cursor:'pointer', transition:'background 0.1s',
+              }}
+                onMouseEnter={e => e.currentTarget.style.background='var(--surface2)'}
+                onMouseLeave={e => e.currentTarget.style.background='var(--surface)'}
+              >
+                <div>
+                  <div style={{ fontSize:12, fontWeight:600 }}>{s.url || s.brand_url}</div>
+                  <div style={{ fontSize:10, color:'var(--text-3)', marginTop:2 }}>
+                    {s.timestamp ? new Date(s.timestamp).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'Recent'}
+                  </div>
+                </div>
+                {s.score != null && (
+                  <div style={{ padding:'3px 10px', borderRadius:20, fontSize:12, fontWeight:700, background: s.score>=75?'var(--green-bg)':s.score>=50?'var(--warn-bg)':'var(--red-bg)', color: s.score>=75?'var(--green-dark)':s.score>=50?'var(--warn-text)':'var(--red-text)', flexShrink:0 }}>{s.score}</div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+// ─── App ───────────────────────────────────────────────────────────────────────
+function App() {
+  const [page, setPage] = useAppState('landing');
+  const [isPro, setIsPro] = useAppState(() => localStorage.getItem('tp_pro') === 'true');
+  const [scanUrl, setScanUrl] = useAppState('');
+  const [tweaks, setTweakState] = useAppState(TWEAK_DEFAULTS);
+  const [authUser, setAuthUser] = useAppState(() => {
+    try { return JSON.parse(localStorage.getItem('tp_user') || 'null'); } catch { return null; }
+  });
+  // ✅ Show auth modal on first visit if not logged in
+  const [showAuth, setShowAuth] = useAppState(() => !localStorage.getItem('tp_user'));
+  const [tweaksOpen, setTweaksOpen] = useAppState(false);
+  const [exitShown, setExitShown] = useAppState(false);
+  const [showExit, setShowExit] = useAppState(false);
+
+  useAppEffect(() => { applyTheme(tweaks.theme); }, [tweaks.theme]);
+  useAppEffect(() => { applyDensity(tweaks.density); }, [tweaks.density]);
+  useAppEffect(() => { if (tweaks.showPro && !isPro) setIsPro(true); }, [tweaks.showPro]);
+  useAppEffect(() => {
+    if (exitShown || page !== 'landing') return;
+    const h = (e) => { if (e.clientY < 10) { setShowExit(true); setExitShown(true); } };
+    document.addEventListener('mouseleave', h);
+    return () => document.removeEventListener('mouseleave', h);
+  }, [exitShown, page]);
+  useAppEffect(() => {
+    const handler = (e) => {
+      if (e.data?.type === '__activate_edit_mode')   setTweaksOpen(true);
+      if (e.data?.type === '__deactivate_edit_mode') setTweaksOpen(false);
+    };
+    window.addEventListener('message', handler);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', handler);
+  }, []);
+
+  function setTweak(key, val) {
+    const next = typeof key === 'object' ? { ...tweaks, ...key } : { ...tweaks, [key]: val };
+    setTweakState(next);
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: next }, '*');
+  }
+  function navigate(target) { setPage(target); window.scrollTo({ top:0, behavior:'smooth' }); }
+  async function saveScan(url) {
+    const token = localStorage.getItem('tp_token');
+    if (!token) return;
+    try {
+      await fetch('https://web-production-4592c.up.railway.app/api/scans/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ url, brand_url: url }),
+      });
+    } catch { /* silent */ }
+  }
+  function handleScan(url) {
+    setScanUrl(url);
+    setPage('scanner');
+    saveScan(url); // ✅ FIX 4: save to history
+  }
+  function unlockPro() { setIsPro(true); localStorage.setItem('tp_pro','true'); }
+
+  const navPages = [['scanner','Scan'],['dashboard','Dashboard'],['competitor','Compare'],['blog','Resources'],['about','About']];
+
+  return (
+    <div style={{ minHeight:'100vh', display:'flex', flexDirection:'column' }}>
+      <nav style={{
+        display:'flex', alignItems:'center', justifyContent:'space-between',
+        padding:'10px 16px', borderBottom:'1px solid var(--border)',
+        background:'rgba(248,247,245,0.96)',
+        backdropFilter:'blur(20px) saturate(180%)', WebkitBackdropFilter:'blur(20px) saturate(180%)',
+        position:'sticky', top:0, zIndex:100, boxShadow:'0 1px 0 rgba(0,0,0,0.04)',
+      }}>
+        <button onClick={() => navigate('landing')} style={{ display:'flex', alignItems:'center', gap:8, background:'none', border:'none', cursor:'pointer', padding:0, color:'var(--text)' }}>
+          <div style={{ width:30, height:30, background:'linear-gradient(135deg,#1D9E75,#22B88A)', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:12, fontWeight:800, boxShadow:'0 2px 8px rgba(29,158,117,0.35)' }}>TP</div>
+          <span style={{ fontSize:15, fontWeight:700, letterSpacing:'-0.3px' }}>TrustPulse</span>
+        </button>
+        <div style={{ display:'flex', gap:4, alignItems:'center', flexWrap:'wrap' }}>
+          {navPages.map(([pg,label]) => (
+            <button key={pg} onClick={() => navigate(pg)} style={{
+              background: page===pg?'var(--green-bg)':'transparent',
+              color: page===pg?'var(--green)':'var(--text-2)',
+              border: page===pg?'1px solid var(--green-mid)':'1px solid transparent',
+              borderRadius:8, padding:'5px 9px', fontSize:11, fontWeight:page===pg?600:500, cursor:'pointer', transition:'all 0.15s',
+            }}>{label}</button>
+          ))}
+          <button onClick={() => navigate('pricing')} style={{ background:'linear-gradient(135deg,#1D9E75,#22B88A)', color:'#fff', border:'none', borderRadius:8, padding:'6px 12px', fontSize:12, fontWeight:700, cursor:'pointer', boxShadow:'0 2px 8px rgba(29,158,117,0.3)' }}>
+            {isPro || tweaks.showPro ? '✓ Pro' : 'Upgrade →'}
+          </button>
+          <button onClick={() => setShowAuth(true)} style={{
+            background: authUser ? 'var(--green-bg)' : 'transparent',
+            border: authUser ? '1px solid var(--green-mid)' : '1px solid var(--border-md)',
+            borderRadius:8, padding:'6px 12px', fontSize:12, fontWeight:500, cursor:'pointer',
+            color: authUser ? 'var(--green-dark)' : 'var(--text-2)', marginLeft:4,
+          }}>
+            {authUser ? (authUser.name || authUser.email || 'Account').split(' ')[0] : 'Sign in'}
+          </button>
+        </div>
+      </nav>
+
+      <main style={{ flex:1 }}>
+        {page==='landing'    && <LandingPage    onNavigate={navigate} onScan={handleScan} />}
+        {page==='scanner'    && (
+          <div>
+            <ScannerPage initialUrl={scanUrl} isPro={isPro||tweaks.showPro} onUnlockPro={unlockPro} />
+            {authUser && (
+              <div style={{ padding:'0 1rem 1.5rem', maxWidth:540, margin:'0 auto' }}>
+                <ScanHistoryPanel authUser={authUser} onScan={handleScan} onNavigate={navigate} />
+              </div>
+            )}
+          </div>
+        )}
+        {page==='dashboard'  && <DashboardPage  onNavigate={navigate} />}
+        {page==='competitor' && <CompetitorPage />}
+        {page==='pricing'    && <PricingPage    onNavigate={navigate} />}
+        {page==='about'      && <AboutPage      onNavigate={navigate} />}
+        {page==='blog'       && <BlogPage       onNavigate={navigate} />}
+      </main>
+
+      <StickyCTA onNavigate={navigate} page={page} />
+
+      {showExit && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.72)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }} onClick={() => setShowExit(false)}>
+          <div style={{ background:'var(--card)', borderRadius:'var(--r-xl)', padding:'2rem 1.5rem', maxWidth:340, width:'100%', textAlign:'center', boxShadow:'var(--shadow-lg)', animation:'fadeUp 0.3s ease-out' }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontSize:36, marginBottom:12 }}>⚠️</div>
+            <h3 style={{ fontSize:18, fontWeight:800, marginBottom:8 }}>Your scan results are ready</h3>
+            <p style={{ fontSize:13, color:'var(--text-2)', lineHeight:1.55, marginBottom:'1.25rem' }}>Don't leave without your free trust score. It takes 5 seconds.</p>
+            <button onClick={() => { setShowExit(false); navigate('scanner'); }} style={{ width:'100%', padding:'13px', background:'linear-gradient(135deg,#1D9E75,#26C48F)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', fontSize:14, fontWeight:800, cursor:'pointer', marginBottom:10 }}>Scan my site free →</button>
+            <button onClick={() => setShowExit(false)} style={{ background:'none', border:'none', color:'var(--text-3)', fontSize:12, cursor:'pointer' }}>No thanks, I'll take the risk</button>
+          </div>
+        </div>
+      )}
+
+      {/* ✅ Single clean auth modal */}
+      {showAuth && (
+        <AuthModal
+          authUser={authUser}
+          setAuthUser={setAuthUser}
+          setShowAuth={setShowAuth}
+          navigate={navigate}
+        />
+      )}
+
+      {tweaksOpen && (
+        <TweaksPanel title="Tweaks">
+          <TweakSection label="Brand colour" />
+          <TweakColor label="Theme"
+            value={tweaks.theme==='green'?'#1D9E75':tweaks.theme==='indigo'?'#4F6EF7':'#D97706'}
+            options={['#1D9E75','#4F6EF7','#D97706']}
+            onChange={v => setTweak('theme', v==='#4F6EF7'?'indigo':v==='#D97706'?'amber':'green')} />
+          <TweakSection label="Layout" />
+          <TweakRadio label="Density" value={tweaks.density} options={['compact','comfortable','spacious']} onChange={v => setTweak('density', v)} />
+          <TweakSection label="Preview" />
+          <TweakToggle label="Show Pro mode" value={tweaks.showPro} onChange={v => setTweak('showPro', v)} />
+          <TweakSection label="Demo score" />
+          <TweakSlider label="Score" value={tweaks.demoScore} min={0} max={100} step={1} onChange={v => setTweak('demoScore', v)} />
+        </TweaksPanel>
+      )}
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+  </script>
 </body>
 </html>
