@@ -4,238 +4,164 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Dashboard — TrustPulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 <style>
-:root {
-  --green: #1D9E75;
-  --green-bright: #5DCEA4;
-  --bg: #091a10;
-  --surface: #0f2518;
-  --surface2: #162d1e;
-  --surface3: #1a3324;
-  --text: #e8f5ee;
-  --text-2: #8fb89e;
-  --text-3: #5a8a6a;
-  --border: rgba(29,158,117,0.18);
-  --red: #E24B4A;
-  --amber: #BA7517;
-  --shadow: 0 4px 24px rgba(0,0,0,0.4);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --green:#1D9E75;--green-dark:#0F6E56;--green-bg:#E6F5EF;--green-mid:rgba(29,158,117,0.18);
+  --bg:#F8F7F5;--card:#FFFFFF;--surface:#F0EEE9;--surface2:#E8E6E0;
+  --border:rgba(24,24,26,0.07);--border-md:rgba(24,24,26,0.13);
+  --text:#18181A;--text-2:#5A5A60;--text-3:#9B9BA0;
+  --red:#E24B4A;--red-bg:#FEE8E8;--red-text:#9A2B2A;
+  --warn:#EF9F27;--warn-bg:#FEF3E2;--warn-text:#7A4400;
+  --shadow:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 6px 24px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.04);
+  --r:12px;--r-lg:16px;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Plus Jakarta Sans',-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;}
-#root{min-height:100vh;display:flex;flex-direction:column;}
 button{cursor:pointer;font-family:inherit;}
-a{text-decoration:none;}
+a{text-decoration:none;color:inherit;}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const API = 'https://web-production-4592c.up.railway.app';
-
-const SIGNAL_LABELS = {
-  ssl:'SSL Certificate', privacy_policy:'Privacy Policy', contact_info:'Contact Info',
-  https_redirect:'HTTPS Redirect', cookie_notice:'Cookie Notice', social_proof:'Social Proof',
-  return_policy:'Return Policy', about_page:'About Page', trust_badges:'Trust Badges',
-  secure_checkout:'Secure Checkout', review_system:'Review System', business_address:'Business Address'
-};
-
-function scoreColor(s){ return s>=70?'#1D9E75':s>=40?'#BA7517':'#E24B4A'; }
-function scoreBg(s){ return s>=70?'rgba(29,158,117,0.15)':s>=40?'rgba(186,117,23,0.15)':'rgba(226,75,74,0.15)'; }
-function scoreLabel(s){ return s>=70?'Good':s>=40?'Moderate':'Poor'; }
-
-function ScoreRing({score}){
-  const r=54, circ=2*Math.PI*r, fill=(score/100)*circ, c=scoreColor(score);
-  return (
-    <svg width="140" height="140" viewBox="0 0 140 140">
-      <circle cx="70" cy="70" r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10"/>
-      <circle cx="70" cy="70" r={r} fill="none" stroke={c} strokeWidth="10"
-        strokeDasharray={`${fill} ${circ}`} strokeLinecap="round"
-        transform="rotate(-90 70 70)" style={{transition:'stroke-dasharray 1s ease'}}/>
-      <text x="70" y="66" textAnchor="middle" fontSize="28" fontWeight="800" fill={c} fontFamily="Plus Jakarta Sans">{score??'--'}</text>
-      <text x="70" y="84" textAnchor="middle" fontSize="11" fill="#5a8a6a" fontFamily="Plus Jakarta Sans">/ 100</text>
-    </svg>
-  );
-}
+const API='https://web-production-4592c.up.railway.app';
+const SIGNAL_LABELS={ssl:'SSL Certificate',privacy_policy:'Privacy Policy',contact_info:'Contact Info',https_redirect:'HTTPS Redirect',cookie_notice:'Cookie Notice',social_proof:'Social Proof',return_policy:'Return Policy',about_page:'About Page',trust_badges:'Trust Badges',secure_checkout:'Secure Checkout',review_system:'Review System',business_address:'Business Address'};
+const scoreColor=s=>s>=70?'#1D9E75':s>=40?'#EF9F27':'#E24B4A';
+const scoreBg=s=>s>=70?'#E6F5EF':s>=40?'#FEF3E2':'#FEE8E8';
+const scoreText=s=>s>=70?'#0F6E56':s>=40?'#7A4400':'#9A2B2A';
+const scoreLabel=s=>s>=70?'Good':s>=40?'Moderate':'Poor';
 
 function StatCard({label,value,icon,color}){
-  return (
-    <div style={{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:14,padding:'20px',display:'flex',flexDirection:'column',gap:8}}>
-      <span style={{fontSize:24}}>{icon}</span>
-      <span style={{fontSize:28,fontWeight:800,color:color||'var(--text)'}}>{value??'--'}</span>
-      <span style={{fontSize:11,color:'var(--text-3)',letterSpacing:'0.06em',textTransform:'uppercase',fontWeight:600}}>{label}</span>
-    </div>
-  );
+  return <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:'var(--r-lg)',padding:'20px',boxShadow:'var(--shadow)',display:'flex',flexDirection:'column',gap:8}}>
+    <span style={{fontSize:22}}>{icon}</span>
+    <span style={{fontSize:28,fontWeight:800,color:color||'var(--text)'}}>{value??'--'}</span>
+    <span style={{fontSize:11,color:'var(--text-3)',letterSpacing:'0.06em',textTransform:'uppercase',fontWeight:600}}>{label}</span>
+  </div>;
 }
 
-function MiniBar({value,max=100,color}){
-  return (
-    <div style={{background:'rgba(255,255,255,0.06)',borderRadius:100,height:6,overflow:'hidden',flex:1}}>
-      <div style={{width:`${(value/max)*100}%`,background:color,height:'100%',borderRadius:100,transition:'width 0.8s ease'}}/>
-    </div>
-  );
+function ScoreRing({score}){
+  const r=54,circ=2*Math.PI*r,fill=(score/100)*circ,c=scoreColor(score);
+  return <svg width="140" height="140" viewBox="0 0 140 140">
+    <circle cx="70" cy="70" r={r} fill="none" stroke="#E8E6E0" strokeWidth="10"/>
+    <circle cx="70" cy="70" r={r} fill="none" stroke={c} strokeWidth="10" strokeDasharray={`${fill} ${circ}`} strokeLinecap="round" transform="rotate(-90 70 70)" style={{transition:'stroke-dasharray 1s ease'}}/>
+    <text x="70" y="66" textAnchor="middle" fontSize="28" fontWeight="800" fill={c} fontFamily="Plus Jakarta Sans">{score}</text>
+    <text x="70" y="84" textAnchor="middle" fontSize="11" fill="#9B9BA0" fontFamily="Plus Jakarta Sans">/ 100</text>
+  </svg>;
 }
 
 function Dashboard(){
-  const [data,setData] = React.useState(null);
-  const [loading,setLoading] = React.useState(true);
-  const [selected,setSelected] = React.useState(null);
+  const [data,setData]=React.useState(null);
+  const [loading,setLoading]=React.useState(true);
+  const [selected,setSelected]=React.useState(null);
 
   React.useEffect(()=>{
     fetch(`${API}/api/dashboard/`,{credentials:'include'})
       .then(r=>r.json()).then(d=>{setData(d);setLoading(false);})
       .catch(()=>{
-        setData({
-          user:{name:'Jay Prakash',email:'jay@example.com',plan:'pro',is_pro:true},
-          stats:{total_scans:24,avg_score:71,best_score:94,worst_score:38,best_signal:'ssl',worst_signal:'review_system'},
-          trend:[{date:'Apr 20',avg_score:52},{date:'Apr 27',avg_score:61},{date:'May 4',avg_score:67},{date:'May 11',avg_score:71},{date:'May 18',avg_score:78}],
-          scans:[
-            {id:1,url:'https://mystore.co.uk',trust_score:78,created_at:'2026-05-18T10:22:00Z',signals:{ssl:true,privacy_policy:true,contact_info:true,https_redirect:true,cookie_notice:false,social_proof:false,return_policy:true,about_page:true,trust_badges:false,secure_checkout:true,review_system:false,business_address:true}},
-            {id:2,url:'https://techshop.io',trust_score:62,created_at:'2026-05-17T14:05:00Z',signals:{ssl:true,privacy_policy:false,contact_info:true,https_redirect:true,cookie_notice:true,social_proof:false,return_policy:false,about_page:true,trust_badges:false,secure_checkout:true,review_system:false,business_address:false}},
-            {id:3,url:'https://fashionhub.com',trust_score:94,created_at:'2026-05-15T09:11:00Z',signals:{ssl:true,privacy_policy:true,contact_info:true,https_redirect:true,cookie_notice:true,social_proof:true,return_policy:true,about_page:true,trust_badges:true,secure_checkout:true,review_system:true,business_address:false}},
-            {id:4,url:'https://cheapgadgets.net',trust_score:38,created_at:'2026-05-12T16:44:00Z',signals:{ssl:false,privacy_policy:false,contact_info:false,https_redirect:false,cookie_notice:false,social_proof:false,return_policy:false,about_page:false,trust_badges:false,secure_checkout:false,review_system:false,business_address:false}},
-          ]
-        });
+        setData({user:{name:'Jay Prakash',email:'jay@example.com',plan:'pro',is_pro:true},stats:{total_scans:24,avg_score:71,best_score:94,worst_score:38,best_signal:'ssl',worst_signal:'review_system'},trend:[{date:'Apr 20',avg_score:52},{date:'Apr 27',avg_score:61},{date:'May 4',avg_score:67},{date:'May 11',avg_score:71},{date:'May 18',avg_score:78}],scans:[{id:1,url:'https://mystore.co.uk',trust_score:78,created_at:'2026-05-18T10:22:00Z',signals:{ssl:true,privacy_policy:true,contact_info:true,https_redirect:true,cookie_notice:false,social_proof:false,return_policy:true,about_page:true,trust_badges:false,secure_checkout:true,review_system:false,business_address:true}},{id:2,url:'https://techshop.io',trust_score:62,created_at:'2026-05-17T14:05:00Z',signals:{ssl:true,privacy_policy:false,contact_info:true,https_redirect:true,cookie_notice:true,social_proof:false,return_policy:false,about_page:true,trust_badges:false,secure_checkout:true,review_system:false,business_address:false}},{id:3,url:'https://fashionhub.com',trust_score:94,created_at:'2026-05-15T09:11:00Z',signals:{ssl:true,privacy_policy:true,contact_info:true,https_redirect:true,cookie_notice:true,social_proof:true,return_policy:true,about_page:true,trust_badges:true,secure_checkout:true,review_system:true,business_address:false}},{id:4,url:'https://cheapgadgets.net',trust_score:38,created_at:'2026-05-12T16:44:00Z',signals:{ssl:false,privacy_policy:false,contact_info:false,https_redirect:false,cookie_notice:false,social_proof:false,return_policy:false,about_page:false,trust_badges:false,secure_checkout:false,review_system:false,business_address:false}}]});
         setLoading(false);
       });
   },[]);
 
-  if(loading) return (
-    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-3)',fontSize:14}}>
-      Loading dashboard...
-    </div>
-  );
-
+  if(loading) return <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-3)'}}>Loading...</div>;
   const {user,stats,trend,scans}=data;
-  const maxTrend=Math.max(...trend.map(t=>t.avg_score));
 
-  return (
-    <div style={{minHeight:'100vh',background:'var(--bg)'}}>
-      {/* Nav */}
-      <nav style={{background:'var(--surface)',borderBottom:'1px solid var(--border)',padding:'0 28px',height:60,display:'flex',alignItems:'center',justifyContent:'space-between',position:'sticky',top:0,zIndex:100}}>
-        <div style={{display:'flex',alignItems:'center',gap:10}}>
-          <div style={{width:32,height:32,background:'linear-gradient(135deg,#1D9E75,#26C48F)',borderRadius:8,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800,fontSize:15,color:'#fff'}}>T</div>
-          <span style={{fontWeight:700,fontSize:16,color:'var(--text)'}}>TrustPulse</span>
-        </div>
-        <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <a href="compare.html" style={{fontSize:13,color:'var(--text-2)',padding:'6px 14px',border:'1px solid var(--border)',borderRadius:8}}>Compare</a>
-          <a href="index.html" style={{fontSize:13,color:'var(--text-2)',padding:'6px 14px',border:'1px solid var(--border)',borderRadius:8}}>Scanner</a>
-          {user.is_pro && <span style={{background:'linear-gradient(135deg,#1D9E75,#26C48F)',color:'#fff',fontSize:11,fontWeight:700,padding:'3px 10px',borderRadius:20,letterSpacing:'0.05em'}}>PRO</span>}
-          <div style={{width:34,height:34,borderRadius:'50%',background:'rgba(29,158,117,0.2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:700,color:'var(--green)'}}>
-            {user.name?.charAt(0)||'U'}
-          </div>
-        </div>
-      </nav>
+  return <div style={{minHeight:'100vh',background:'var(--bg)'}}>
+    <nav style={{background:'var(--card)',borderBottom:'1px solid var(--border)',padding:'0 28px',height:64,display:'flex',alignItems:'center',justifyContent:'space-between',position:'sticky',top:0,zIndex:100,boxShadow:'var(--shadow)'}}>
+      <div style={{display:'flex',alignItems:'center',gap:10}}>
+        <div style={{width:36,height:36,background:'linear-gradient(135deg,#1D9E75,#0F6E56)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800,fontSize:16,color:'#fff'}}>T</div>
+        <span style={{fontWeight:800,fontSize:17}}>TrustPulse</span>
+      </div>
+      <div style={{display:'flex',alignItems:'center',gap:10}}>
+        <a href="compare.html" style={{fontSize:13,color:'var(--text-2)',padding:'7px 16px',border:'1px solid var(--border-md)',borderRadius:'var(--r)',fontWeight:500}}>Compare</a>
+        <a href="index.html" style={{fontSize:13,color:'var(--text-2)',padding:'7px 16px',border:'1px solid var(--border-md)',borderRadius:'var(--r)',fontWeight:500}}>Scanner</a>
+        {user.is_pro&&<span style={{background:'linear-gradient(135deg,#1D9E75,#0F6E56)',color:'#fff',fontSize:11,fontWeight:700,padding:'4px 12px',borderRadius:20,letterSpacing:'0.05em'}}>PRO</span>}
+        <div style={{width:36,height:36,borderRadius:'50%',background:'var(--green-bg)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:700,color:'var(--green-dark)'}}>{user.name?.charAt(0)||'U'}</div>
+      </div>
+    </nav>
 
-      <div style={{maxWidth:1100,margin:'0 auto',padding:'32px 20px'}}>
-        {/* Header */}
-        <div style={{marginBottom:28}}>
-          <h1 style={{fontSize:26,fontWeight:800,color:'var(--text)',margin:'0 0 4px'}}>Welcome back, {user.name?.split(' ')[0]} 👋</h1>
-          <p style={{color:'var(--text-3)',fontSize:14}}>Your trust signal overview</p>
-        </div>
+    <div style={{maxWidth:1100,margin:'0 auto',padding:'32px 20px'}}>
+      <div style={{marginBottom:28}}>
+        <h1 style={{fontSize:26,fontWeight:800,margin:'0 0 4px'}}>Welcome back, {user.name?.split(' ')[0]} 👋</h1>
+        <p style={{color:'var(--text-3)',fontSize:14}}>Your trust signal overview</p>
+      </div>
 
-        {/* Stat cards */}
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:14,marginBottom:24}}>
-          <StatCard label="Total Scans" value={stats.total_scans} icon="🔍" color="var(--text)"/>
-          <StatCard label="Avg Score" value={stats.avg_score} icon="📊" color={scoreColor(stats.avg_score)}/>
-          <StatCard label="Best Score" value={stats.best_score} icon="🏆" color="#1D9E75"/>
-          <StatCard label="Worst Score" value={stats.worst_score} icon="⚠️" color="#E24B4A"/>
-        </div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:14,marginBottom:24}}>
+        <StatCard label="Total Scans" value={stats.total_scans} icon="🔍" color="var(--text)"/>
+        <StatCard label="Avg Score" value={stats.avg_score} icon="📊" color={scoreColor(stats.avg_score)}/>
+        <StatCard label="Best Score" value={stats.best_score} icon="🏆" color="#1D9E75"/>
+        <StatCard label="Worst Score" value={stats.worst_score} icon="⚠️" color="#E24B4A"/>
+      </div>
 
-        {/* Trend + Signal health */}
-        <div style={{display:'grid',gridTemplateColumns:'1fr 300px',gap:16,marginBottom:16}}>
-          {/* Trend chart */}
-          <div style={{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:16,padding:'22px 20px'}}>
-            <p style={{fontWeight:700,fontSize:14,color:'var(--text)',marginBottom:20}}>Trust score trend</p>
-            <div style={{display:'flex',alignItems:'flex-end',gap:8,height:160,paddingBottom:24,position:'relative'}}>
-              {trend.map((t,i)=>(
-                <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6,height:'100%',justifyContent:'flex-end'}}>
-                  <span style={{fontSize:10,color:'var(--green)',fontWeight:700}}>{t.avg_score}</span>
-                  <div style={{width:'100%',background:`linear-gradient(to top,#1D9E75,#26C48F)`,borderRadius:'4px 4px 0 0',height:`${(t.avg_score/100)*130}px`,transition:'height 0.8s ease',minHeight:4}}/>
-                  <span style={{fontSize:9,color:'var(--text-3)',whiteSpace:'nowrap'}}>{t.date}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Signal health */}
-          <div style={{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:16,padding:'22px 20px'}}>
-            <p style={{fontWeight:700,fontSize:14,color:'var(--text)',marginBottom:16}}>Signal health</p>
-            {stats.best_signal && (
-              <div style={{background:'rgba(29,158,117,0.12)',border:'1px solid rgba(29,158,117,0.25)',borderRadius:10,padding:'10px 14px',marginBottom:10}}>
-                <p style={{margin:0,fontSize:10,color:'var(--green)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.05em'}}>Best signal</p>
-                <p style={{margin:'4px 0 0',fontSize:13,color:'#5DCEA4',fontWeight:600}}>✅ {SIGNAL_LABELS[stats.best_signal]||stats.best_signal}</p>
-              </div>
-            )}
-            {stats.worst_signal && (
-              <div style={{background:'rgba(226,75,74,0.1)',border:'1px solid rgba(226,75,74,0.2)',borderRadius:10,padding:'10px 14px',marginBottom:16}}>
-                <p style={{margin:0,fontSize:10,color:'#E24B4A',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.05em'}}>Needs work</p>
-                <p style={{margin:'4px 0 0',fontSize:13,color:'#f08080',fontWeight:600}}>❌ {SIGNAL_LABELS[stats.worst_signal]||stats.worst_signal}</p>
-              </div>
-            )}
-            <div style={{borderTop:'1px solid var(--border)',paddingTop:14}}>
-              <p style={{fontSize:11,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.05em',marginBottom:8,fontWeight:600}}>Plan</p>
-              <span style={{background:user.is_pro?'linear-gradient(135deg,#1D9E75,#26C48F)':'var(--surface2)',color:'#fff',fontSize:12,fontWeight:700,padding:'5px 14px',borderRadius:20}}>
-                {user.plan?.toUpperCase()}
-              </span>
-            </div>
+      <div style={{display:'grid',gridTemplateColumns:'1fr 300px',gap:16,marginBottom:16}}>
+        <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:'var(--r-lg)',padding:'22px 20px',boxShadow:'var(--shadow)'}}>
+          <p style={{fontWeight:700,fontSize:14,marginBottom:20}}>Trust score trend</p>
+          <div style={{display:'flex',alignItems:'flex-end',gap:8,height:160,paddingBottom:24}}>
+            {trend.map((t,i)=><div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:6,height:'100%',justifyContent:'flex-end'}}>
+              <span style={{fontSize:10,color:'var(--green-dark)',fontWeight:700}}>{t.avg_score}</span>
+              <div style={{width:'100%',background:'linear-gradient(to top,#1D9E75,#5DCEA4)',borderRadius:'4px 4px 0 0',height:`${(t.avg_score/100)*130}px`,minHeight:4}}/>
+              <span style={{fontSize:9,color:'var(--text-3)',whiteSpace:'nowrap'}}>{t.date}</span>
+            </div>)}
           </div>
         </div>
 
-        {/* Scan history */}
-        <div style={{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:16,padding:'22px 20px'}}>
-          <p style={{fontWeight:700,fontSize:14,color:'var(--text)',marginBottom:16}}>Recent scans</p>
-          <div style={{display:'flex',flexDirection:'column',gap:10}}>
-            {scans.map(scan=>(
-              <div key={scan.id}>
-                <div
-                  onClick={()=>setSelected(selected?.id===scan.id?null:scan)}
-                  style={{border:`1px solid ${selected?.id===scan.id?'var(--green)':'var(--border)'}`,borderRadius:12,padding:'14px 18px',cursor:'pointer',background:selected?.id===scan.id?'rgba(29,158,117,0.06)':'transparent',transition:'all 0.2s'}}
-                >
-                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                    <div>
-                      <p style={{margin:0,fontWeight:600,fontSize:14,color:'var(--text)'}}>{scan.url}</p>
-                      <p style={{margin:'3px 0 0',fontSize:12,color:'var(--text-3)'}}>{new Date(scan.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</p>
-                    </div>
-                    <div style={{display:'flex',alignItems:'center',gap:10}}>
-                      <span style={{background:scoreBg(scan.trust_score),color:scoreColor(scan.trust_score),fontWeight:800,fontSize:16,padding:'4px 14px',borderRadius:20}}>
-                        {scan.trust_score}
-                      </span>
-                      <span style={{fontSize:12,color:scoreColor(scan.trust_score),fontWeight:600}}>{scoreLabel(scan.trust_score)}</span>
-                      <span style={{fontSize:12,color:'var(--text-3)'}}>{selected?.id===scan.id?'▲':'▼'}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {selected?.id===scan.id && (
-                  <div style={{border:'1px solid var(--border)',borderTop:'none',borderRadius:'0 0 12px 12px',padding:'20px 18px',background:'rgba(29,158,117,0.04)'}}>
-                    <div style={{display:'flex',justifyContent:'center',marginBottom:16}}>
-                      <ScoreRing score={scan.trust_score}/>
-                    </div>
-                    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:8}}>
-                      {Object.entries(scan.signals||{}).map(([key,val])=>(
-                        <div key={key} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',borderRadius:8,background:val?'rgba(29,158,117,0.12)':'rgba(255,255,255,0.04)',border:`1px solid ${val?'rgba(29,158,117,0.2)':'rgba(255,255,255,0.06)'}`}}>
-                          <span style={{fontSize:13}}>{val?'✅':'❌'}</span>
-                          <span style={{fontSize:12,color:val?'#5DCEA4':'var(--text-3)',fontWeight:500}}>{SIGNAL_LABELS[key]||key}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
+        <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:'var(--r-lg)',padding:'22px 20px',boxShadow:'var(--shadow)'}}>
+          <p style={{fontWeight:700,fontSize:14,marginBottom:16}}>Signal health</p>
+          {stats.best_signal&&<div style={{background:'var(--green-bg)',border:'1px solid rgba(29,158,117,0.2)',borderRadius:'var(--r)',padding:'10px 14px',marginBottom:10}}>
+            <p style={{margin:0,fontSize:10,color:'var(--green-dark)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.05em'}}>Best signal</p>
+            <p style={{margin:'4px 0 0',fontSize:13,color:'var(--green-dark)',fontWeight:600}}>✅ {SIGNAL_LABELS[stats.best_signal]}</p>
+          </div>}
+          {stats.worst_signal&&<div style={{background:'var(--red-bg)',border:'1px solid rgba(226,75,74,0.15)',borderRadius:'var(--r)',padding:'10px 14px',marginBottom:16}}>
+            <p style={{margin:0,fontSize:10,color:'var(--red-text)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.05em'}}>Needs work</p>
+            <p style={{margin:'4px 0 0',fontSize:13,color:'var(--red-text)',fontWeight:600}}>❌ {SIGNAL_LABELS[stats.worst_signal]}</p>
+          </div>}
+          <div style={{borderTop:'1px solid var(--border)',paddingTop:14}}>
+            <p style={{fontSize:11,color:'var(--text-3)',textTransform:'uppercase',letterSpacing:'0.05em',marginBottom:8,fontWeight:600}}>Plan</p>
+            <span style={{background:user.is_pro?'linear-gradient(135deg,#1D9E75,#0F6E56)':'var(--surface2)',color:user.is_pro?'#fff':'var(--text-2)',fontSize:12,fontWeight:700,padding:'5px 14px',borderRadius:20}}>{user.plan?.toUpperCase()}</span>
           </div>
         </div>
       </div>
+
+      <div style={{background:'var(--card)',border:'1px solid var(--border)',borderRadius:'var(--r-lg)',padding:'22px 20px',boxShadow:'var(--shadow)'}}>
+        <p style={{fontWeight:700,fontSize:14,marginBottom:16}}>Recent scans</p>
+        <div style={{display:'flex',flexDirection:'column',gap:10}}>
+          {scans.map(scan=><div key={scan.id}>
+            <div onClick={()=>setSelected(selected?.id===scan.id?null:scan)} style={{border:`1px solid ${selected?.id===scan.id?'var(--green)':'var(--border-md)'}`,borderRadius:'var(--r)',padding:'14px 18px',cursor:'pointer',background:selected?.id===scan.id?'var(--green-bg)':'var(--surface)',transition:'all 0.2s'}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <div>
+                  <p style={{margin:0,fontWeight:600,fontSize:14}}>{scan.url}</p>
+                  <p style={{margin:'3px 0 0',fontSize:12,color:'var(--text-3)'}}>{new Date(scan.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</p>
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:10}}>
+                  <span style={{background:scoreBg(scan.trust_score),color:scoreText(scan.trust_score),fontWeight:800,fontSize:16,padding:'4px 14px',borderRadius:20}}>{scan.trust_score}</span>
+                  <span style={{fontSize:12,color:scoreText(scan.trust_score),fontWeight:600}}>{scoreLabel(scan.trust_score)}</span>
+                  <span style={{fontSize:12,color:'var(--text-3)'}}>{selected?.id===scan.id?'▲':'▼'}</span>
+                </div>
+              </div>
+            </div>
+            {selected?.id===scan.id&&<div style={{border:'1px solid var(--border-md)',borderTop:'none',borderRadius:'0 0 var(--r) var(--r)',padding:'20px 18px',background:'var(--card)'}}>
+              <div style={{display:'flex',justifyContent:'center',marginBottom:16}}><ScoreRing score={scan.trust_score}/></div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:8}}>
+                {Object.entries(scan.signals||{}).map(([key,val])=><div key={key} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',borderRadius:8,background:val?'var(--green-bg)':'var(--surface)',border:`1px solid ${val?'rgba(29,158,117,0.2)':'var(--border)'}`}}>
+                  <span style={{fontSize:13}}>{val?'✅':'❌'}</span>
+                  <span style={{fontSize:12,color:val?'var(--green-dark)':'var(--text-3)',fontWeight:500}}>{SIGNAL_LABELS[key]||key}</span>
+                </div>)}
+              </div>
+            </div>}
+          </div>)}
+        </div>
+      </div>
     </div>
-  );
+  </div>;
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Dashboard/>);
+ReactDOM.createRoot(document.getElementById('root')).render(<Dashboard/>);
 </script>
 </body>
 </html>
