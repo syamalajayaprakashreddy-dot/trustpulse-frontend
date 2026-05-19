@@ -1023,27 +1023,31 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
   }
 
   function openGoogleSignIn() {
-    // Use popup flow - works in incognito and all browsers
-    const clientId = '960641490397-0ol6cra2prle8ufqhr65cgmem17lovhv.apps.googleusercontent.com';
-    const redirectUri = encodeURIComponent(window.location.origin);
-    const scope = encodeURIComponent('openid email profile');
-    const nonce = Math.random().toString(36).substring(2);
-    window.__googleNonce = nonce;
-    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(window.location.href.split('?')[0].split('#')[0])}&response_type=id_token&scope=${scope}&nonce=${nonce}&prompt=select_account`;
-    const popup = window.open(url, 'google_login', 'width=500,height=600,scrollbars=yes');
-    // Listen for the token from the redirect
-    const timer = setInterval(() => {
-      try {
-        if (popup && popup.closed) { clearInterval(timer); return; }
-        const hash = popup && popup.location && popup.location.hash;
-        if (hash && hash.includes('id_token')) {
-          clearInterval(timer);
-          const params = new URLSearchParams(hash.substring(1));
-          const idToken = params.get('id_token');
-          if (idToken) { popup.close(); handleGoogleLogin(idToken); }
+    if (!window.google) { setError('Google not loaded yet, try again in a moment.'); return; }
+    window.google.accounts.id.initialize({
+      client_id: '960641490397-0ol6cra2prle8ufqhr65cgmem17lovhv.apps.googleusercontent.com',
+      callback: (r) => handleGoogleLogin(r.credential),
+      ux_mode: 'popup',
+    });
+    window.google.accounts.id.prompt((notification) => {
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        // One Tap blocked (incognito) — fall back to renderButton flow
+        const div = document.getElementById('g_id_signin_fallback');
+        if (div) {
+          div.innerHTML = '';
+          window.google.accounts.id.renderButton(div, {
+            theme: 'outline', size: 'large', width: 300, text: 'continue_with',
+          });
+          div.style.display = 'flex';
+          div.style.justifyContent = 'center';
+          // Auto-click the rendered button
+          setTimeout(() => {
+            const btn = div.querySelector('[role="button"]') || div.querySelector('div[tabindex]');
+            if (btn) btn.click();
+          }, 300);
         }
-      } catch(e) { /* cross-origin, keep waiting */ }
-    }, 500);
+      }
+    });
   }
 
   const inputStyle = {
