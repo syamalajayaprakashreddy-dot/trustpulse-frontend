@@ -1023,13 +1023,27 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
   }
 
   function openGoogleSignIn() {
-    if (window.google) {
-      window.google.accounts.id.initialize({
-        client_id: '960641490397-0ol6cra2prle8ufqhr65cgmem17lovhv.apps.googleusercontent.com',
-        callback: (r) => handleGoogleLogin(r.credential),
-      });
-      window.google.accounts.id.prompt();
-    }
+    // Use popup flow - works in incognito and all browsers
+    const clientId = '960641490397-0ol6cra2prle8ufqhr65cgmem17lovhv.apps.googleusercontent.com';
+    const redirectUri = encodeURIComponent(window.location.origin);
+    const scope = encodeURIComponent('openid email profile');
+    const nonce = Math.random().toString(36).substring(2);
+    window.__googleNonce = nonce;
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(window.location.href.split('?')[0].split('#')[0])}&response_type=id_token&scope=${scope}&nonce=${nonce}&prompt=select_account`;
+    const popup = window.open(url, 'google_login', 'width=500,height=600,scrollbars=yes');
+    // Listen for the token from the redirect
+    const timer = setInterval(() => {
+      try {
+        if (popup && popup.closed) { clearInterval(timer); return; }
+        const hash = popup && popup.location && popup.location.hash;
+        if (hash && hash.includes('id_token')) {
+          clearInterval(timer);
+          const params = new URLSearchParams(hash.substring(1));
+          const idToken = params.get('id_token');
+          if (idToken) { popup.close(); handleGoogleLogin(idToken); }
+        }
+      } catch(e) { /* cross-origin, keep waiting */ }
+    }, 500);
   }
 
   const inputStyle = {
