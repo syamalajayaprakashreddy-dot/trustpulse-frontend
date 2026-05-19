@@ -1177,6 +1177,14 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                   <div id="google-btn-signup" style={{ display:'flex', justifyContent:'center', minHeight:44 }} />
                   {gLoading && <div style={{ textAlign:'center', marginTop:8, fontSize:12, color:'#8aab96' }}>Signing up with Google…</div>}
                 </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 // ─── Scan History Panel ────────────────────────────────────────────────────────
 // ✅ FIX 4: Scan history per user — reads from /api/scans/ endpoint
@@ -1357,7 +1365,7 @@ function App() {
         </div>
       </nav>
 
-      <main style={{ flex:1 }}>
+      <main style={{ flex:1 }} onClick={() => { if (!authUser) setShowAuth(true); }}>
         {page==='landing'    && <LandingPage    onNavigate={navigate} onScan={handleScan} requireAuth={requireAuth} />}
         {page==='scanner'    && (
           <div>
@@ -1412,7 +1420,7 @@ function App() {
           setShowAuth={setShowAuth}
           navigate={navigate}
           onSuccess={(user) => {
-            showToast(`Welcome, ${user.name || user.email.split('@')[0]}! 👋`);
+            showToast('Welcome, ' + (user.name || user.email.split('@')[0]) + '! 👋');
           }}
         />
       )}
