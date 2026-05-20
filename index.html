@@ -1012,8 +1012,8 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
     setLoading(true); setError('');
     try {
       const r = await fetch('https://web-production-b87c1.up.railway.app/api/auth/login/', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('tp_token') || '') },
-        body: JSON.stringify({ username: email, password }),
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
       const d = await r.json();
       if (r.ok) {
