@@ -1546,7 +1546,7 @@ function App() {
           <button onClick={() => navigate('pricing')} style={{ background:'linear-gradient(135deg,#1D9E75,#22B88A)', color:'#fff', border:'none', borderRadius:8, padding:'6px 12px', fontSize:12, fontWeight:700, cursor:'pointer', boxShadow:'0 2px 8px rgba(29,158,117,0.3)' }}>
             {isPro || tweaks.showPro ? '✓ Pro' : 'Upgrade →'}
           </button>
-        <div style={{ position:'relative' }}>
+        <div style={{ position:'relative', overflow:'visible' }}>
           <button
             onClick={() => authUser ? setShowUserMenu(m => !m) : setShowAuth(true)}
             style={{
