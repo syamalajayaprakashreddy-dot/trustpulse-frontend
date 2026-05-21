@@ -771,7 +771,7 @@ function DashboardPage({ onNavigate }) {
       const brandList = scans.slice(0,5).map(s => ({
         name: s.url.replace(/https?:\/\//, '').replace(/\/.*/,''),
         domain: s.url.replace(/https?:\/\//, '').replace(/\/.*/,''),
-        score: s.score || 0,
+        score: s.score || s.trust_score || 0,
         trend: '',
         status: s.score>=75?'good':s.score>=50?'warn':'bad'
       }));
@@ -794,7 +794,7 @@ function DashboardPage({ onNavigate }) {
         <button onClick={()=>onNavigate('scanner')} style={{ background:'var(--green)', color:'#fff', border:'none', borderRadius:'var(--r-sm)', padding:'7px 13px', fontSize:12, fontWeight:700, cursor:'pointer' }}>+ Add brand</button>
       </div>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:'1rem' }}>
-        {[{val:'78',label:'Avg trust score',trend:'↑ +4 this month',up:true,data:[68,71,70,74,73,76,78]},{val:'3',label:'Brands monitored',trend:'Active',up:null,data:[1,1,2,2,3,3,3]},{val:'12',label:'Issues detected',trend:'↓ 5 new',up:false,data:[4,6,5,8,10,9,12]},{val:'94%',label:'Reviews replied',trend:'↑ +11%',up:true,data:[78,80,82,85,88,91,94]}].map(m=>(
+        {[{val:stats.avg||0,label:'Avg trust score',trend:'↑ +4 this month',up:true,data:[68,71,70,74,73,76,78]},{val:stats.total||0,label:'Brands monitored',trend:'Active',up:null,data:[1,1,2,2,3,3,3]},{val:'12',label:'Issues detected',trend:'↓ 5 new',up:false,data:[4,6,5,8,10,9,12]},{val:'94%',label:'Reviews replied',trend:'↑ +11%',up:true,data:[78,80,82,85,88,91,94]}].map(m=>(
           <div key={m.label} style={{ background:'var(--card)', border:'1px solid var(--border)', borderRadius:'var(--r)', padding:'0.875rem 1rem' }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:6 }}>
               <div>
