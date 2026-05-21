@@ -1552,7 +1552,7 @@ function App() {
             borderRadius:8, padding:'6px 12px', fontSize:12, fontWeight:500, cursor:'pointer',
             color: authUser ? 'var(--green-dark)' : 'var(--text-2)', marginLeft:4,
           }}>
-            {authUser ? (authUser.name || authUser.email || 'Account').split(' ')[0] : 'Sign in'}
+          {authUser ? (authUser.name || authUser.email.split('@')[0] || 'Account').split(' ')[0] : 'Sign in'}
           </button>
         </div>
       </nav>
