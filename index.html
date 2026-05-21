@@ -1265,7 +1265,7 @@ function ScanHistoryPanel({ authUser, onScan, onNavigate }) {
     setLoading(true);
     try {
       const token = localStorage.getItem('tp_token');
-      const r = await fetch('https://web-production-b87c1.up.railway.app/api/scan/', {
+        const r = await fetch('https://web-production-b87c1.up.railway.app/api/scans/', {
         headers: { 'Authorization': 'Bearer ' + token },
       });
       if (r.ok) {
@@ -1379,7 +1379,7 @@ function App() {
     const token = localStorage.getItem('tp_token');
     if (!token) return;
     try {
-      await fetch('https://web-production-b87c1.up.railway.app/api/scan/', {
+        await fetch('https://web-production-b87c1.up.railway.app/api/scans/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         body: JSON.stringify({ url, brand_url: url }),
