@@ -340,7 +340,8 @@ function getMockResult(url) {
 }
 async function fetchScan(url) {
   try {
-    const res = await fetch('https://web-production-b87c1.up.railway.app/api/scan/', {
+    const token = localStorage.getItem('tp_token') || '';
+      const res = await fetch('https://web-production-b87c1.up.railway.app/api/scan/', {
       method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (localStorage.getItem('tp_token') || '') },
       body: JSON.stringify({ url }),
     });
