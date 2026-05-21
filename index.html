@@ -753,11 +753,11 @@ function ScannerPage({ initialUrl, isPro, onUnlockPro }) {
   );
 }
 function DashboardPage({ onNavigate }) {
-  const [brands, setBrands] = useAppState([]);
-  const [alerts, setAlerts] = useAppState([]);
-  const [stats, setStats] = useAppState({avg:0, total:0, issues:0});
+  const [brands, setBrands] = React.useState([]);
+  const [alerts, setAlerts] = React.useState([]);
+  const [stats, setStats] = React.useState({avg:0, total:0, issues:0});
 
-  useAppEffect(() => {
+  React.useEffect(() => {
     const token = localStorage.getItem('tp_token');
     if (!token) return;
     fetch('https://web-production-b87c1.up.railway.app/api/scans/', {
