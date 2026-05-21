@@ -1565,21 +1565,23 @@ function App() {
           <button
             onClick={() => authUser ? setShowUserMenu(m => !m) : setShowAuth(true)}
             style={{
-              background: authUser ? 'var(--green-bg)' : 'transparent',
-              border: authUser ? '1px solid var(--green-mid)' : '1px solid var(--border-md)',
-              borderRadius:8,
-              padding:'6px 12px',
-              fontSize:12,
-              fontWeight:500,
+              background: authUser ? 'linear-gradient(135deg,#1D9E75,#22B88A)' : 'transparent',
+              border: authUser ? 'none' : '1px solid var(--border-md)',
+              borderRadius: authUser ? '50%' : 8,
+              padding: authUser ? '0' : '6px 12px',
+              width: authUser ? 32 : 'auto',
+              height: authUser ? 32 : 'auto',
+              fontSize: authUser ? 11 : 12,
+              fontWeight: authUser ? 700 : 500,
               cursor:'pointer',
-              color: authUser ? 'var(--green-dark)' : 'var(--text-2)',
+              color: authUser ? '#fff' : 'var(--text-2)',
               marginLeft:4,
               display:'flex',
               alignItems:'center',
+              justifyContent:'center',
               gap:6
             }}>
-            {authUser ? '👤' : ''}
-            {authUser ? (authUser.name || authUser.email.split('@')[0] || 'Account').split(' ')[0] : 'Sign in'}
+            {authUser ? (authUser.name || authUser.email.split('@')[0] || 'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : 'Sign in'}
             {authUser ? ' ▾' : ''}
           </button>
           {showUserMenu && authUser && (
