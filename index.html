@@ -1448,7 +1448,10 @@ function ScanHistoryPanel({ authUser, onScan, onNavigate }) {
     <Card style={{ marginBottom: '1rem' }}>
       <div style={{ padding: '1rem 1rem 0.5rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
         <div style={{ fontSize: 13, fontWeight: 700 }}>📋 Your scan history</div>
-        <button onClick={loadHistory} style={{ background:'none', border:'none', color:'var(--green)', fontSize:11, cursor:'pointer', fontWeight:600 }}>↻ Refresh</button>
+        <div style={{ display:'flex', gap:8 }}>
+          <button onClick={loadHistory} style={{ background:'none', border:'none', color:'var(--green)', fontSize:11, cursor:'pointer', fontWeight:600 }}>↻ Refresh</button>
+          <button onClick={async () => { if(!confirm('Clear all scan history?')) return; const token = localStorage.getItem('tp_token'); const r = await fetch('https://web-production-b87c1.up.railway.app/api/scans/', {headers:{'Authorization':'Bearer '+token}}); const d = await r.json(); await Promise.all((d.scans||[]).map(s => fetch('https://web-production-b87c1.up.railway.app/api/scans/delete/', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}, body: JSON.stringify({id:s.id})}))); loadHistory(); }} style={{ background:'none', border:'none', color:'var(--red)', fontSize:11, cursor:'pointer', fontWeight:600 }}>🗑 Clear</button>
+        </div>
       </div>
       <div style={{ padding: '0 1rem 1rem' }}>
         {loading ? (
