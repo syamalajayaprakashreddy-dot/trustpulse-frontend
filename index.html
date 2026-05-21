@@ -1450,9 +1450,9 @@ function App() {
   const [scanUrl, setScanUrl] = useAppState('');
   const [tweaks, setTweakState] = useAppState(TWEAK_DEFAULTS);
   const [authUser, setAuthUser] = useAppState(() => {
-  const [showUserMenu, setShowUserMenu] = React.useState(false);
     try { return JSON.parse(localStorage.getItem('tp_user') || 'null'); } catch { return null; }
   });
+  const [showUserMenu, setShowUserMenu] = React.useState(false);
   // Auth modal — only shown when user clicks something
   const [showAuth, setShowAuth] = useAppState(false);
   const [toast, setToast] = useAppState(null); // { msg, type }
