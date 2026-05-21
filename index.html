@@ -1559,6 +1559,8 @@ function App() {
             }}>
             {isPro || tweaks.showPro ? '✓ Pro' : 'Upgrade →'}
           </button>
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:4, flexShrink:0 }}>
         <div style={{ position:'relative', overflow:'visible', flexShrink:0 }}>
           <button
             onClick={() => authUser ? setShowUserMenu(m => !m) : setShowAuth(true)}
