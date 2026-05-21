@@ -1209,8 +1209,9 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
       const d = await r.json();
       if (r.ok) {
         localStorage.setItem('tp_token', d.access);
-        localStorage.setItem('tp_user', JSON.stringify(d.user));
-        setAuthUser(d.user);
+        const u = { email: d.user.email, name: d.user.first_name || d.user.name || d.user.email.split('@')[0] };
+        localStorage.setItem('tp_user', JSON.stringify(u));
+        setAuthUser(u);
         setShowAuth(false);
         if (onSuccess) onSuccess(d.user);
       } else { setError(d.error || 'Google sign-in failed'); }
