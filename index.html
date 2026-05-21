@@ -1396,7 +1396,7 @@ function ScanHistoryPanel({ authUser, onScan, onNavigate }) {
       });
       if (r.ok) {
         const d = await r.json();
-        setHistory(Array.isArray(d) ? d : (d.results || []));
+        setHistory(Array.isArray(d) ? d : (d.scans || d.results || []));
       }
     } catch { /* silent */ }
     setLoading(false);
