@@ -881,7 +881,7 @@ function CompetitorPage() {
             value={compUrl} onChange={e => setCompUrl(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleCompare()}
             style={inputStyle} />
-          <button onClick={handleCompare} disabled={loading} style={btnStyle}>
+          <button onClick={handleCompare} disabled={loading} style={{ fontSize:13, fontWeight:700, padding:'8px 16px', borderRadius:8, border:'none', background:'var(--accent)', color:'#fff', cursor:'pointer', marginTop:4 }}>
             {loading ? 'Comparing...' : 'Compare'}
           </button>
         </div>
