@@ -1636,7 +1636,7 @@ function App() {
                 </button>
               )}
               <button
-                onClick={() => { handleSignOut(); setShowUserMenu(false); }}
+                onClick={() => { localStorage.removeItem('tp_token'); localStorage.removeItem('tp_user'); localStorage.removeItem('tp_pro'); window.location.reload(); }}
                 style={{
                   display:'flex', alignItems:'center', gap:10,
                   width:'100%', padding:'10px 16px',
