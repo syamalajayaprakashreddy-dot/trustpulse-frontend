@@ -82,7 +82,7 @@ function Dashboard(){
         <a href="compare.html" style={{fontSize:13,color:'var(--text-2)',padding:'7px 16px',border:'1px solid var(--border-md)',borderRadius:'var(--r)',fontWeight:500}}>Compare</a>
         <a href="index.html" style={{fontSize:13,color:'var(--text-2)',padding:'7px 16px',border:'1px solid var(--border-md)',borderRadius:'var(--r)',fontWeight:500}}>Scanner</a>
         {user.is_pro&&<span style={{background:'linear-gradient(135deg,#1D9E75,#0F6E56)',color:'#fff',fontSize:11,fontWeight:700,padding:'4px 12px',borderRadius:20,letterSpacing:'0.05em'}}>PRO</span>}
-        <div style={{width:36,height:36,borderRadius:'50%',background:'var(--green-bg)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:700,color:'var(--green-dark)'}}>{user.name?.charAt(0)||'U'}</div>
+        <div style={{width:36,height:36,borderRadius:'50%',background:'var(--green-bg)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:13,fontWeight:700,color:'var(--green-dark)',cursor:'pointer',position:'relative'}} onClick={()=>{const d=document.getElementById('profileDropdown');d.style.display=d.style.display==='none'?'block':'none';}}>{user.name?.charAt(0)||'U'}</div>
       </div>
     </nav>
 
