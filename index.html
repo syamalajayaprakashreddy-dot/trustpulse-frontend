@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TrustPulse — Brand Trust Scanner</title>
   <script src="https://accounts.google.com/gsi/client" async></script>
@@ -83,6 +84,12 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
     :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+  @media (max-width: 600px) {
+    .page { padding: 0.75rem 0.5rem !important; }
+    nav { padding: 0.5rem 0.75rem !important; }
+    .nav-links span { display: none; }
+    input, button { font-size: 16px !important; }
+  }
   </style>
 </head>
 <body>
@@ -924,7 +931,13 @@ function CompetitorPage() {
                     <span style={{ fontSize:13, fontWeight:800, color:scoreColor(s.score) }}>{s.score}</span>
                   </div>
                   <div style={{ background:'var(--surface)', borderRadius:20, height:6, overflow:'hidden' }}>
-                    <div style={{ height:'100%', borderRadius:20, width:`${s.score}%`, background:s.isMain?'var(--green)':'var(--surface2)', transition:'width 1s ease-out' }} />
+                  <div style={{
+                    height:'100%',
+                    borderRadius:20,
+                    width:`${s.score}%`,
+                    background:s.isMain?'var(--green)':'var(--surface2)',
+                    transition:'width 1s ease-out'
+                  }} />
                   </div>
                   {s.grade && <div style={{ fontSize:11, color:'var(--text-3)', marginTop:3 }}>{s.grade} — {s.grade_desc}</div>}
                 </div>
