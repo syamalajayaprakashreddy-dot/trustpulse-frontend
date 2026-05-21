@@ -1643,7 +1643,7 @@ function App() {
                 </button>
               )}
               <button
-                onClick={() => { localStorage.removeItem('tp_token'); localStorage.removeItem('tp_user'); localStorage.removeItem('tp_pro'); window.location.reload(); }}
+                onClick={() => { localStorage.clear(); window.location.href = '/'; }}
                 style={{
                   display:'flex', alignItems:'center', gap:10,
                   width:'100%', padding:'10px 16px',
