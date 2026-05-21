@@ -1296,7 +1296,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
           <div>
             {/* Tab switcher */}
             <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: 4, marginBottom: 28, gap: 4 }}>
-              {[['login','Sign in'],['signup','Create account']].map(([id, label]) => (
+              {[['login','Sign in'],['signup','Create account'],['forgot','Reset password']].map(([id, label]) => (
                 <button key={id} onClick={() => { setTab(id); setError(''); }} style={{
                   flex: 1, padding: '9px 8px', border: 'none', borderRadius: 9,
                   background: tab === id ? '#1D9E75' : 'transparent',
@@ -1328,6 +1328,9 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                   <span style={{ fontSize:12, color:'#8aab96' }}>No account? </span>
                   <button onClick={() => { setTab('signup'); setError(''); }} style={{ background:'none', border:'none', color:'#5DCEA4', fontSize:12, cursor:'pointer', fontFamily:'inherit' }}>Create one free →</button>
                 </div>
+                <div style={{ textAlign:'center', marginTop:8 }}>
+                  <button onClick={() => setTab('forgot')} style={{ background:'none', border:'none', color:'#8aab96', fontSize:12, cursor:'pointer', fontFamily:'inherit' }}>Forgot password?</button>
+                </div>
                 <div style={{ marginTop:12 }}>
                   <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
                     <div style={{ flex:1, height:'1px', background:'rgba(61,181,110,0.2)' }} />
@@ -1335,6 +1338,37 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                     <div style={{ flex:1, height:'1px', background:'rgba(61,181,110,0.2)' }} />
                   </div>
                   <div id="g_id_signin_fallback2" style={{ display:'flex', justifyContent:'center', minHeight:44 }} />
+                </div>
+              </div>
+            )}
+
+            {/* Forgot Password form */}
+            {tab === 'forgot' && (
+              <div>
+                <p style={{ fontSize:13, color:'#8aab96', marginBottom:20, lineHeight:1.5 }}>Enter your email and we will send you a reset link.</p>
+                <div style={{ marginBottom:20 }}>
+                  <label style={{ display:'block', fontSize:12, color:'#8aab96', marginBottom:6, fontWeight:500 }}>Email</label>
+                  <input type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} style={inputStyle}
+                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
+                </div>
+                {error && <div style={{ color:'#f08080', fontSize:12, marginBottom:12, padding:'8px 12px', background:'rgba(240,128,128,0.08)', borderRadius:8 }}>{error}</div>}
+                <button onClick={async () => {
+                  if (!email) { setError('Please enter your email'); return; }
+                  setLoading(true); setError('');
+                  try {
+                    const r = await fetch('https://web-production-b87c1.up.railway.app/api/auth/forgot-password/', {
+                      method:'POST', headers:{'Content-Type':'application/json'},
+                      body: JSON.stringify({ email })
+                    });
+                    if (r.ok) { setError(''); setTab('login'); alert('Reset link sent! Check your email.'); }
+                    else { setError('Email not found. Please check and try again.'); }
+                  } catch { setError('Connection error. Try again.'); }
+                  setLoading(false);
+                }} style={{ width:'100%', background:'#3db56e', color:'white', border:'none', borderRadius:10, padding:'13px', fontFamily:'inherit', fontSize:14, fontWeight:600, cursor:loading?'not-allowed':'pointer', opacity:loading?0.7:1 }}>
+                  {loading ? 'Sending...' : 'Send reset link →'}
+                </button>
+                <div style={{ textAlign:'center', marginTop:14 }}>
+                  <button onClick={() => { setTab('login'); setError(''); }} style={{ background:'none', border:'none', color:'#8aab96', fontSize:12, cursor:'pointer', fontFamily:'inherit' }}>← Back to sign in</button>
                 </div>
               </div>
             )}
