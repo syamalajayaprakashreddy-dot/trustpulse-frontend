@@ -753,16 +753,40 @@ function ScannerPage({ initialUrl, isPro, onUnlockPro }) {
   );
 }
 function DashboardPage({ onNavigate }) {
-  const brands = [
-    { name:'My Store', domain:'mystore.co.uk', score:88, trend:'+4', status:'good' },
-    { name:'Fashion Brand', domain:'fashion.co.uk', score:62, trend:'-2', status:'warn' },
-    { name:'Tech Startup', domain:'techstart.io', score:41, trend:'-7', status:'bad' },
-  ];
-  const alerts = [
-    { icon:'⚠️', title:'Dark pattern detected', desc:'techstart.io has a countdown timer that resets on refresh.', time:'2h' },
-    { icon:'⭐', title:'Negative review spike', desc:'5 new 1-star reviews mentioning hidden fees.', time:'5h' },
-    { icon:'✅', title:'Trust score improved', desc:'mystore.co.uk score up from 81 to 88.', time:'1d' },
-  ];
+  const [brands, setBrands] = useAppState([]);
+  const [alerts, setAlerts] = useAppState([]);
+  const [stats, setStats] = useAppState({avg:0, total:0, issues:0});
+
+  useAppEffect(() => {
+    const token = localStorage.getItem('tp_token');
+    if (!token) return;
+    fetch('https://web-production-b87c1.up.railway.app/api/scans/', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+    .then(r => r.json())
+    .then(d => {
+      const scans = d.scans || [];
+      if (scans.length === 0) return;
+      const avg = Math.round(scans.reduce((s,r) => s + (r.score||0), 0) / scans.length);
+      const brandList = scans.slice(0,5).map(s => ({
+        name: s.url.replace(/https?:\/\//, '').replace(/\/.*/,''),
+        domain: s.url.replace(/https?:\/\//, '').replace(/\/.*/,''),
+        score: s.score || 0,
+        trend: '',
+        status: s.score>=75?'good':s.score>=50?'warn':'bad'
+      }));
+      const alertList = scans.slice(0,3).map(s => ({
+        icon: s.score>=75?'✅':s.score>=50?'⚠️':'🚨',
+        title: s.score>=75?'Good trust score':'Trust issues detected',
+        desc: s.url + ' scored ' + s.score,
+        time: new Date(s.timestamp).toLocaleDateString('en-GB')
+      }));
+      setBrands(brandList);
+      setAlerts(alertList);
+      setStats({avg, total:scans.length, issues: scans.filter(s=>s.score<75).length});
+    })
+    .catch(() => {});
+  }, []);
   return (
     <div style={{ padding:'1.25rem 1rem', maxWidth:540, margin:'0 auto' }}>
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem' }}>
