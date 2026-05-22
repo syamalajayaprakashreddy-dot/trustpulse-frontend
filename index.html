@@ -1319,7 +1319,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                 <div style={{ marginBottom: 20 }}>
                   <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Password</label>
                   <input type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} type={showPwd ? 'text' : 'password'} style={{...inputStyle, paddingRight:40}}
-                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
+                    onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} /><button type="button" onClick={()=>setShowPwd(!showPwd)} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:16,padding:4}}>{showPwd?"🙈":"👁"}</button>
                 </div>
                 {error && <div style={{ color:'#f08080', fontSize:12, marginBottom:12, padding:'8px 12px', background:'rgba(240,128,128,0.08)', borderRadius:8 }}>{error}</div>}
                 <button onClick={handleLogin} style={{ width:'100%', background:'#3db56e', color:'white', border:'none', borderRadius:10, padding:'13px', fontFamily:'inherit', fontSize:14, fontWeight:600, cursor:loading?'not-allowed':'pointer', opacity:loading?0.7:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
