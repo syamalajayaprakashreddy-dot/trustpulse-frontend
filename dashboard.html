@@ -56,7 +56,7 @@ function ScoreRing({score}){
 }
 
 function Dashboard(){
-  const [data,setData]=React.useState(null);
+  const [data,setData]=React.useState({user:{name:"",email:"",plan:"free",is_pro:false},stats:{total_scans:0,avg_score:0,best_score:0,worst_score:0},scans:[],trend:[]});
   const [loading,setLoading]=React.useState(true);
   const [selected,setSelected]=React.useState(null);
 
