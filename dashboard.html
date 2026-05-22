@@ -155,14 +155,14 @@ function Dashboard(){
                   <p style={{margin:'3px 0 0',fontSize:12,color:'var(--text-3)'}}>{new Date(scan.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</p>
                 </div>
                 <div style={{display:'flex',alignItems:'center',gap:10}}>
-                  <span style={{background:scoreBg(scan.trust_score),color:scoreText(scan.trust_score),fontWeight:800,fontSize:16,padding:'4px 14px',borderRadius:20}}>{scan.trust_score}</span>
-                  <span style={{fontSize:12,color:scoreText(scan.trust_score),fontWeight:600}}>{scoreLabel(scan.trust_score)}</span>
+                  <span style={{background:scoreBg(scan.score||scan.trust_score||0),color:scoreText(scan.score||scan.trust_score||0),fontWeight:800,fontSize:16,padding:'4px 14px',borderRadius:20}}>{scan.score||scan.trust_score||0}</span>
+                  <span style={{fontSize:12,color:scoreText(scan.score||scan.trust_score||0),fontWeight:600}}>{scoreLabel(scan.score||scan.trust_score||0)}</span>
                   <span style={{fontSize:12,color:'var(--text-3)'}}>{selected?.id===scan.id?'▲':'▼'}</span>
                 </div>
               </div>
             </div>
             {selected?.id===scan.id&&<div style={{border:'1px solid var(--border-md)',borderTop:'none',borderRadius:'0 0 var(--r) var(--r)',padding:'20px 18px',background:'var(--card)'}}>
-              <div style={{display:'flex',justifyContent:'center',marginBottom:16}}><ScoreRing score={scan.trust_score}/></div>
+              <div style={{display:'flex',justifyContent:'center',marginBottom:16}}><ScoreRing score={scan.score||scan.trust_score||0}/></div>
               <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:8}}>
                 {Object.entries(scan.signals||{}).map(([key,val])=><div key={key} style={{display:'flex',alignItems:'center',gap:8,padding:'8px 12px',borderRadius:8,background:val?'var(--green-bg)':'var(--surface)',border:`1px solid ${val?'rgba(29,158,117,0.2)':'var(--border)'}`}}>
                   <span style={{fontSize:13}}>{val?'✅':'❌'}</span>
