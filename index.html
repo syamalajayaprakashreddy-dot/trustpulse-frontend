@@ -771,16 +771,27 @@ function ScannerPage({ initialUrl, isPro, onUnlockPro }) {
   );
 }
 function DashboardPage({ onNavigate }) {
-  const brands = [
-    { name:'My Store', domain:'mystore.co.uk', score:88, trend:'+4', status:'good' },
-    { name:'Fashion Brand', domain:'fashion.co.uk', score:62, trend:'-2', status:'warn' },
-    { name:'Tech Startup', domain:'techstart.io', score:41, trend:'-7', status:'bad' },
-  ];
-  const alerts = [
-    { icon:'⚠️', title:'Dark pattern detected', desc:'techstart.io has a countdown timer that resets on refresh.', time:'2h' },
-    { icon:'⭐', title:'Negative review spike', desc:'5 new 1-star reviews mentioning hidden fees.', time:'5h' },
-    { icon:'✅', title:'Trust score improved', desc:'mystore.co.uk score up from 81 to 88.', time:'1d' },
-  ];
+  const API = 'https://web-production-b87c1.up.railway.app';
+  const [scans, setScans] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const token = localStorage.getItem('tp_token');
+
+  React.useEffect(() => {
+    if (!token) return setLoading(false);
+    fetch(`${API}/api/scans/`, { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(r => r.json())
+      .then(res => { setScans(res.scans || []); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const total = scans.length;
+  const avg = total ? Math.round(scans.reduce((a, s) => a + (s.score || 0), 0) / total) : 0;
+  const best = total ? Math.max(...scans.map(s => s.score || 0)) : 0;
+  const brands = scans.map(s => ({
+    name: s.url, domain: s.url.replace('https://','').replace('http://','').split('/')[0],
+    score: s.score || 0, trend: '', status: s.score >= 70 ? 'good' : s.score >= 50 ? 'warn' : 'bad'
+  }));
+  const alerts = [];
   return (
     <div style={{ padding:'1.25rem 1rem', maxWidth:540, margin:'0 auto' }}>
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem' }}>
