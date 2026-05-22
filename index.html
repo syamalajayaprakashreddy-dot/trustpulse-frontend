@@ -1318,7 +1318,8 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                 </div>
                 <div style={{ marginBottom: 20 }}>
                   <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Password</label>
-                  <input type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} type={showPwd ? 'text' : 'password'} style={{...inputStyle, paddingRight:40}}
+                  <div style={{position:"relative",display:"flex",alignItems:"center"}}>
+              <input type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} type={showPwd ? 'text' : 'password'} style={{...inputStyle, paddingRight:40}}
                     onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
                 </div>
                 {error && <div style={{ color:'#f08080', fontSize:12, marginBottom:12, padding:'8px 12px', background:'rgba(240,128,128,0.08)', borderRadius:8 }}>{error}</div>}
