@@ -62,7 +62,7 @@ function Dashboard(){
 
   React.useEffect(()=>{
     fetch(`${API}/api/scans/`,{headers:{'Authorization':'Bearer '+localStorage.getItem('tp_token')}})
-      .then(r=>r.json()).then(scans=>{
+      .then(r=>r.json()).then(res=>{ const scans=res.scans||res||[];
         fetch(`${API}/api/auth/me/`,{headers:{'Authorization':'Bearer '+localStorage.getItem('tp_token')}})
         .then(r=>r.json()).then(user=>{
           const total=scans.length;
