@@ -66,9 +66,9 @@ function Dashboard(){
         fetch(`${API}/api/auth/me/`,{headers:{'Authorization':'Bearer '+localStorage.getItem('tp_token')}})
         .then(r=>r.json()).then(user=>{
           const total=scans.length;
-          const avg=total?Math.round(scans.reduce((a,s)=>a+(s.trust_score||0),0)/total):0;
-          const best=total?Math.max(...scans.map(s=>s.trust_score||0)):0;
-          const worst=total?Math.min(...scans.map(s=>s.trust_score||0)):0;
+          const avg=total?Math.round(scans.reduce((a,s)=>a+(s.score||s.trust_score||0),0)/total):0;
+          const best=total?Math.max(...scans.map(s=>s.score||s.trust_score||0)):0;
+          const worst=total?Math.min(...scans.map(s=>s.score||s.trust_score||0)):0;
           setData({user,stats:{total_scans:total,avg_score:avg,best_score:best,worst_score:worst},scans,trend:[]});
           setLoading(false);
         }).catch(()=>setLoading(false));
