@@ -1316,7 +1316,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                   <input type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} style={inputStyle}
                     onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
                 </div>
-                <div style={{ marginBottom: 20, position:"relative", display:"flex", alignItems:"center" }}>
+                <div style={{ marginBottom: 20, position:"relative" }}>
                   <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Password</label>
                   <input type="password" placeholder="Your password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleLogin()} type={showPwd ? 'text' : 'password'} style={{...inputStyle, paddingRight:40}}
                     onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} /><button type="button" onClick={()=>setShowPwd(!showPwd)} style={{position:"absolute",right:10,top:"50%",transform:"translateY(-50%)",background:"none",border:"none",cursor:"pointer",fontSize:16,color:"#9B9BA0",padding:0,display:"flex",alignItems:"center",height:"100%"}}>{showPwd?"🙈":"👁"}</button>
@@ -1387,7 +1387,7 @@ function AuthModal({ authUser, setAuthUser, setShowAuth, navigate, onSuccess }) 
                   <input type="email" placeholder="you@example.com" value={email} onChange={e => setEmail(e.target.value)} style={inputStyle}
                     onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
                 </div>
-                <div style={{ marginBottom: 20, position:"relative", display:"flex", alignItems:"center" }}>
+                <div style={{ marginBottom: 20, position:"relative" }}>
                   <label style={{ display: 'block', fontSize: 12, color: '#8aab96', marginBottom: 6, fontWeight: 500 }}>Password</label>
                   <input type="password" placeholder="Min. 8 characters" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && handleRegister()} style={inputStyle}
                     onFocus={e => e.target.style.borderColor='rgba(61,181,110,0.6)'} onBlur={e => e.target.style.borderColor='rgba(61,181,110,0.25)'} />
