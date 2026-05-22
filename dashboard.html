@@ -61,12 +61,9 @@ function Dashboard(){
   const [selected,setSelected]=React.useState(null);
 
   React.useEffect(()=>{
-    fetch(`${API}/api/dashboard/`,{credentials:'include'})
+    fetch(`${API}/api/dashboard/`,{headers:{'Authorization':'Bearer '+localStorage.getItem('tp_token')}})
       .then(r=>r.json()).then(d=>{setData(d);setLoading(false);})
-      .catch(()=>{
-        setData({user:{name:'Jay Prakash',email:'jay@example.com',plan:'pro',is_pro:true},stats:{total_scans:24,avg_score:71,best_score:94,worst_score:38,best_signal:'ssl',worst_signal:'review_system'},trend:[{date:'Apr 20',avg_score:52},{date:'Apr 27',avg_score:61},{date:'May 4',avg_score:67},{date:'May 11',avg_score:71},{date:'May 18',avg_score:78}],scans:[{id:1,url:'https://mystore.co.uk',trust_score:78,created_at:'2026-05-18T10:22:00Z',signals:{ssl:true,privacy_policy:true,contact_info:true,https_redirect:true,cookie_notice:false,social_proof:false,return_policy:true,about_page:true,trust_badges:false,secure_checkout:true,review_system:false,business_address:true}},{id:2,url:'https://techshop.io',trust_score:62,created_at:'2026-05-17T14:05:00Z',signals:{ssl:true,privacy_policy:false,contact_info:true,https_redirect:true,cookie_notice:true,social_proof:false,return_policy:false,about_page:true,trust_badges:false,secure_checkout:true,review_system:false,business_address:false}},{id:3,url:'https://fashionhub.com',trust_score:94,created_at:'2026-05-15T09:11:00Z',signals:{ssl:true,privacy_policy:true,contact_info:true,https_redirect:true,cookie_notice:true,social_proof:true,return_policy:true,about_page:true,trust_badges:true,secure_checkout:true,review_system:true,business_address:false}},{id:4,url:'https://cheapgadgets.net',trust_score:38,created_at:'2026-05-12T16:44:00Z',signals:{ssl:false,privacy_policy:false,contact_info:false,https_redirect:false,cookie_notice:false,social_proof:false,return_policy:false,about_page:false,trust_badges:false,secure_checkout:false,review_system:false,business_address:false}}]});
-        setLoading(false);
-      });
+      .catch(()=>{setLoading(false);});
   },[]);
 
   if(loading) return <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',color:'var(--text-3)'}}>Loading...</div>;
