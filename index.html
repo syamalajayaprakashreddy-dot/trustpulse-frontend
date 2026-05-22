@@ -788,7 +788,7 @@ function DashboardPage({ onNavigate }) {
   const avg = total ? Math.round(scans.reduce((a, s) => a + (s.score || 0), 0) / total) : 0;
   const best = total ? Math.max(...scans.map(s => s.score || 0)) : 0;
   const brands = scans.map(s => ({
-    name: s.url, domain: s.url.replace('https://','').replace('http://','').split('/')[0],
+    name: s.url + s.id, domain: s.url.replace('https://','').replace('http://','').split('/')[0],
     score: s.score || 0, trend: '', status: s.score >= 70 ? 'good' : s.score >= 50 ? 'warn' : 'bad'
   }));
   const alerts = [];
