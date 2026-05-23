@@ -269,7 +269,7 @@ function TweakColor({ label, value, options, onChange }) {
   );
 }
 
-function ProfileModal({ onClose }) {
+) {
   const API = 'https://web-production-b87c1.up.railway.app';
   const token = localStorage.getItem('tp_token');
   const [user, setUser] = React.useState({ name:'', email:'' });
@@ -546,7 +546,7 @@ function CountdownTimer({ start = 23 * 60 + 47 }) {
   return <span style={{ fontVariantNumeric:'tabular-nums', fontWeight:800 }}>{String(m).padStart(2,'0')}:{String(s).padStart(2,'0')}</span>;
 }
 
-function ProfileModal({ onClose }) {
+) {
   const API = 'https://web-production-b87c1.up.railway.app';
   const token = localStorage.getItem('tp_token');
   const [user, setUser] = React.useState({ name:'', email:'' });
