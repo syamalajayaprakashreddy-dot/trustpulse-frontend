@@ -1772,7 +1772,24 @@ function App() {
   });
   const [showUserMenu, setShowUserMenu] = React.useState(false);
   const [showProfile, setShowProfile] = React.useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  
+// Global 401 handler
+const fetchWithAuth = async (url, options={}) => {
+  const token = localStorage.getItem('tp_token');
+  if (token) {
+    options.headers = { ...options.headers, 'Authorization': 'Bearer ' + token };
+  }
+  const res = await fetch(url, options);
+  if (res.status === 401) {
+    localStorage.removeItem('tp_token');
+    localStorage.removeItem('tp_user');
+    window.location.hash = '#login';
+    onNavigate('login');
+  }
+  return res;
+};
+
+const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   // Auth modal — only shown when user clicks something
   const [showAuth, setShowAuth] = useAppState(false);
   const [toast, setToast] = useAppState(null); // { msg, type }
