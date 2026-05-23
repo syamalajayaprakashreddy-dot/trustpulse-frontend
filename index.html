@@ -333,6 +333,66 @@ function ProfileModal({ onClose }) {
   );
 }
 
+
+function AIFixRecommendations({ issues, checks, url, score }) {
+  const [fixes, setFixes] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+
+  async function getFixes() {
+    setLoading(true);
+    const failed = (checks||[]).filter(c=>c.status==='fail').map(c=>c.label);
+    const warnings = (checks||[]).filter(c=>c.status==='warn').map(c=>c.label);
+    const issueList = (issues||[]).map(i=>i.description||i.text||JSON.stringify(i));
+    const prompt = `You are a trust and compliance expert. A website (${url}) scored ${score}/100. 
+Failed checks: ${failed.join(', ')||'none'}. 
+Warnings: ${warnings.join(', ')||'none'}.
+Issues: ${issueList.slice(0,5).join('; ')||'none'}.
+Give 3-5 specific, actionable fix recommendations. Each fix should be 1-2 sentences. Format as JSON array: [{"issue":"...","fix":"...","priority":"high|medium|low"}]
+Return ONLY the JSON array, nothing else.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          messages:[{role:'user',content:prompt}]
+        })
+      });
+      const data = await res.json();
+      const text = data.content[0].text;
+      const clean = text.replace(/```json|```/g,'').trim();
+      setFixes(JSON.parse(clean));
+    } catch(e) {
+      setFixes([{issue:'Error',fix:'Could not load recommendations. Please try again.',priority:'low'}]);
+    }
+    setLoading(false);
+  }
+
+  const priorityColor = p => p==='high'?'var(--red)':p==='medium'?'var(--warn)':'var(--green)';
+
+  if (!fixes && !loading) return React.createElement('button', {
+    onClick: getFixes,
+    style:{ background:'linear-gradient(135deg,var(--green),#0d7a5f)', color:'#fff', border:'none', borderRadius:8, padding:'8px 18px', fontSize:13, fontWeight:600, cursor:'pointer', width:'100%' }
+  }, '✨ Get AI Fix Recommendations');
+
+  if (loading) return React.createElement('div', { style:{textAlign:'center',padding:'1rem',color:'var(--green)',fontSize:13} }, '🤖 Analysing your site...');
+
+  return React.createElement('div', { style:{display:'flex',flexDirection:'column',gap:10} },
+    fixes.map((f,i) => React.createElement('div', {
+      key:i,
+      style:{ background:'var(--bg)', borderRadius:8, padding:'10px 12px', borderLeft:`3px solid ${priorityColor(f.priority)}` }
+    },
+      React.createElement('div', { style:{display:'flex',alignItems:'center',gap:8,marginBottom:4} },
+        React.createElement('span', { style:{fontSize:11,fontWeight:700,color:priorityColor(f.priority),textTransform:'uppercase',letterSpacing:1} }, f.priority),
+        React.createElement('span', { style:{fontSize:13,fontWeight:600,color:'var(--text)'} }, f.issue)
+      ),
+      React.createElement('p', { style:{fontSize:12,color:'var(--text-2)',margin:0,lineHeight:1.5} }, f.fix)
+    ))
+  );
+}
+
 Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider, TweakToggle, TweakRadio, TweakColor });
   </script>
 
@@ -610,6 +670,66 @@ function ProfileModal({ onClose }) {
   );
 }
 
+
+function AIFixRecommendations({ issues, checks, url, score }) {
+  const [fixes, setFixes] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+
+  async function getFixes() {
+    setLoading(true);
+    const failed = (checks||[]).filter(c=>c.status==='fail').map(c=>c.label);
+    const warnings = (checks||[]).filter(c=>c.status==='warn').map(c=>c.label);
+    const issueList = (issues||[]).map(i=>i.description||i.text||JSON.stringify(i));
+    const prompt = `You are a trust and compliance expert. A website (${url}) scored ${score}/100. 
+Failed checks: ${failed.join(', ')||'none'}. 
+Warnings: ${warnings.join(', ')||'none'}.
+Issues: ${issueList.slice(0,5).join('; ')||'none'}.
+Give 3-5 specific, actionable fix recommendations. Each fix should be 1-2 sentences. Format as JSON array: [{"issue":"...","fix":"...","priority":"high|medium|low"}]
+Return ONLY the JSON array, nothing else.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          messages:[{role:'user',content:prompt}]
+        })
+      });
+      const data = await res.json();
+      const text = data.content[0].text;
+      const clean = text.replace(/```json|```/g,'').trim();
+      setFixes(JSON.parse(clean));
+    } catch(e) {
+      setFixes([{issue:'Error',fix:'Could not load recommendations. Please try again.',priority:'low'}]);
+    }
+    setLoading(false);
+  }
+
+  const priorityColor = p => p==='high'?'var(--red)':p==='medium'?'var(--warn)':'var(--green)';
+
+  if (!fixes && !loading) return React.createElement('button', {
+    onClick: getFixes,
+    style:{ background:'linear-gradient(135deg,var(--green),#0d7a5f)', color:'#fff', border:'none', borderRadius:8, padding:'8px 18px', fontSize:13, fontWeight:600, cursor:'pointer', width:'100%' }
+  }, '✨ Get AI Fix Recommendations');
+
+  if (loading) return React.createElement('div', { style:{textAlign:'center',padding:'1rem',color:'var(--green)',fontSize:13} }, '🤖 Analysing your site...');
+
+  return React.createElement('div', { style:{display:'flex',flexDirection:'column',gap:10} },
+    fixes.map((f,i) => React.createElement('div', {
+      key:i,
+      style:{ background:'var(--bg)', borderRadius:8, padding:'10px 12px', borderLeft:`3px solid ${priorityColor(f.priority)}` }
+    },
+      React.createElement('div', { style:{display:'flex',alignItems:'center',gap:8,marginBottom:4} },
+        React.createElement('span', { style:{fontSize:11,fontWeight:700,color:priorityColor(f.priority),textTransform:'uppercase',letterSpacing:1} }, f.priority),
+        React.createElement('span', { style:{fontSize:13,fontWeight:600,color:'var(--text)'} }, f.issue)
+      ),
+      React.createElement('p', { style:{fontSize:12,color:'var(--text-2)',margin:0,lineHeight:1.5} }, f.fix)
+    ))
+  );
+}
+
 Object.assign(window, { ScoreRing, Badge, CheckCard, IssueItem, ScanProgress, Spinner, Card, StatPill, Sparkline, CountdownTimer, SCAN_STEPS, MOCK_RESULTS, getMockResult, fetchScan, scoreColor, statusCfg, gradeBadgeColor });
   </script>
 
@@ -833,7 +953,13 @@ function ScannerPage({ initialUrl, isPro, onUnlockPro }) {
                 <div style={{ fontSize:13, fontWeight:700, marginBottom:'0.75rem' }}>Issues found</div>
                 {result.issues&&result.issues.length>0 ? result.issues.map((issue,i)=><IssueItem key={i} issue={issue} noBorder={i===result.issues.length-1} />) : <p style={{ fontSize:12, color:'var(--green)', fontWeight:600 }}>✓ No major issues found!</p>}
               </Card>
-              {/* Monitor URL Button */}
+              
+<Card style={{ padding:'1rem', marginBottom:'1rem', border:'1px solid var(--green-mid)' }}>
+  <div style={{ fontSize:13, fontWeight:700, marginBottom:'0.75rem', color:'var(--green)' }}>🤖 AI Fix Recommendations</div>
+  <AIFixRecommendations issues={result.issues} checks={result.checks} url={result.url} score={result.score} />
+</Card>
+
+{/* Monitor URL Button */}
           <div style={{marginTop:16,padding:'12px 16px',background:'rgba(29,158,117,0.08)',borderRadius:8,border:'1px solid rgba(29,158,117,0.2)'}}>
             <p style={{fontSize:13,fontWeight:600,marginBottom:8}}>🔔 Monitor this URL</p>
             <p style={{fontSize:12,color:'var(--text-3)',marginBottom:10}}>Get email alerts when the trust score changes</p>
@@ -1272,6 +1398,66 @@ function ProfileModal({ onClose }) {
       React.createElement('button', { onClick:changePwd, style:{...btn, background:'var(--text-2)'} }, 'Change password'),
       msg && React.createElement('p', { style:{ marginTop:12, fontSize:13, textAlign:'center' } }, msg)
     )
+  );
+}
+
+
+function AIFixRecommendations({ issues, checks, url, score }) {
+  const [fixes, setFixes] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+
+  async function getFixes() {
+    setLoading(true);
+    const failed = (checks||[]).filter(c=>c.status==='fail').map(c=>c.label);
+    const warnings = (checks||[]).filter(c=>c.status==='warn').map(c=>c.label);
+    const issueList = (issues||[]).map(i=>i.description||i.text||JSON.stringify(i));
+    const prompt = `You are a trust and compliance expert. A website (${url}) scored ${score}/100. 
+Failed checks: ${failed.join(', ')||'none'}. 
+Warnings: ${warnings.join(', ')||'none'}.
+Issues: ${issueList.slice(0,5).join('; ')||'none'}.
+Give 3-5 specific, actionable fix recommendations. Each fix should be 1-2 sentences. Format as JSON array: [{"issue":"...","fix":"...","priority":"high|medium|low"}]
+Return ONLY the JSON array, nothing else.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1000,
+          messages:[{role:'user',content:prompt}]
+        })
+      });
+      const data = await res.json();
+      const text = data.content[0].text;
+      const clean = text.replace(/```json|```/g,'').trim();
+      setFixes(JSON.parse(clean));
+    } catch(e) {
+      setFixes([{issue:'Error',fix:'Could not load recommendations. Please try again.',priority:'low'}]);
+    }
+    setLoading(false);
+  }
+
+  const priorityColor = p => p==='high'?'var(--red)':p==='medium'?'var(--warn)':'var(--green)';
+
+  if (!fixes && !loading) return React.createElement('button', {
+    onClick: getFixes,
+    style:{ background:'linear-gradient(135deg,var(--green),#0d7a5f)', color:'#fff', border:'none', borderRadius:8, padding:'8px 18px', fontSize:13, fontWeight:600, cursor:'pointer', width:'100%' }
+  }, '✨ Get AI Fix Recommendations');
+
+  if (loading) return React.createElement('div', { style:{textAlign:'center',padding:'1rem',color:'var(--green)',fontSize:13} }, '🤖 Analysing your site...');
+
+  return React.createElement('div', { style:{display:'flex',flexDirection:'column',gap:10} },
+    fixes.map((f,i) => React.createElement('div', {
+      key:i,
+      style:{ background:'var(--bg)', borderRadius:8, padding:'10px 12px', borderLeft:`3px solid ${priorityColor(f.priority)}` }
+    },
+      React.createElement('div', { style:{display:'flex',alignItems:'center',gap:8,marginBottom:4} },
+        React.createElement('span', { style:{fontSize:11,fontWeight:700,color:priorityColor(f.priority),textTransform:'uppercase',letterSpacing:1} }, f.priority),
+        React.createElement('span', { style:{fontSize:13,fontWeight:600,color:'var(--text)'} }, f.issue)
+      ),
+      React.createElement('p', { style:{fontSize:12,color:'var(--text-2)',margin:0,lineHeight:1.5} }, f.fix)
+    ))
   );
 }
 
