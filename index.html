@@ -268,6 +268,70 @@ function TweakColor({ label, value, options, onChange }) {
     </TweakRow>
   );
 }
+
+function ProfileModal({ onClose }) {
+  const API = 'https://web-production-b87c1.up.railway.app';
+  const token = localStorage.getItem('tp_token');
+  const [user, setUser] = React.useState({ name:'', email:'' });
+  const [name, setName] = React.useState('');
+  const [oldPwd, setOldPwd] = React.useState('');
+  const [newPwd, setNewPwd] = React.useState('');
+  const [msg, setMsg] = React.useState('');
+
+  React.useEffect(() => {
+    fetch(`${API}/api/auth/me/`, { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(r => r.json()).then(d => { setUser(d); setName(d.name || ''); });
+  }, []);
+
+  const saveName = async () => {
+    const r = await fetch(`${API}/api/auth/me/update/`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ name })
+    });
+    setMsg(r.ok ? '✅ Name updated!' : '❌ Failed');
+    setTimeout(() => setMsg(''), 3000);
+  };
+
+  const changePwd = async () => {
+    const r = await fetch(`${API}/api/auth/password/`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ old_password: oldPwd, new_password: newPwd })
+    });
+    const d = await r.json();
+    setMsg(r.ok ? '✅ Password changed!' : '❌ ' + (d.error || 'Failed'));
+    if (r.ok) { setOldPwd(''); setNewPwd(''); }
+    setTimeout(() => setMsg(''), 3000);
+  };
+
+  const inp = { width:'100%', padding:'8px 12px', borderRadius:'8px', border:'1px solid var(--border)', background:'var(--bg)', color:'var(--text)', fontSize:14, boxSizing:'border-box' };
+  const btn = { width:'100%', padding:'9px', borderRadius:'8px', border:'none', background:'var(--green)', color:'#fff', fontSize:14, cursor:'pointer', fontWeight:600 };
+
+  return React.createElement('div', { style:{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center' }, onClick: onClose },
+    React.createElement('div', { style:{ background:'var(--card)', borderRadius:'16px', padding:'28px', width:'100%', maxWidth:'400px', boxShadow:'0 20px 60px rgba(0,0,0,0.3)' }, onClick: e => e.stopPropagation() },
+      React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 } },
+        React.createElement('h2', { style:{ fontSize:18, fontWeight:700, margin:0 } }, '👤 Profile Settings'),
+        React.createElement('button', { onClick: onClose, style:{ background:'none', border:'none', fontSize:20, cursor:'pointer', color:'var(--text-3)' } }, '×')
+      ),
+      React.createElement('p', { style:{ fontSize:13, color:'var(--text-3)', marginBottom:16 } }, user.email),
+      React.createElement('div', { style:{ marginBottom:12 } },
+        React.createElement('label', { style:{ fontSize:12, color:'var(--text-3)', marginBottom:4, display:'block' } }, 'Display name'),
+        React.createElement('input', { value:name, onChange:e=>setName(e.target.value), placeholder:'Your name', style:inp })
+      ),
+      React.createElement('button', { onClick:saveName, style:{...btn, marginBottom:20} }, 'Save name'),
+      React.createElement('hr', { style:{ border:'none', borderTop:'1px solid var(--border)', marginBottom:20 } }),
+      React.createElement('p', { style:{ fontSize:13, fontWeight:600, marginBottom:12 } }, 'Change Password'),
+      React.createElement('div', { style:{ marginBottom:10 } },
+        React.createElement('input', { type:'password', value:oldPwd, onChange:e=>setOldPwd(e.target.value), placeholder:'Current password', style:inp })
+      ),
+      React.createElement('div', { style:{ marginBottom:12 } },
+        React.createElement('input', { type:'password', value:newPwd, onChange:e=>setNewPwd(e.target.value), placeholder:'New password', style:inp })
+      ),
+      React.createElement('button', { onClick:changePwd, style:{...btn, background:'var(--text-2)'} }, 'Change password'),
+      msg && React.createElement('p', { style:{ marginTop:12, fontSize:13, textAlign:'center' } }, msg)
+    )
+  );
+}
+
 Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSlider, TweakToggle, TweakRadio, TweakColor });
   </script>
 
@@ -481,6 +545,70 @@ function CountdownTimer({ start = 23 * 60 + 47 }) {
   const m = Math.floor(t / 60), s = t % 60;
   return <span style={{ fontVariantNumeric:'tabular-nums', fontWeight:800 }}>{String(m).padStart(2,'0')}:{String(s).padStart(2,'0')}</span>;
 }
+
+function ProfileModal({ onClose }) {
+  const API = 'https://web-production-b87c1.up.railway.app';
+  const token = localStorage.getItem('tp_token');
+  const [user, setUser] = React.useState({ name:'', email:'' });
+  const [name, setName] = React.useState('');
+  const [oldPwd, setOldPwd] = React.useState('');
+  const [newPwd, setNewPwd] = React.useState('');
+  const [msg, setMsg] = React.useState('');
+
+  React.useEffect(() => {
+    fetch(`${API}/api/auth/me/`, { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(r => r.json()).then(d => { setUser(d); setName(d.name || ''); });
+  }, []);
+
+  const saveName = async () => {
+    const r = await fetch(`${API}/api/auth/me/update/`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ name })
+    });
+    setMsg(r.ok ? '✅ Name updated!' : '❌ Failed');
+    setTimeout(() => setMsg(''), 3000);
+  };
+
+  const changePwd = async () => {
+    const r = await fetch(`${API}/api/auth/password/`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ old_password: oldPwd, new_password: newPwd })
+    });
+    const d = await r.json();
+    setMsg(r.ok ? '✅ Password changed!' : '❌ ' + (d.error || 'Failed'));
+    if (r.ok) { setOldPwd(''); setNewPwd(''); }
+    setTimeout(() => setMsg(''), 3000);
+  };
+
+  const inp = { width:'100%', padding:'8px 12px', borderRadius:'8px', border:'1px solid var(--border)', background:'var(--bg)', color:'var(--text)', fontSize:14, boxSizing:'border-box' };
+  const btn = { width:'100%', padding:'9px', borderRadius:'8px', border:'none', background:'var(--green)', color:'#fff', fontSize:14, cursor:'pointer', fontWeight:600 };
+
+  return React.createElement('div', { style:{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center' }, onClick: onClose },
+    React.createElement('div', { style:{ background:'var(--card)', borderRadius:'16px', padding:'28px', width:'100%', maxWidth:'400px', boxShadow:'0 20px 60px rgba(0,0,0,0.3)' }, onClick: e => e.stopPropagation() },
+      React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 } },
+        React.createElement('h2', { style:{ fontSize:18, fontWeight:700, margin:0 } }, '👤 Profile Settings'),
+        React.createElement('button', { onClick: onClose, style:{ background:'none', border:'none', fontSize:20, cursor:'pointer', color:'var(--text-3)' } }, '×')
+      ),
+      React.createElement('p', { style:{ fontSize:13, color:'var(--text-3)', marginBottom:16 } }, user.email),
+      React.createElement('div', { style:{ marginBottom:12 } },
+        React.createElement('label', { style:{ fontSize:12, color:'var(--text-3)', marginBottom:4, display:'block' } }, 'Display name'),
+        React.createElement('input', { value:name, onChange:e=>setName(e.target.value), placeholder:'Your name', style:inp })
+      ),
+      React.createElement('button', { onClick:saveName, style:{...btn, marginBottom:20} }, 'Save name'),
+      React.createElement('hr', { style:{ border:'none', borderTop:'1px solid var(--border)', marginBottom:20 } }),
+      React.createElement('p', { style:{ fontSize:13, fontWeight:600, marginBottom:12 } }, 'Change Password'),
+      React.createElement('div', { style:{ marginBottom:10 } },
+        React.createElement('input', { type:'password', value:oldPwd, onChange:e=>setOldPwd(e.target.value), placeholder:'Current password', style:inp })
+      ),
+      React.createElement('div', { style:{ marginBottom:12 } },
+        React.createElement('input', { type:'password', value:newPwd, onChange:e=>setNewPwd(e.target.value), placeholder:'New password', style:inp })
+      ),
+      React.createElement('button', { onClick:changePwd, style:{...btn, background:'var(--text-2)'} }, 'Change password'),
+      msg && React.createElement('p', { style:{ marginTop:12, fontSize:13, textAlign:'center' } }, msg)
+    )
+  );
+}
+
 Object.assign(window, { ScoreRing, Badge, CheckCard, IssueItem, ScanProgress, Spinner, Card, StatPill, Sparkline, CountdownTimer, SCAN_STEPS, MOCK_RESULTS, getMockResult, fetchScan, scoreColor, statusCfg, gradeBadgeColor });
   </script>
 
@@ -1082,6 +1210,70 @@ function BlogPage({ onNavigate }) {
     </div>
   );
 }
+
+function ProfileModal({ onClose }) {
+  const API = 'https://web-production-b87c1.up.railway.app';
+  const token = localStorage.getItem('tp_token');
+  const [user, setUser] = React.useState({ name:'', email:'' });
+  const [name, setName] = React.useState('');
+  const [oldPwd, setOldPwd] = React.useState('');
+  const [newPwd, setNewPwd] = React.useState('');
+  const [msg, setMsg] = React.useState('');
+
+  React.useEffect(() => {
+    fetch(`${API}/api/auth/me/`, { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(r => r.json()).then(d => { setUser(d); setName(d.name || ''); });
+  }, []);
+
+  const saveName = async () => {
+    const r = await fetch(`${API}/api/auth/me/update/`, {
+      method: 'PATCH', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ name })
+    });
+    setMsg(r.ok ? '✅ Name updated!' : '❌ Failed');
+    setTimeout(() => setMsg(''), 3000);
+  };
+
+  const changePwd = async () => {
+    const r = await fetch(`${API}/api/auth/password/`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ old_password: oldPwd, new_password: newPwd })
+    });
+    const d = await r.json();
+    setMsg(r.ok ? '✅ Password changed!' : '❌ ' + (d.error || 'Failed'));
+    if (r.ok) { setOldPwd(''); setNewPwd(''); }
+    setTimeout(() => setMsg(''), 3000);
+  };
+
+  const inp = { width:'100%', padding:'8px 12px', borderRadius:'8px', border:'1px solid var(--border)', background:'var(--bg)', color:'var(--text)', fontSize:14, boxSizing:'border-box' };
+  const btn = { width:'100%', padding:'9px', borderRadius:'8px', border:'none', background:'var(--green)', color:'#fff', fontSize:14, cursor:'pointer', fontWeight:600 };
+
+  return React.createElement('div', { style:{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center' }, onClick: onClose },
+    React.createElement('div', { style:{ background:'var(--card)', borderRadius:'16px', padding:'28px', width:'100%', maxWidth:'400px', boxShadow:'0 20px 60px rgba(0,0,0,0.3)' }, onClick: e => e.stopPropagation() },
+      React.createElement('div', { style:{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 } },
+        React.createElement('h2', { style:{ fontSize:18, fontWeight:700, margin:0 } }, '👤 Profile Settings'),
+        React.createElement('button', { onClick: onClose, style:{ background:'none', border:'none', fontSize:20, cursor:'pointer', color:'var(--text-3)' } }, '×')
+      ),
+      React.createElement('p', { style:{ fontSize:13, color:'var(--text-3)', marginBottom:16 } }, user.email),
+      React.createElement('div', { style:{ marginBottom:12 } },
+        React.createElement('label', { style:{ fontSize:12, color:'var(--text-3)', marginBottom:4, display:'block' } }, 'Display name'),
+        React.createElement('input', { value:name, onChange:e=>setName(e.target.value), placeholder:'Your name', style:inp })
+      ),
+      React.createElement('button', { onClick:saveName, style:{...btn, marginBottom:20} }, 'Save name'),
+      React.createElement('hr', { style:{ border:'none', borderTop:'1px solid var(--border)', marginBottom:20 } }),
+      React.createElement('p', { style:{ fontSize:13, fontWeight:600, marginBottom:12 } }, 'Change Password'),
+      React.createElement('div', { style:{ marginBottom:10 } },
+        React.createElement('input', { type:'password', value:oldPwd, onChange:e=>setOldPwd(e.target.value), placeholder:'Current password', style:inp })
+      ),
+      React.createElement('div', { style:{ marginBottom:12 } },
+        React.createElement('input', { type:'password', value:newPwd, onChange:e=>setNewPwd(e.target.value), placeholder:'New password', style:inp })
+      ),
+      React.createElement('button', { onClick:changePwd, style:{...btn, background:'var(--text-2)'} }, 'Change password'),
+      msg && React.createElement('p', { style:{ marginTop:12, fontSize:13, textAlign:'center' } }, msg)
+    )
+  );
+}
+
 Object.assign(window, { LandingPage, ScannerPage, DashboardPage, CompetitorPage, PricingPage, AboutPage, BlogPage });
   </script>
 
@@ -1514,6 +1706,7 @@ function App() {
     try { return JSON.parse(localStorage.getItem('tp_user') || 'null'); } catch { return null; }
   });
   const [showUserMenu, setShowUserMenu] = React.useState(false);
+  const [showProfile, setShowProfile] = React.useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   // Auth modal — only shown when user clicks something
   const [showAuth, setShowAuth] = useAppState(false);
@@ -1651,6 +1844,7 @@ function App() {
             {authUser ? (authUser.name || authUser.email.split('@')[0] || 'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : 'Sign in'}
             {authUser ? ' ▾' : ''}
           </button>
+          {showProfile && React.createElement(ProfileModal, { onClose: () => setShowProfile(false) })}
           {showUserMenu && authUser && (
             <div style={{
               position:'absolute',
@@ -1671,11 +1865,11 @@ function App() {
                 { icon:'📊', label:'Dashboard', pg:'dashboard' },
                 { icon:'🔍', label:'New Scan', pg:'scanner' },
                 { icon:'📄', label:'My Reports', pg:'dashboard' },
-                { icon:'⚙️', label:'Settings', pg:'pricing' },
+                { icon:'⚙️', label:'Settings', pg:'profile' },
               ].map(item => (
                 <button
                   key={item.label}
-                  onClick={() => { navigate(item.pg); setShowUserMenu(false); }}
+                  onClick={() => { if(item.pg==='profile'){ setShowProfile(true); setShowUserMenu(false); } else { navigate(item.pg); setShowUserMenu(false); } }}
                   style={{
                     display:'flex', alignItems:'center', gap:10,
                     width:'100%', padding:'10px 16px',
