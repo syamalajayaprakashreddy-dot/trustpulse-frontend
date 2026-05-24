@@ -3,6 +3,9 @@
 <head>
 
   <meta charset="UTF-8">
+  <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <link rel="preconnect" href="https://web-production-b87c1.up.railway.app" crossorigin>
+
   <meta name="google-site-verification" content="6Mg4UlXYNBkkPGZEibXR86hqoGVvQQBsCHOZl5-MIEk" />
   <meta name="google-site-verification" content="6Mg4UlXYNBkkPGZI_PASTE_FULL_TAG_HERE">
 
@@ -127,15 +130,15 @@
     <button id="cookie-btn" onclick="document.getElementById('cookie-banner').style.display='none'; localStorage.setItem('tp_cookies','1')">Accept</button>
   </div>
   <script>if(localStorage.getItem('tp_cookies')==='1') document.getElementById('cookie-banner').style.display='none';</script>
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
   <!-- ═══════════════════════════════════════════════════════ TWEAKS PANEL ═══ -->
   <script>
 const API_BASE = 'https://web-production-b87c1.up.railway.app';
 </script>
-<script type="text/babel">
+<script type="text/babel" data-presets="react">
 const __TWEAKS_STYLE = `
   .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
     max-height:calc(100vh - 32px);display:flex;flex-direction:column;
@@ -362,7 +365,7 @@ Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakRow, TweakSli
   </script>
 
   <!-- ═══════════════════════════════════════════════════ SHARED COMPONENTS ═══ -->
-  <script type="text/babel">
+  <script type="text/babel" data-presets="react">
 const { useState, useEffect, useRef } = React;
 const SCAN_STEPS = [
   [8,  'Connecting to server…'],
@@ -640,7 +643,7 @@ Object.assign(window, { ScoreRing, Badge, CheckCard, IssueItem, ScanProgress, Sp
   </script>
 
   <!-- ══════════════════════════════════════════════════════════════ PAGES ═══ -->
-  <script type="text/babel">
+  <script type="text/babel" data-presets="react">
 const { useState: useState2, useEffect: useEffect2 } = React;
 function LandingPage({ onNavigate, onScan, requireAuth }) {
   const [url, setUrl] = useState2('');
@@ -1367,7 +1370,7 @@ Object.assign(window, { LandingPage, ScannerPage, DashboardPage, CompetitorPage,
   </script>
 
   <!-- ════════════════════════════════════════════════════════════════ APP ═══ -->
-  <script type="text/babel">
+  <script type="text/babel" data-presets="react">
 const { useState: useAppState, useEffect: useAppEffect } = React;
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
