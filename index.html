@@ -838,7 +838,7 @@ function ScannerPage({ initialUrl, isPro, onUnlockPro }) {
               
 <Card style={{ padding:'1rem', marginBottom:'1rem', border:'1px solid var(--green-mid)' }}>
   <div style={{ fontSize:13, fontWeight:700, marginBottom:'0.75rem', color:'var(--green)' }}>🤖 AI Fix Recommendations</div>
-  <AIFixRecommendations issues={result.issues} checks={result.checks} url={result.url} score={result.score} />
+  <AIFixRecommendations issues={result.issues} checks={result.checks} url={result.url} score={result.score} proCode={localStorage.getItem('tp_access_code')} />
 </Card>
 
 {/* Monitor URL Button */}
@@ -1284,7 +1284,7 @@ function ProfileModal({ onClose }) {
 }
 
 
-function AIFixRecommendations({ issues, checks, url, score }) {
+function AIFixRecommendations({ issues, checks, url, score, proCode }) {
   const [fixes, setFixes] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -1304,7 +1304,7 @@ Return ONLY the JSON array, nothing else.`;
       const res = await fetch('https://web-production-b87c1.up.railway.app/api/ai-fix/', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ prompt: prompt })
+        body: JSON.stringify({ prompt: prompt, code: proCode || localStorage.getItem('tp_access_code') || '' })
       });
       const data = await res.json();
       const text = data.content[0].text;
